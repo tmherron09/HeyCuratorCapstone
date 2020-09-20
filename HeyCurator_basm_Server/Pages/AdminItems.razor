@@ -1,0 +1,27 @@
+﻿@page "/AdminItems"
+@inherits ComponentBase
+
+<h3>Admin Items</h3>
+<h4 class="text-indigo-600">@tagLine</h4>
+
+<AddItemToDb  />
+<hr />
+<ListOfItems />
+
+
+@code {
+
+    private string tagLine = "";
+
+    protected List<Item> itemList = new List<Item>();
+
+    protected override Task OnInitializedAsync()
+    {
+
+
+
+        return base.OnInitializedAsync();
+    }
+
+
+}
