@@ -1,0 +1,49 @@
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr class="table-info">
+            <th scope="col">
+                Exhibit Space
+            </th>
+            <th scope="col">
+                Curator Space
+            </th>
+            <th>
+                List of Exhibits
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ExhibitSpaces)
+        {
+            <tr>
+                <td>
+                    item.ExhibitSpaceName
+                </td>
+                <td>
+                    item.CuratorSpace.Name
+                </td>
+                <td>
+                    <ul class="list-group">
+                        @foreach (var exhibit in item.Exhibits)
+                        {
+                            <li class="list-group-item-success">
+                                @exhibit.Name
+                            </li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+
+    [Parameter]
+    public List<ExhibitSpace> ExhibitSpaces { get; set; }
+
+}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeyCurator_basm_Server.Store.ItemListCase
 {
-    public static class AdminReducers
+    public static class ItemListReducers
     {
         [ReducerMethod]
         public static ItemListState ReduceFetchItemListAction(ItemListState state, FetchItemListAction action) =>

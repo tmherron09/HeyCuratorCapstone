@@ -1,10 +1,8 @@
 ﻿using Fluxor;
-using HeyCurator_basm_Server.Services;
-using HeyCurator_basm_Server.Store.ItemListCase;
 using HeyCurator_basm_Server.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using HeyCurator_basm_Server.Services;
+using HeyCurator_basm_Server.Store.DatabaseUseCase;
+using HeyCurator_basm_Server.Store.ItemListCase;
 using System.Threading.Tasks;
 
 namespace HeyCurator_basm_Server.Store
@@ -12,10 +10,12 @@ namespace HeyCurator_basm_Server.Store
     public class Effects
     {
         private AdminServices _admin { get; set; }
+        private DatabaseListService DbListService { get; set; }
 
-        public Effects(AdminServices admin)
+        public Effects(AdminServices admin, DatabaseListService dbListService)
         {
             _admin = admin;
+            DbListService = dbListService;
         }
 
         [EffectMethod]
@@ -24,5 +24,23 @@ namespace HeyCurator_basm_Server.Store
             var items = await _admin.GetAllItems();
             dispatcher.Dispatch(new FetchItemListResultAction(items));
         }
+
+        [EffectMethod]
+        public async Task HandleFetchDatabaseAction(FetchDatabaseAction action, IDispatcher dispatcher)
+        {
+            var db = DbListService.GetAllList();
+            dispatcher.Dispatch(new FetchDatabaseActionResult(db));
+        }
+        [EffectMethod]
+        public async Task HandleFetchDatabaseCuratorsAction(FetchDatabaseCuratorsAction action, IDispatcher dispatcher)
+        {
+            var curators = DbListService.GetAllCurators();
+        }
+        [EffectMethod]
+        public async Task HandleFetchDatabaseItemsAction(FetchDatabaseItemsAction action, IDispatcher dispatcher)
+        {
+            var items = DbListService.GetAllItems();
+        }
     }
+    
 }

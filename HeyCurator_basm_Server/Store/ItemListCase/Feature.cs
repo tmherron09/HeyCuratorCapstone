@@ -15,8 +15,5 @@ namespace HeyCurator_basm_Server.Store.ItemListCase
                 isLoading: false,
                 items: null);
         }
-
-
-
     }
 }

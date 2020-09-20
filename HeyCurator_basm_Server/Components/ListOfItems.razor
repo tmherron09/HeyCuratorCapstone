@@ -1,5 +1,7 @@
 ﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
+
+
 @using HeyCurator_basm_Server.Store.ItemListCase
 
 
@@ -35,8 +37,8 @@
     <tbody>
         @if (ItemListState.Value.IsLoading || ItemListState.Value.Items == null)
         {
-            <tr>
-                <p class="text-muted">...Loading</p>
+            <tr class="text-center text-muted">
+                ...Loading
             </tr>
         }
         else
@@ -93,7 +95,7 @@
     }
 
 
-
+ 
 
 
 }

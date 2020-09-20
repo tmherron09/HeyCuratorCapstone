@@ -1,0 +1,57 @@
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+
+
+<h3>List of Curators</h3>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr class="table-info">
+            <th scope="col">
+                Curator
+            </th>
+            <th scope="col">
+                Employee Name
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (CuratorListState.Value.IsLoading || CuratorListState.Value.Curators == null)
+        {
+            <tr class="text-center text-muted">
+                ...Loading
+            </tr>
+        }
+        else
+        {
+
+            @foreach (var curators in CuratorListState.Value.Curators)
+            {
+                <tr>
+                    <td>
+                        @curators.Name
+                    </td>
+                    <td>
+                        @curators.Employee.FirstName @curators.Employee.LastName
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
+</table>
+
+@code {
+
+    [Inject]
+    private IState<CuratorListState> CuratorListState { get; set; }
+    [Inject]
+    private IDispatcher Dispatcher { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+            Dispatcher.Dispatch(new FetchCuratorListAction());
+    }
+
+}

@@ -24,6 +24,8 @@ namespace HeyCurator_basm_Server.Models
         public int? ExhibitSpaceId { get; set; }
         public ExhibitSpace ExhibitSpace { get; set; }
 
+        
+
 
         // Long Term Support specific to museum use.
         [NotMapped]

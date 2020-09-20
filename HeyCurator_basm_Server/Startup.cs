@@ -34,8 +34,12 @@ namespace HeyCurator_basm_Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
+            {
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection"));
+                
+            }, ServiceLifetime.Transient);
+
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             
@@ -47,8 +51,9 @@ namespace HeyCurator_basm_Server
 
 
             services.AddScoped<WeatherForecastService>();
-            services.AddScoped<AdminServices>();
+            services.AddTransient<AdminServices>();
             services.AddScoped<ItemDateService>();
+            services.AddScoped<DatabaseListService>();
 
             var currentAssembly = typeof(Startup).Assembly;
             services.AddFluxor(options => options.ScanAssemblies(currentAssembly));
