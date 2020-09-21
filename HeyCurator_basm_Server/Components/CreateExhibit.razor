@@ -1,0 +1,90 @@
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<EditForm Model="@exhibit" OnValidSubmit="@AddExhibit" OnInvalidSubmit="@InvalidMessage">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputNumber @bind-Value="exhibit.CuratorSpaceId" aria-hidden="true"/>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddExhibit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+
+                    <InputText id="name" @bind-Value="exhibit.Name" disabled="@isDisabled" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+
+                    <InputSelect id="exhibitSpaceId" @bind-Value="exhibit.ExhibitSpaceId" class="form-control" disabled="@isDisabled">
+                        @*<option>Select Exhibit Space</option>*@
+                        @for (int i = 0; i < exhibitSpaces.Count(); i++)
+                        {
+                            <option value="@exhibitSpaces[i].ExhibitSpaceId">
+                                @exhibitSpaces[i].ExhibitSpaceName
+                            </option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="form-group row">
+                    <div class="offset-4 col-8">
+                        <button type="submit" class="px-3 py-2 rounded-md cursor-pointer bg-blue-600 text-white  hover:bg-blue-300 border-blue-700 border">
+                            Add Exhibit to Exhibit Space
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</EditForm>
+
+<h1>@invalidMessage</h1>
+
+<ul>
+    @foreach (var exhibit in exhibits)
+    {
+        <li>
+            @exhibit.Name
+        </li>
+    }
+</ul>
+
+@code {
+    [Inject]
+    private AdminServices admin { get; set; }
+    [Inject]
+    private IState<ExhibitListState> ExhibitListState { get; set; }
+    [Inject]
+    private IDispatcher Dispatcher { get; set; }
+
+    private Exhibit exhibit = new Exhibit();
+
+    private List<ExhibitSpace> exhibitSpaces { get; set; }
+
+    private List<Exhibit> exhibits => (ExhibitListState.Value.Exhibits == null) ? new List<Exhibit>() : ExhibitListState.Value.Exhibits;
+
+    protected override void OnInitialized()
+    {
+        exhibitSpaces = admin.GetAllExhibitSpaces();
+        base.OnInitialized();
+        Dispatcher.Dispatch(new FetchExhibitListAction());
+
+    }
+    private async void AddExhibit()
+    {
+        await admin.AddExhibit(exhibit);
+        Dispatcher.Dispatch(new FetchExhibitListAction());
+        exhibit = new Exhibit();
+    }
+
+    public bool isDisabled => (exhibitSpaces.Count() == 0 ? true : false);
+
+    private void InvalidMessage()
+    {
+        invalidMessage = "Invalid Submit.";
+        StateHasChanged();
+
+    }
+
+    private string invalidMessage { get; set; } = "Still UnTested.";
+}

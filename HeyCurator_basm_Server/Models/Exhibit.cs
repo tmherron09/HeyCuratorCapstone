@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +22,8 @@ namespace HeyCurator_basm_Server.Models
         // Market has exhibits CheckoutOne, CheckoutSelf, HealthyShoppingList, etc.
         // Then through ref, I know if I need an item for Market, then these storage areas all have an item used in one of those exhibits.
         [ForeignKey("ExhibitSpace")]
-        public int? ExhibitSpaceId { get; set; }
+        [AllowNull]
+        public int ExhibitSpaceId { get; set; }
         public ExhibitSpace ExhibitSpace { get; set; }
 
         

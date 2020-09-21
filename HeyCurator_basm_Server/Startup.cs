@@ -17,6 +17,7 @@ using HeyCurator_basm_Server.Areas.Identity;
 using HeyCurator_basm_Server.Data;
 using HeyCurator_basm_Server.Services;
 using Fluxor;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HeyCurator_basm_Server
 {
@@ -42,7 +43,7 @@ namespace HeyCurator_basm_Server
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
             services.AddRazorPages();
            
             services.AddServerSideBlazor();
