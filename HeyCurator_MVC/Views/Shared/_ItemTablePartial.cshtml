@@ -1,0 +1,64 @@
+﻿@model IEnumerable<HeyCurator_MVC.Models.Item>
+
+@{ 
+    var items = _context.Items.ToList();
+}
+
+
+
+    <div class="mx-10 flex justify-center bg-white dark:bg-gray-600 shadow-xl rounded-lg cursor-pointer">
+
+        <table id="tablePreview" class="table table-striped table-hover table-sm table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MinCount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateOfLastUpdate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UpdateByDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateNotifyCurators)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RecordedStorageAmount)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < items.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => items[i].Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => items[i].MinCount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => items[i].DateOfLastUpdate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => items[i].UpdateByDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => items[i].DateNotifyCurators)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => items[i].RecordedStorageAmount)
+                        </td>
+                        <td>
+                            <a type="button" asp-controller="Item" asp-action="Details" asp-route-id="@items[i].ItemId" class="btn btn-indigo btn-sm m-0">View Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>

@@ -1,0 +1,42 @@
+﻿@model HeyCurator_MVC.Models.Item
+
+
+    
+    <div class="my-5 mx-10 flex w-1/3 py-4 justify-center bg-white dark:bg-gray-600 shadow-xl rounded-lg cursor-pointer">
+
+        
+        <form asp-action="AddItem" method="post">
+            <label class="block text-gray-900 text-xl text-center font-semibold mb-2">Add Item</label>
+            <hr/>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="block text-gray-600 text-lg font-semibold mb-2"></label>
+                <input asp-for="Name" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinCount" class="block text-gray-600 text-lg font-semibold mb-2"></label>
+                <input asp-for="MinCount" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
+                <span asp-validation-for="MinCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DaysBetweenUpdates" class="block text-gray-600 text-lg font-semibold mb-2"></label>
+                <input asp-for="DaysBetweenUpdates" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
+                <span asp-validation-for="DaysBetweenUpdates" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DaysBeforeNotifyAllCurators" class="block text-gray-600 text-lg font-semibold mb-2"></label>
+                <input asp-for="DaysBeforeNotifyAllCurators" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
+                <span asp-validation-for="DaysBeforeNotifyAllCurators" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add Item" class="px-3 py-2 rounded-md cursor-pointer bg-blue-600 text-white  hover:bg-blue-300 border-blue-700 border" />
+            </div>
+        </form>
+        </div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

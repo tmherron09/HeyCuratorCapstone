@@ -1,0 +1,34 @@
+﻿@model HeyCurator_MVC.Models.CuratorSpace
+
+@{
+    var curatorRoles = _context.CuratorRoles.ToList();
+    SelectList CuratorRoles = new SelectList(curatorRoles, "CuratorRoleId", "NameOfRole");
+}
+
+
+
+<div class="my-5 mx-10 flex w-1/3 py-4 justify-center bg-white dark:bg-gray-600 shadow-xl rounded-lg cursor-pointer">
+
+
+    <form asp-action="AddCuratorSpace" method="post">
+        <label class="block text-gray-900 text-xl text-center font-semibold mb-2">Add Curator Space</label>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="block text-gray-600 text-sm font-semibold mb-2"></label>
+            <input asp-for="Name" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CuratorRoleId" class="block text-gray-600 text-sm font-semibold mb-2"></label>
+            <select asp-for="CuratorRoleId" class="border-b-2 border-gray-400 focus-within:border-teal-500" asp-items="@CuratorRoles"></select>
+            <span asp-validation-for="CuratorRoleId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Add Curator" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
