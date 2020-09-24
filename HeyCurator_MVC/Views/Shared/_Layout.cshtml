@@ -10,19 +10,36 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    <!-- Begin Site Wide Modal -->
+    <div class="modal fade" id="displayModal" tabindex="-1" aria-labelledby="displayRecodModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="modalContainer">
+                    I should not display.
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Discard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Site Wide Modal -->
+
 
     <div class="h-screen w-full flex overflow-hidden">
-        
-        
+
+
         <partial name="_SideBarPartial" />
 
-    <main class="flex-1 flex flex-col bg-gray-100 dark:bg-gray-700 transition
+        <main class="flex-1 flex flex-col bg-yellow-100 dark:bg-gray-700 transition
 		duration-500 ease-in-out overflow-y-auto">
-        <div class="mx-10 my-2">
-            @RenderBody()
-        </div>
-    </main>
-</div>
+            <div class="mx-10 my-2">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

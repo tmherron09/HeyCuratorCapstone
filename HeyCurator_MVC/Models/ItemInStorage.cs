@@ -15,10 +15,12 @@ namespace HeyCurator_MVC.Models
         public int StorageCount { get; set; }
 
         [ForeignKey("Item")]
+        [Required]
         public int ItemId { get; set; }
         public Item Item { get; set; }
 
         [ForeignKey("Storage")]
+        [Required]
         public int StorageId { get; set; }
         public Storage Storage { get; set; }
 
@@ -28,7 +30,7 @@ namespace HeyCurator_MVC.Models
 
 
         public ICollection<Record> Records { get; set; }
-
+        
         // Non-Database Objects
 
     }

@@ -18,6 +18,7 @@ namespace HeyCurator_MVC.Models
         public int? CuratorSpaceId { get; set; }
         public CuratorSpace CuratorSpace { get; set; }
 
+
         // All Exhibits in this Exhibit space
         public ICollection<Exhibit> Exhibits { get; set; }
         // All Storages that contains items for this

@@ -1,0 +1,121 @@
+﻿@model HeyCurator_MVC.Models.Item
+
+@{
+    ViewData["Title"] = "Details";
+
+    var itemId = 1;
+
+    if(Model != null)
+    {
+        itemId = Model.ItemId;
+    }
+
+
+    var records = _context.Records.OrderByDescending(records => records.TimeStamp).Take(10).ToList();
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Item</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MinCount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MinCount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DaysBetweenUpdates)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DaysBetweenUpdates)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DaysBeforeNotifyAllCurators)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DaysBeforeNotifyAllCurators)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DateOfLastUpdate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateOfLastUpdate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UpdateByDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UpdateByDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DateNotifyCurators)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateNotifyCurators)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RecordedStorageAmount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RecordedStorageAmount)
+        </dd>
+    </dl>
+</div>
+<div>
+    <button type="button" id="modalButton" data-id="@Model.ItemId"  class="btn btn-primary" >
+        Jquery Record
+    </button>
+    @*<button type="button" onclick="viewModal()" class="btn btn-primary" data-toggle="modal" data-target="#createRecordModal">
+        Onclick Record
+    </button>*@
+</div>
+
+
+<div id="recordsTable" class="mx-10 flex justify-center bg-white dark:bg-gray-600 shadow-xl rounded-lg cursor-pointer">
+
+    </div>
+    @section Scripts {
+
+
+        <script>
+        var id = @itemId;
+
+        $(document).ready(function () {
+
+            if (id == 0) {
+                window.location.href = "/item/index";
+            }
+
+            $('#recordsTable').load('/item/DisplayRecordsTable/' + id)
+
+
+        });
+
+        $(function () {
+            $('#modalButton').on('click', function () {
+                $('#modalContainer').load('/item/CreateRecordPartial/' + this.getAttribute('data-id'));
+                $('#displayModal').modal('show');
+            })
+        });
+
+        function viewModal(refNum) {
+            $('#modalContainer').load('/item/CreateRecordPartial/' + refNum);
+            $('#displayModal').modal('show');
+        };
+
+        </script>
+
+
+
+
+
+    }

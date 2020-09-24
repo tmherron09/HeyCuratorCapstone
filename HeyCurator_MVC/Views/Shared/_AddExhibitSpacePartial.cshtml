@@ -1,0 +1,36 @@
+﻿@model HeyCurator_MVC.Models.ExhibitSpace
+
+@{
+    var curatorSpaces = _context.CuratorSpaces.ToList();
+    SelectList CuratorSpaces = new SelectList(curatorSpaces, "CuratorSpaceId", "Name");
+}
+
+
+
+<div class="my-5 mx-10 flex w-1/3 py-4 justify-center bg-white dark:bg-gray-600 shadow-xl rounded-lg cursor-pointer">
+
+
+    <form asp-action="AddExhibitSpace" method="post">
+        <label class="block text-gray-900 text-xl text-center font-semibold mb-2">Add Exhibit Space</label>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="ExhibitSpaceName" class="block text-gray-600 text-sm font-semibold mb-2"></label>
+            <input asp-for="ExhibitSpaceName" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
+            <span asp-validation-for="ExhibitSpaceName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="block text-gray-600 text-sm font-semibold mb-2">Curator Space</label>
+            <select asp-for="CuratorSpaceId" class="border-b-2 border-gray-400 focus-within:border-teal-500" asp-items="@CuratorSpaces">
+                <option selected="selected" value="">Please select</option>
+            </select>
+            <span asp-validation-for="CuratorSpaceId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Add Exhibit Space" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

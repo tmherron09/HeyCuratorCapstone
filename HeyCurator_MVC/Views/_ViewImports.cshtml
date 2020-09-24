@@ -1,4 +1,8 @@
 ﻿@using HeyCurator_MVC
 @using HeyCurator_MVC.Models
+@using HeyCurator_MVC.ViewModels
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Http 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject HeyCurator_MVC.Data.ApplicationDbContext _context
+@inject IHttpContextAccessor  _httpContext 

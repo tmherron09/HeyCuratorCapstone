@@ -8,11 +8,15 @@ namespace HeyCurator_MVC.ViewModels
 {
     public class RecordFull
     {
-        public int RecordId { get; set; }
-        public Record Record { get; set; }
+        public Item Item { get; set; }
+        public int ItemId { get; set; }
+        public int NewRecordedAmount { get; set; }
+        public int ChoosenStorageId { get; set; }
+        public List<Storage> Storages { get; set; }
+        public string RecordedNotesOnUpdate { get; set; }
 
-        public int RecordInfoId { get; set; }
-        public RecordInfo RecordInfo { get; set; }
+
+
 
 
 

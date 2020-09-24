@@ -14,9 +14,10 @@
         employeeId = _context.Employees.Where(e=> e.EmployeeUserName == name).FirstOrDefault().EmployeeId;
         roles = _context.EmployeeRoles.Where(e => e.EmployeeId == employeeId).Include(e=> e.CuratorRole).ToList();
     }
+    var username = _httpContext.HttpContext.Session.GetString("username") ?? "Default";
 }
 
-<nav class="flex flex-col bg-gray-200 dark:bg-gray-900 w-64 px-12 pt-4 pb-6">
+<nav class="flex flex-col bg-yellow-200 dark:bg-gray-900 w-64 px-12 pt-4 pb-6">
     <!-- SideNavBar -->
 
     <div class="flex flex-row border-b items-center justify-between pb-2">
@@ -59,15 +60,19 @@
                 src="https://appzzang.me/data/editor/1608/f9c387cb6bd7a0b004f975cd92cbe2d9_1471626325_6802.png"
                 alt="enoshima profile" />*@
             <h2 class="mt-4 text-xl dark:text-gray-300 font-extrabold capitalize">
-                Hello @name !
+                Hello @username !
             </h2>
             <span class="text-sm dark:text-gray-300">
-                @foreach (var role in roles)
-                {
-                <span class="font-semibold text-green-600 dark:text-green-300">
-                    @role.CuratorRole.NameOfRole
-                </span>
-                }
+                <ul>
+                    @foreach (var role in roles)
+                    {
+                    <li>
+                        <span class="font-semibold text-green-600 dark:text-green-300">
+                            @role.CuratorRole.NameOfRole
+                        </span>
+                    </li>
+                    }
+                </ul>
             </span>
         </div>
 
@@ -114,17 +119,17 @@
 
             <li class="mt-8 shadow py-2 bg-white dark:bg-gray-200 rounded-lg
 				-ml-4">
-                <a href="#home" class="flex pl-4">
+                <a asp-controller="Admin" asp-action="Index" class="flex pl-4">
                     <svg class="fill-current h-5 w-5" viewBox="0 0 24 24">
                         <path d="M12 4a4 4 0 014 4 4 4 0 01-4 4 4 4 0 01-4-4 4 4 0
 							014-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4
 							8-4z"></path>
                     </svg>
-                    <span class="ml-2 capitalize font-medium">users</span>
+                    <span class="ml-2 capitalize font-medium">Museum Administration</span>
                 </a>
             </li>
 
-            <li class="mt-8">
+            @*<li class="mt-8">
                 <a href="#home" class="flex">
                     <svg class="fill-current h-5 w-5 dark:text-gray-300"
                          viewBox="0 0 24 24">
@@ -137,7 +142,7 @@
                         tasks
                     </span>
                 </a>
-            </li>
+            </li>*@
 
         </ul>
     }

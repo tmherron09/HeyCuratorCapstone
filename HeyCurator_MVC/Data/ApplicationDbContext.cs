@@ -1,5 +1,4 @@
-﻿using HeyCurator_MVC.Controllers;
-using HeyCurator_MVC.MessageService;
+﻿using HeyCurator_MVC.MessageService;
 using HeyCurator_MVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -34,8 +33,7 @@ namespace HeyCurator_MVC.Data
                 {
                     Name = "Employee",
                     NormalizedName = "EMPLOYEE"
-                }
-                );
+                });
 
             builder.Entity<CuratorRole>()
                 .HasData(
@@ -48,25 +46,34 @@ namespace HeyCurator_MVC.Data
                 {
                     NameOfRole = "Employee",
                     CuratorRoleId = 2
-                }
-                );
+                });
 
-            var hasher = new PasswordHasher<IdentityUser>();
+            //var hasher = new PasswordHasher<IdentityUser>();
 
-            builder.Entity<IdentityUser>()
+            //builder.Entity<IdentityUser>()
+            //    .HasData(
+            //    new IdentityUser
+            //    {
+            //        UserName = "Admin",
+            //        PasswordHash = hasher.HashPassword(null, "Admin123!"),
+            //        Email = "Admin@admin.com"
+            //    });
+
+            builder.Entity<Storage>()
                 .HasData(
-                new IdentityUser
+                new Storage
                 {
-                    UserName = "Admin",
-                    PasswordHash = hasher.HashPassword(null, "ADMIN123!"),
-                    Email = "Admin@admin.com"
-                }
-                );
-            
+                    StorageId = 1,
+                    Name = "Not Declared",
+                    StorageType = "Not Declared",
+                    AccessLevel = AccessLevel.Other
+                });
+
         }
         public DbSet<CuratorSpace> CuratorSpaces { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeRoles> EmployeeRoles { get; set; }
+        public DbSet<Storage> Storages { get; set; }
         public DbSet<Exhibit> Exhibits { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<ExpiredUpdateItem> ExpiredUpdateItems { get; set; }
@@ -74,7 +81,6 @@ namespace HeyCurator_MVC.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<PurchaserNotification> PurchaserNotifications { get; set; }
         public DbSet<Record> Records { get; set; }
-        public DbSet<Storage> Storages { get; set; }
         public DbSet<StorageCuratorSpace> StorageCuratorSpaces { get; set; }
         public DbSet<CuratorRole> CuratorRoles { get; set; }
         public DbSet<ExhibitSpace> ExhibitSpaces { get; set; }

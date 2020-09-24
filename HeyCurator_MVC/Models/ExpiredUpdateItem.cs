@@ -18,7 +18,14 @@ namespace HeyCurator_MVC.Models
         [ForeignKey("Item")]
         public int ItemId { get; set; }
         public Item Item { get; set; }
+
+
         public bool AllCuratorExpiration { get; set; }
+
+
+
+
+
 
         [NotMapped]
         public List<Employee> AssignedEmployees { get; set; }

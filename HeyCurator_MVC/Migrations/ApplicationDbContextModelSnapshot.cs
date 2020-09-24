@@ -134,10 +134,15 @@ namespace HeyCurator_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RecordId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EmployeeId");
+
+                    b.HasIndex("RecordId");
 
                     b.ToTable("Employees");
                 });
@@ -419,39 +424,6 @@ namespace HeyCurator_MVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemInStorageId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecordInfoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecordedCount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("RecordId");
-
-                    b.HasIndex("ItemId");
-
-                    b.HasIndex("ItemInStorageId");
-
-                    b.HasIndex("RecordInfoId");
-
-                    b.ToTable("Records");
-                });
-
-            modelBuilder.Entity("HeyCurator_MVC.Models.RecordInfo", b =>
-                {
-                    b.Property<int>("RecordInfoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<bool>("CuratorVerified")
                         .HasColumnType("bit");
 
@@ -464,11 +436,17 @@ namespace HeyCurator_MVC.Migrations
                     b.Property<bool>("IsChallenged")
                         .HasColumnType("bit");
 
-                    b.Property<int>("RecordId")
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemInStorageId")
                         .HasColumnType("int");
 
                     b.Property<string>("RecordNote")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecordedCount")
+                        .HasColumnType("int");
 
                     b.Property<int?>("SecondVefifierId")
                         .HasColumnType("int");
@@ -476,15 +454,22 @@ namespace HeyCurator_MVC.Migrations
                     b.Property<bool>("SecondaryVefified")
                         .HasColumnType("bit");
 
-                    b.HasKey("RecordInfoId");
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("RecordId");
 
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("FirstVerifierId");
 
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("ItemInStorageId");
+
                     b.HasIndex("SecondVefifierId");
 
-                    b.ToTable("RecordInfo");
+                    b.ToTable("Records");
                 });
 
             modelBuilder.Entity("HeyCurator_MVC.Models.Storage", b =>
@@ -511,6 +496,15 @@ namespace HeyCurator_MVC.Migrations
                     b.HasIndex("CuratorSpaceId");
 
                     b.ToTable("Storages");
+
+                    b.HasData(
+                        new
+                        {
+                            StorageId = 1,
+                            AccessLevel = 7,
+                            Name = "Not Declared",
+                            StorageType = "Not Declared"
+                        });
                 });
 
             modelBuilder.Entity("HeyCurator_MVC.Models.StorageCuratorSpace", b =>
@@ -564,22 +558,22 @@ namespace HeyCurator_MVC.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c4724412-4815-484c-8f9c-35aeea1f9fa0",
-                            ConcurrencyStamp = "738b2e3a-b150-41b1-aafc-c20e1d48e17b",
+                            Id = "8f492bc6-bc3f-4db3-a387-b706446e2cb0",
+                            ConcurrencyStamp = "fcacb28b-8473-4d06-9672-d576903402d6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ebe857d9-5eb1-441a-bf3d-5ce4e1a1f44c",
-                            ConcurrencyStamp = "ee0333d5-934f-48fc-85a2-da704c16ff8c",
+                            Id = "287df825-7ca3-4cc9-ba20-88ff45b7fddd",
+                            ConcurrencyStamp = "250c1b59-6c50-4d09-b854-04827efba25a",
                             Name = "Curator",
                             NormalizedName = "CURATOR"
                         },
                         new
                         {
-                            Id = "75f534c2-787c-471e-9f53-9bf721d88afe",
-                            ConcurrencyStamp = "f4ea9af5-4639-4dfe-9ca1-20a2d17af0c2",
+                            Id = "9f519b46-cb8f-4c46-ae4a-d6eea223ba5f",
+                            ConcurrencyStamp = "8c58a743-934f-434a-86e0-afa041ecb2ee",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -676,15 +670,15 @@ namespace HeyCurator_MVC.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "de62c94d-57ee-42c5-a3b9-b8560c0a4df8",
+                            Id = "2cfa8c64-602c-4005-8f1d-c782aab6ac38",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "65478f41-a364-4a4f-a1d2-07bbafca5a89",
+                            ConcurrencyStamp = "ebe1a757-1673-4c34-8b97-b702bc5a2bc5",
                             Email = "Admin@admin.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEJLxTKqvmknQ/xX6lFJSEV8g622/2ffFHfwp/Xdw76NDqpW8S17TWJVjlzc/WL/oUw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOZMRBKFYjU4nG+pWGj6PHT1PcftraGfdhAlnPGfXAyVZh4cGmiToxqw0rqicLCx1A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "696bcb52-6269-42b2-a377-942fc7c8e02d",
+                            SecurityStamp = "9bcda4e7-deb6-4c53-ac21-7d25bfdf7f0b",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -796,6 +790,13 @@ namespace HeyCurator_MVC.Migrations
                     b.HasOne("HeyCurator_MVC.Models.Item", null)
                         .WithMany("CuratorSpaces")
                         .HasForeignKey("ItemId");
+                });
+
+            modelBuilder.Entity("HeyCurator_MVC.Models.Employee", b =>
+                {
+                    b.HasOne("HeyCurator_MVC.Models.Record", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("RecordId");
                 });
 
             modelBuilder.Entity("HeyCurator_MVC.Models.EmployeeRoles", b =>
@@ -926,6 +927,14 @@ namespace HeyCurator_MVC.Migrations
 
             modelBuilder.Entity("HeyCurator_MVC.Models.Record", b =>
                 {
+                    b.HasOne("HeyCurator_MVC.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("HeyCurator_MVC.Models.Employee", "FirstVerifier")
+                        .WithMany()
+                        .HasForeignKey("FirstVerifierId");
+
                     b.HasOne("HeyCurator_MVC.Models.Item", null)
                         .WithMany("Records")
                         .HasForeignKey("ItemId");
@@ -935,23 +944,6 @@ namespace HeyCurator_MVC.Migrations
                         .HasForeignKey("ItemInStorageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("HeyCurator_MVC.Models.RecordInfo", "RecordInfo")
-                        .WithMany()
-                        .HasForeignKey("RecordInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("HeyCurator_MVC.Models.RecordInfo", b =>
-                {
-                    b.HasOne("HeyCurator_MVC.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId");
-
-                    b.HasOne("HeyCurator_MVC.Models.Employee", "FirstVerifier")
-                        .WithMany()
-                        .HasForeignKey("FirstVerifierId");
 
                     b.HasOne("HeyCurator_MVC.Models.Employee", "SecondVefifier")
                         .WithMany()

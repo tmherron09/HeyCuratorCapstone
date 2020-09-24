@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HeyCurator_MVC.Migrations
 {
-    public partial class ReInit : Migration
+    public partial class UpdateCollectionRefs : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,23 +57,6 @@ namespace HeyCurator_MVC.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CuratorRoles", x => x.CuratorRoleId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    EmployeeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    EmployeeUserName = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    IdentityUser = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,109 +186,6 @@ namespace HeyCurator_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeRoles",
-                columns: table => new
-                {
-                    EmployeeRoleId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<int>(nullable: false),
-                    CuratorRoleId = table.Column<int>(nullable: false),
-                    StaffRoleCuratorRoleId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeRoles", x => x.EmployeeRoleId);
-                    table.ForeignKey(
-                        name: "FK_EmployeeRoles_CuratorRoles_CuratorRoleId",
-                        column: x => x.CuratorRoleId,
-                        principalTable: "CuratorRoles",
-                        principalColumn: "CuratorRoleId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EmployeeRoles_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EmployeeRoles_CuratorRoles_StaffRoleCuratorRoleId",
-                        column: x => x.StaffRoleCuratorRoleId,
-                        principalTable: "CuratorRoles",
-                        principalColumn: "CuratorRoleId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HeyCuratorMails",
-                columns: table => new
-                {
-                    HeyCuratorMailId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SenderId = table.Column<int>(nullable: true),
-                    RecipientId = table.Column<int>(nullable: true),
-                    Title = table.Column<string>(nullable: false),
-                    MessageContent = table.Column<string>(nullable: false),
-                    DateMessageSent = table.Column<DateTime>(nullable: false),
-                    HasBeenRead = table.Column<bool>(nullable: false),
-                    SenderDeleted = table.Column<bool>(nullable: false),
-                    RecipientDeleted = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HeyCuratorMails", x => x.HeyCuratorMailId);
-                    table.ForeignKey(
-                        name: "FK_HeyCuratorMails_Employees_RecipientId",
-                        column: x => x.RecipientId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_HeyCuratorMails_Employees_SenderId",
-                        column: x => x.SenderId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RecordInfo",
-                columns: table => new
-                {
-                    RecordInfoId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RecordId = table.Column<int>(nullable: false),
-                    EmployeeId = table.Column<int>(nullable: true),
-                    FirstVerifierId = table.Column<int>(nullable: true),
-                    SecondVefifierId = table.Column<int>(nullable: true),
-                    CuratorVerified = table.Column<bool>(nullable: false),
-                    IsChallenged = table.Column<bool>(nullable: false),
-                    SecondaryVefified = table.Column<bool>(nullable: false),
-                    RecordNote = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RecordInfo", x => x.RecordInfoId);
-                    table.ForeignKey(
-                        name: "FK_RecordInfo_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RecordInfo_Employees_FirstVerifierId",
-                        column: x => x.FirstVerifierId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RecordInfo_Employees_SecondVefifierId",
-                        column: x => x.SecondVefifierId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CuratorSpaces",
                 columns: table => new
                 {
@@ -346,68 +226,6 @@ namespace HeyCurator_MVC.Migrations
                     table.PrimaryKey("PK_ExpiredUpdateItems", x => x.ExpiredUpdateItemId);
                     table.ForeignKey(
                         name: "FK_ExpiredUpdateItems_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
-                        principalColumn: "ItemId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    OrderId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemId = table.Column<int>(nullable: false),
-                    AmountInOrder = table.Column<int>(nullable: false),
-                    TimeStamp = table.Column<DateTime>(nullable: false),
-                    EmployeeId = table.Column<int>(nullable: false),
-                    PurchaserNote = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.OrderId);
-                    table.ForeignKey(
-                        name: "FK_Orders_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
-                        principalColumn: "ItemId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PurchaserNotifications",
-                columns: table => new
-                {
-                    PurchaserNotificationId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemId = table.Column<int>(nullable: false),
-                    EmployeeId = table.Column<int>(nullable: false),
-                    TimeStamp = table.Column<DateTime>(nullable: false),
-                    CurrentStock = table.Column<int>(nullable: false),
-                    AmountRequested = table.Column<int>(nullable: true),
-                    OrderUrgency = table.Column<int>(nullable: false),
-                    CuratorNote = table.Column<string>(nullable: true),
-                    PurchaserNote = table.Column<string>(nullable: true),
-                    OrderRefId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PurchaserNotifications", x => x.PurchaserNotificationId);
-                    table.ForeignKey(
-                        name: "FK_PurchaserNotifications_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PurchaserNotifications_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "ItemId",
@@ -591,6 +409,103 @@ namespace HeyCurator_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmployeeRoles",
+                columns: table => new
+                {
+                    EmployeeRoleId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(nullable: false),
+                    CuratorRoleId = table.Column<int>(nullable: false),
+                    StaffRoleCuratorRoleId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeRoles", x => x.EmployeeRoleId);
+                    table.ForeignKey(
+                        name: "FK_EmployeeRoles_CuratorRoles_CuratorRoleId",
+                        column: x => x.CuratorRoleId,
+                        principalTable: "CuratorRoles",
+                        principalColumn: "CuratorRoleId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeRoles_CuratorRoles_StaffRoleCuratorRoleId",
+                        column: x => x.StaffRoleCuratorRoleId,
+                        principalTable: "CuratorRoles",
+                        principalColumn: "CuratorRoleId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HeyCuratorMails",
+                columns: table => new
+                {
+                    HeyCuratorMailId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SenderId = table.Column<int>(nullable: true),
+                    RecipientId = table.Column<int>(nullable: true),
+                    Title = table.Column<string>(nullable: false),
+                    MessageContent = table.Column<string>(nullable: false),
+                    DateMessageSent = table.Column<DateTime>(nullable: false),
+                    HasBeenRead = table.Column<bool>(nullable: false),
+                    SenderDeleted = table.Column<bool>(nullable: false),
+                    RecipientDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HeyCuratorMails", x => x.HeyCuratorMailId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemId = table.Column<int>(nullable: false),
+                    AmountInOrder = table.Column<int>(nullable: false),
+                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    EmployeeId = table.Column<int>(nullable: false),
+                    PurchaserNote = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
+                    table.ForeignKey(
+                        name: "FK_Orders_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PurchaserNotifications",
+                columns: table => new
+                {
+                    PurchaserNotificationId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemId = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<int>(nullable: false),
+                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    CurrentStock = table.Column<int>(nullable: false),
+                    AmountRequested = table.Column<int>(nullable: true),
+                    OrderUrgency = table.Column<int>(nullable: false),
+                    CuratorNote = table.Column<string>(nullable: true),
+                    PurchaserNote = table.Column<string>(nullable: true),
+                    OrderRefId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PurchaserNotifications", x => x.PurchaserNotificationId);
+                    table.ForeignKey(
+                        name: "FK_PurchaserNotifications_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Records",
                 columns: table => new
                 {
@@ -599,7 +514,13 @@ namespace HeyCurator_MVC.Migrations
                     RecordedCount = table.Column<int>(nullable: false),
                     ItemInStorageId = table.Column<int>(nullable: false),
                     TimeStamp = table.Column<DateTime>(nullable: false),
-                    RecordInfoId = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<int>(nullable: true),
+                    FirstVerifierId = table.Column<int>(nullable: true),
+                    SecondVefifierId = table.Column<int>(nullable: true),
+                    CuratorVerified = table.Column<bool>(nullable: false),
+                    IsChallenged = table.Column<bool>(nullable: false),
+                    SecondaryVefified = table.Column<bool>(nullable: false),
+                    RecordNote = table.Column<string>(nullable: true),
                     ItemId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -617,12 +538,30 @@ namespace HeyCurator_MVC.Migrations
                         principalTable: "ItemInStorages",
                         principalColumn: "ItemInStorageId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    EmployeeUserName = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    IdentityUser = table.Column<string>(nullable: true),
+                    RecordId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
                     table.ForeignKey(
-                        name: "FK_Records_RecordInfo_RecordInfoId",
-                        column: x => x.RecordInfoId,
-                        principalTable: "RecordInfo",
-                        principalColumn: "RecordInfoId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Employees_Records_RecordId",
+                        column: x => x.RecordId,
+                        principalTable: "Records",
+                        principalColumn: "RecordId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -630,15 +569,15 @@ namespace HeyCurator_MVC.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "c4724412-4815-484c-8f9c-35aeea1f9fa0", "738b2e3a-b150-41b1-aafc-c20e1d48e17b", "Admin", "ADMIN" },
-                    { "ebe857d9-5eb1-441a-bf3d-5ce4e1a1f44c", "ee0333d5-934f-48fc-85a2-da704c16ff8c", "Curator", "CURATOR" },
-                    { "75f534c2-787c-471e-9f53-9bf721d88afe", "f4ea9af5-4639-4dfe-9ca1-20a2d17af0c2", "Employee", "EMPLOYEE" }
+                    { "8f492bc6-bc3f-4db3-a387-b706446e2cb0", "fcacb28b-8473-4d06-9672-d576903402d6", "Admin", "ADMIN" },
+                    { "287df825-7ca3-4cc9-ba20-88ff45b7fddd", "250c1b59-6c50-4d09-b854-04827efba25a", "Curator", "CURATOR" },
+                    { "9f519b46-cb8f-4c46-ae4a-d6eea223ba5f", "8c58a743-934f-434a-86e0-afa041ecb2ee", "Employee", "EMPLOYEE" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "de62c94d-57ee-42c5-a3b9-b8560c0a4df8", 0, "65478f41-a364-4a4f-a1d2-07bbafca5a89", "Admin@admin.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEJLxTKqvmknQ/xX6lFJSEV8g622/2ffFHfwp/Xdw76NDqpW8S17TWJVjlzc/WL/oUw==", null, false, "696bcb52-6269-42b2-a377-942fc7c8e02d", false, "Admin" });
+                values: new object[] { "2cfa8c64-602c-4005-8f1d-c782aab6ac38", 0, "ebe1a757-1673-4c34-8b97-b702bc5a2bc5", "Admin@admin.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEOZMRBKFYjU4nG+pWGj6PHT1PcftraGfdhAlnPGfXAyVZh4cGmiToxqw0rqicLCx1A==", null, false, "9bcda4e7-deb6-4c53-ac21-7d25bfdf7f0b", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "CuratorRoles",
@@ -648,6 +587,11 @@ namespace HeyCurator_MVC.Migrations
                     { 1, "Admin" },
                     { 2, "Employee" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Storages",
+                columns: new[] { "StorageId", "AccessLevel", "CuratorSpaceId", "Name", "StorageType" },
+                values: new object[] { 1, 7, null, "Not Declared", "Not Declared" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -712,6 +656,11 @@ namespace HeyCurator_MVC.Migrations
                 name: "IX_EmployeeRoles_StaffRoleCuratorRoleId",
                 table: "EmployeeRoles",
                 column: "StaffRoleCuratorRoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_RecordId",
+                table: "Employees",
+                column: "RecordId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExhibitItemInStorages_ExhibitId",
@@ -804,19 +753,14 @@ namespace HeyCurator_MVC.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecordInfo_EmployeeId",
-                table: "RecordInfo",
+                name: "IX_Records_EmployeeId",
+                table: "Records",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecordInfo_FirstVerifierId",
-                table: "RecordInfo",
+                name: "IX_Records_FirstVerifierId",
+                table: "Records",
                 column: "FirstVerifierId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RecordInfo_SecondVefifierId",
-                table: "RecordInfo",
-                column: "SecondVefifierId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Records_ItemId",
@@ -829,9 +773,9 @@ namespace HeyCurator_MVC.Migrations
                 column: "ItemInStorageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Records_RecordInfoId",
+                name: "IX_Records_SecondVefifierId",
                 table: "Records",
-                column: "RecordInfoId");
+                column: "SecondVefifierId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StorageCuratorSpaces_CuratorSpaceId",
@@ -847,10 +791,110 @@ namespace HeyCurator_MVC.Migrations
                 name: "IX_Storages_CuratorSpaceId",
                 table: "Storages",
                 column: "CuratorSpaceId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_EmployeeRoles_Employees_EmployeeId",
+                table: "EmployeeRoles",
+                column: "EmployeeId",
+                principalTable: "Employees",
+                principalColumn: "EmployeeId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_HeyCuratorMails_Employees_RecipientId",
+                table: "HeyCuratorMails",
+                column: "RecipientId",
+                principalTable: "Employees",
+                principalColumn: "EmployeeId",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_HeyCuratorMails_Employees_SenderId",
+                table: "HeyCuratorMails",
+                column: "SenderId",
+                principalTable: "Employees",
+                principalColumn: "EmployeeId",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Orders_Employees_EmployeeId",
+                table: "Orders",
+                column: "EmployeeId",
+                principalTable: "Employees",
+                principalColumn: "EmployeeId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_PurchaserNotifications_Employees_EmployeeId",
+                table: "PurchaserNotifications",
+                column: "EmployeeId",
+                principalTable: "Employees",
+                principalColumn: "EmployeeId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Records_Employees_EmployeeId",
+                table: "Records",
+                column: "EmployeeId",
+                principalTable: "Employees",
+                principalColumn: "EmployeeId",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Records_Employees_FirstVerifierId",
+                table: "Records",
+                column: "FirstVerifierId",
+                principalTable: "Employees",
+                principalColumn: "EmployeeId",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Records_Employees_SecondVefifierId",
+                table: "Records",
+                column: "SecondVefifierId",
+                principalTable: "Employees",
+                principalColumn: "EmployeeId",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_CuratorSpaces_CuratorRoles_CuratorRoleId",
+                table: "CuratorSpaces");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_CuratorSpaces_Items_ItemId",
+                table: "CuratorSpaces");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Exhibits_Items_ItemId",
+                table: "Exhibits");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_ExhibitSpaces_Items_ItemId",
+                table: "ExhibitSpaces");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_ItemInStorages_Items_ItemId",
+                table: "ItemInStorages");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Records_Items_ItemId",
+                table: "Records");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Records_Employees_EmployeeId",
+                table: "Records");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Records_Employees_FirstVerifierId",
+                table: "Records");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Records_Employees_SecondVefifierId",
+                table: "Records");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -885,9 +929,6 @@ namespace HeyCurator_MVC.Migrations
                 name: "PurchaserNotifications");
 
             migrationBuilder.DropTable(
-                name: "Records");
-
-            migrationBuilder.DropTable(
                 name: "StorageCuratorSpaces");
 
             migrationBuilder.DropTable(
@@ -897,10 +938,19 @@ namespace HeyCurator_MVC.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "ItemInStorages");
+                name: "CuratorRoles");
 
             migrationBuilder.DropTable(
-                name: "RecordInfo");
+                name: "Items");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Records");
+
+            migrationBuilder.DropTable(
+                name: "ItemInStorages");
 
             migrationBuilder.DropTable(
                 name: "Exhibits");
@@ -909,19 +959,10 @@ namespace HeyCurator_MVC.Migrations
                 name: "Storages");
 
             migrationBuilder.DropTable(
-                name: "Employees");
-
-            migrationBuilder.DropTable(
                 name: "ExhibitSpaces");
 
             migrationBuilder.DropTable(
                 name: "CuratorSpaces");
-
-            migrationBuilder.DropTable(
-                name: "CuratorRoles");
-
-            migrationBuilder.DropTable(
-                name: "Items");
         }
     }
 }

@@ -1,0 +1,31 @@
+﻿@model RecordFull
+
+@{
+    SelectList Storages = new SelectList(_context.Storages.ToList(), "StorageId", "Name");
+}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="displayRecodModalLabel">@Model.Item.Name Inventory Count Update</h5>
+</div>
+<div class="modal-body">
+    Here you can modify the Record information. <br />
+    @Model.Item.Name current has @Model.Item.RecordedStorageAmount
+
+<form asp-action="CreateNewRecord" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="@Model.Item.ItemId" />
+    <label class="block text-gray-600 text-lg font-semibold mb-2">New Recorded Amount for Specified Storage</label>
+    <input type="number" asp-for="@Model.NewRecordedAmount" />
+    <label class="block text-gray-600 text-lg font-semibold mb-2">Storage Location of Count</label>
+    <select asp-for="@Model.ChoosenStorageId" class="border-b-2 border-gray-400 focus-within:border-teal-500" asp-items="@Storages">
+        @*<option selected="selected" value="">Please select</option>*@
+    </select>
+
+    <textarea class="border-gray-800" asp-for="@Model.RecordedNotesOnUpdate" rows="4" cols="40"></textarea>
+
+    <div class="form-group">
+        <input type="submit" value="Update Record" class="btn btn-primary" />
+    </div>
+</form>
+</div>

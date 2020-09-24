@@ -1,0 +1,76 @@
+﻿
+@model List<Record>
+
+
+    @{
+        List<ItemInStorage> iis = new List<ItemInStorage>();
+        foreach(var record in Model)
+        {
+            iis.Add(_context.ItemInStorages.Where(s => s.ItemInStorageId == record.ItemInStorageId).FirstOrDefault());
+        }
+        List<Storage> storages = new List<Storage>();
+        foreach (var item in iis)
+        {
+            storages.Add(_context.Storages.Where(s => s.StorageId == item.StorageId).FirstOrDefault());
+        }
+    }
+
+
+<table id="tablePreview" class="table table-striped table-hover table-sm table-bordered mb-0 text-center">
+    <thead>
+        <tr>
+            <th>
+                Storage
+            </th>
+            <th>
+                Amount Recorded
+            </th>
+            <th>
+                Recorded By
+            </th>
+            <th>
+                Date Recorded
+            </th>
+            <th>
+                Notes
+            </th>
+            <th>
+                Curator Reported
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(int i = 0; i < Model.Count(); i++)
+        {
+            <tr>
+                <td>
+                    @storages[i].Name
+                </td>
+                <td>
+                    @Model[i].RecordedCount
+                </td>
+                <td>
+                    @Model[i].Employee.EmployeeUserName
+                </td>
+                <td>
+                    @Model[i].TimeStamp
+                </td>
+                <td>
+                    @Model[i].RecordNote
+                </td>
+                <td class="align-middle">
+                    @if (Model[i].CuratorVerified)
+                    {
+                        <i class="gg-check-o"></i>
+                    }
+                    else
+                    {
+                        <i class="gg-shape-circle"></i>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

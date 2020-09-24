@@ -1,0 +1,48 @@
+﻿@model HeyCurator_MVC.Models.PurchaserNotification
+
+@{
+    ViewData["Title"] = "Purchase Request";
+}
+
+<h1>PurchaseRequest</h1>
+
+<h4>PurchaserNotification</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="PurchaseRequest">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.ItemId" />
+            <input type="hidden" asp-for="@Model.EmployeeId" />
+            <div class="form-group">
+                <label asp-for="CurrentStock" class="control-label"></label>
+                <input asp-for="CurrentStock" class="form-control" />
+                <span asp-validation-for="CurrentStock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Requested Amount.</label>
+                <input asp-for="AmountRequested" class="form-control" value="" />
+                <label class="control-label">Leave at 0 for purchaser discretion.</label>
+                <span asp-validation-for="AmountRequested" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderUrgency" class="control-label"></label>
+                <select asp-for="OrderUrgency" class="form-control"></select>
+                <span asp-validation-for="OrderUrgency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CuratorNote" class="control-label"></label>
+                <textarea rows="3" asp-for="CuratorNote" class="form-control" />
+                <span asp-validation-for="CuratorNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Request Order" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,50 @@
+﻿@model HeyCurator_MVC.ViewModels.AddItemInStorageViewModel
+
+@{
+    var items = _context.Items.ToList();
+    SelectList Items = new SelectList(items, "ItemId", "Name");
+    var exhibits = _context.Exhibits.ToList();
+    SelectList Exhibits = new SelectList(exhibits, "ExhibitId", "Name");
+    var storages= _context.Storages.ToList();
+    SelectList Storages = new SelectList(storages, "StorageId", "Name");
+
+}
+
+
+
+<div class="my-5 mx-10 flex w-1/3 py-4 justify-center bg-white dark:bg-gray-600 shadow-xl rounded-lg cursor-pointer">
+
+
+    <form asp-action="AddItemInStorageViewModel" method="post">
+        <label class="block text-gray-900 text-xl text-center font-semibold mb-2">Add Item Connections</label>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @* Select An Item *@
+        <label class="block text-gray-900 text-xl text-center font-semibold mb-2">Exhibit Item</label>
+        <select asp-for="ItemId" class="border-b-2 border-gray-400 focus-within:border-teal-500" asp-items="@Items">
+            <option selected="selected" value="">Please select</option>
+        </select>
+        @* Select the Exhibit *@
+        <label class="block text-gray-900 text-xl text-center font-semibold mb-2">Exhibit</label>
+        <select asp-for="ExhibitId" class="border-b-2 border-gray-400 focus-within:border-teal-500" asp-items="@Exhibits">
+            <option selected="selected" value="">Please select</option>
+        </select>
+        @* Select the storage *@
+        <label class="block text-gray-900 text-xl text-center font-semibold mb-2">Storage</label>
+        <select asp-for="StorageId" class="border-b-2 border-gray-400 focus-within:border-teal-500" asp-items="@Storages">
+            <option selected="selected" value="">Please select</option>
+        </select>
+        @* Est the Amount *@
+        <div class="form-group">
+            <label asp-for="StorageCount" class="block text-gray-600 text-lg font-semibold mb-2"></label>
+            <input asp-for="StorageCount" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
+            <span asp-validation-for="StorageCount" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Add Item Storage Location" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

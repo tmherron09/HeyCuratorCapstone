@@ -39,9 +39,9 @@ namespace HeyCurator_MVC.Services
 
             return _context.Employees.Include(c => c.EmployeeRoles).ToList();
         }
-        public List<Item> GetAllItems()
+        public async Task<List<Item>> GetAllItemsAsync()
         {
-            return _context.Items.Include(i=> i.CuratorSpaces).Include(i=> i.Exhibits).Include(i=> i.ExhibitSpaces).Include(i=> i.ItemInStorages).ThenInclude(s=> s.Storage).ToList();
+            return await _context.Items.Include(i=> i.CuratorSpaces).Include(i=> i.Exhibits).Include(i=> i.ExhibitSpaces).Include(i=> i.ItemInStorages).ThenInclude(s=> s.Storage).ToListAsync();
         }
 
 
