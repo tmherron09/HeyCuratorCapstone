@@ -37,11 +37,15 @@ namespace HeyCurator_MVC
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddSession();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            
             services.AddScoped<ClaimsPrincipal>(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             /* IHostedServices  */
             services.AddHostedService<InventoryControlBackgroundService>();
@@ -54,10 +58,12 @@ namespace HeyCurator_MVC
             services.AddScoped<CreateService>();
             services.AddScoped<HeyCuratorMailService>();
             services.AddScoped<EmployeeService>();
+            services.AddScoped<ItemCountService>();
+            services.AddScoped<RecordAccessService>();
             /* Model Behind the scenes services for auto creating values and relations */
             services.AddScoped<ItemDateService>();
 
-
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +82,7 @@ namespace HeyCurator_MVC
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseRouting();
 
