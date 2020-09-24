@@ -20,17 +20,17 @@ namespace HeyCurator_MVC.Services
         {
             if (AreAtLeastTenRecords())
             {
-                return _context.Records.OrderByDescending(r => r.TimeStamp).Include(r => r.Employee).Include(r => r.ItemInStorage).ThenInclude(i => i.Storage).Take(10).ToList();
+                return _context.Records.OrderByDescending(r => r.TimeStamp).Include(r => r.Employee).Take(10).ToList();
             }
             else
             {
-                return _context.Records.OrderByDescending(r => r.TimeStamp).Include(r => r.Employee).Include(r => r.ItemInStorage).ThenInclude(i => i.Storage).ToList();
+                return _context.Records.OrderByDescending(r => r.TimeStamp).Include(r => r.Employee).ToList();
             }
         }
         public List<Record> GetAllRecordsOfItem(int itemId)
         {
             var itemInStorageIds = _context.ItemInStorages.Where(i => i.ItemId == itemId).Select(i => i.ItemInStorageId).ToList();
-            return _context.Records.Where(r => itemInStorageIds.Contains(r.ItemInStorageId)).Include(r => r.Employee).Include(r => r.ItemInStorage).ThenInclude(i => i.Storage).ToList();
+            return _context.Records.Where(r => itemInStorageIds.Contains(r.ItemInStorageId)).OrderByDescending(r => r.TimeStamp).Include(r => r.Employee).ToList();
         }
 
         public List<Record> GetLast10RecordsOfItem(int itemId)
@@ -39,11 +39,11 @@ namespace HeyCurator_MVC.Services
             if (AreAtLeastTenRecordsOfItem(itemId))
             {
                 
-                return _context.Records.Where(r => itemInStorageIds.Contains(r.ItemInStorageId)).OrderByDescending(r => r.TimeStamp).Include(r => r.Employee).Include(r => r.ItemInStorage).ThenInclude(i => i.Storage).Take(10).ToList();
+                return _context.Records.Where(r => itemInStorageIds.Contains(r.ItemInStorageId)).OrderByDescending(r => r.TimeStamp).Include(r => r.Employee).Take(10).ToList();
             }
             else
             {
-                var result = _context.Records.Where(r => itemInStorageIds.Contains(r.ItemInStorageId)).Include(r => r.Employee).ToList();
+                var result = _context.Records.Where(r => itemInStorageIds.Contains(r.ItemInStorageId)).OrderByDescending(r => r.TimeStamp).Include(r => r.Employee).ToList();
                 return result;
             }
         }

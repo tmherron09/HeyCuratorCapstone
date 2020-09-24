@@ -20,14 +20,16 @@ namespace HeyCurator_MVC.Controllers
         private EmployeeService _employeeService;
         private object dbLock;
         private RecordAccessService _recordAccess;
+        private ItemDateService _itemDateService;
 
-        public ItemController(ApplicationDbContext context, ItemCountService itemCountService, EmployeeService employeeService, RecordAccessService recordService)
+        public ItemController(ApplicationDbContext context, ItemCountService itemCountService, EmployeeService employeeService, RecordAccessService recordService, ItemDateService itemDateService)
         {
             _context = context;
             _itemCountService = itemCountService;
             _employeeService = employeeService;
             dbLock = new object();
             _recordAccess = recordService;
+            _itemDateService = itemDateService;
         }
 
         public IActionResult Index()
@@ -111,7 +113,6 @@ namespace HeyCurator_MVC.Controllers
             catch
             {
                 throw new Exception("Unable to Update Record.");
-                return RedirectToAction("Details", fullRecord.Item.ItemId);
             }
 
             // Update Item.
@@ -126,12 +127,14 @@ namespace HeyCurator_MVC.Controllers
             }
             catch
             {
-                throw new Exception("Unable to Update Record.");
-                return RedirectToAction("Details", fullRecord.Item.ItemId);
+                throw new Exception("Unable to Create Record.");
+                
             }
             _itemCountService.UpdateItemReserveAmount(fullRecord.Item.ItemId);
 
             var viewItem = _context.Items.Where(i => i.ItemId == fullRecord.Item.ItemId).SingleOrDefault();
+
+            _itemDateService.UpdateItemDates(viewItem, record.TimeStamp);
 
             return View("Details", viewItem);
             
@@ -160,6 +163,72 @@ namespace HeyCurator_MVC.Controllers
         {
 
             return View();
+        }
+
+        [HttpGet]
+        public PartialViewResult ModifyRecordPartial(int id)
+        {
+            var record = _context.Records.Where(r => r.RecordId == id).SingleOrDefault();
+
+
+            var partial = new PartialViewResult
+            {
+                ViewName = "_RecordModifyModalPartial",
+                ViewData = new ViewDataDictionary<Record>(ViewData, record)
+            };
+
+            return partial;
+        }
+
+        [HttpPost]
+        public IActionResult ModifyRecord(Record record)
+        {
+            if(!ModelState.IsValid)
+            {
+                return RedirectToAction("Home", "Home");
+            }
+
+            record.TimeStamp = _context.Records.Where(r => r.RecordId == record.RecordId).Select(r => r.TimeStamp).SingleOrDefault();
+
+            var viewItem = _context.ItemInStorages.Where(i => record.ItemInStorageId == i.ItemInStorageId).Include(i=> i.Item).SingleOrDefault();
+            record.CuratorVerified = _employeeService.IsEmployeeCuratorOfItem(viewItem.ItemId);
+            _context.Records.Update(record);
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to Update Record.");
+                
+            }
+            var lastRecord = _context.Records.Where(r=> r.ItemInStorageId == viewItem.ItemInStorageId).OrderBy(r => r.TimeStamp).Last();
+            if(record.RecordId == lastRecord.RecordId)
+            {
+                viewItem.StorageCount = record.RecordedCount;
+                _context.ItemInStorages.Update(viewItem);
+                try
+                {
+                    lock (dbLock)
+                    {
+                        _context.SaveChanges();
+                    }
+                }
+                catch
+                {
+                    throw new Exception("Unable to Update Record.");
+
+                }
+                _itemDateService.UpdateItemDates(viewItem.Item, record.TimeStamp);
+
+            }
+
+            _itemCountService.UpdateItemReserveAmount(viewItem.ItemId);
+
+            return View("Details", viewItem.Item);
         }
     }
 }

@@ -1,0 +1,53 @@
+﻿@inject ExpiredItemUpdateService _expiredService
+@{
+    var username = _httpContext.HttpContext.Session.GetString("username");
+    List<ExpiredUpdateItem> expiredItems = _expiredService.GetUserNameExpiredItems(username);
+
+
+}
+
+<div class="mb-2 md:mx-2 lg:mx-2 border-solid border-gray-200 rounded border shadow-sm w-auto">
+    <div class="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
+        Expired Item Updates: Please Update Item Counts
+    </div>
+    <div class="p-3">
+        <table class="table-fixed">
+            <thead>
+                <tr>
+                    <th class="border-b bg-black text-white w-1/2 px-4 py-2">Item</th>
+                    <th class="border-b bg-black text-white w-1/4 px-4 py-2">Amount In Reserve</th>
+                    <th class="border-b bg-black text-white w-1/4 px-4 py-2">Team Notified</th>
+                    <th class="border-b bg-black text-white w-1/4 px-4 py-2">Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < expiredItems.Count(); i++)
+                {
+                    <tr>
+                        <td class="border-b bg-blue-400 text-white px-4 py-2">@expiredItems[i].Item.Name</td>
+                        <td class="border-b bg-blue-400 text-white px-4 py-2">@expiredItems[i].Item.RecordedStorageAmount</td>
+                        <td class=" border-b bg-blue-400 text-green-400 h-100 m-0 p-0">
+                            @if (expiredItems[i].AllCuratorExpiration)
+                            {
+                                <i class=" gg-check-r  mx-auto my-auto place-self-center"></i>
+                            }
+                            else
+                            {
+                                <i class="gg-close-r mx-auto my-auto place-self-center"></i>
+
+                            }
+                        </td>
+                        <td class="border-b bg-blue-400 text-gray-400 px-4 py-2">
+                            <button onclick="viewExpiredModal(this)" data-id="@expiredItems[i].Item.ItemId" class="bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 rounded inline-flex items-center loadingButton" >
+                                <i class="gg-push-chevron-up-o"></i>
+                                <span>&nbsp;&nbsp;Update</span>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

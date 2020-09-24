@@ -1,4 +1,5 @@
-﻿using HeyCurator_MVC.Models;
+﻿using HeyCurator_MVC.Data;
+using HeyCurator_MVC.Models;
 using System;
 using System.Collections.Generic;
 
@@ -6,6 +7,14 @@ namespace HeyCurator_MVC.Services
 {
     public class ItemDateService
     {
+        private ApplicationDbContext _context;
+        private object dbLock;
+        public ItemDateService(ApplicationDbContext context)
+        {
+            _context = context;
+            dbLock = new object();
+        }
+
         public Item CalculateItemDates(Item item)
         {
             item.DateOfLastUpdate = DateTime.Now;
@@ -18,6 +27,38 @@ namespace HeyCurator_MVC.Services
             item.DateOfLastUpdate = DateTime.Now;
             item.UpdateByDate = DateTime.Now.AddDays(item.DaysBetweenUpdates);
             item.DateNotifyCurators = item.UpdateByDate.AddDays(item.DaysBeforeNotifyAllCurators);
+            _context.Items.Update(item);
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to Update Item Update Dates.");
+            }
+        }
+        public void UpdateItemDates(Item item, DateTime timestamp)
+        {
+            item.DateOfLastUpdate = timestamp;
+            item.UpdateByDate = timestamp.AddDays(item.DaysBetweenUpdates);
+            item.DateNotifyCurators = item.UpdateByDate.AddDays(item.DaysBeforeNotifyAllCurators);
+
+            _context.Items.Update(item);
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to Update Item Update Dates.");
+            }
+
         }
         public List<DateTime> CalculateItemDates(int daysBetweenUpdates, int daysBeforeNotifyAllCurators)
         {

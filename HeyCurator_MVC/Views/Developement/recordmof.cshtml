@@ -1,0 +1,73 @@
+﻿@model HeyCurator_MVC.Models.Record
+
+<h4>Record</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="recordmof">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RecordId" />
+            <div class="form-group">
+                <label asp-for="RecordedCount" class="control-label"></label>
+                <input asp-for="RecordedCount" class="form-control" />
+                <span asp-validation-for="RecordedCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemInStorageId" class="control-label"></label>
+                <select asp-for="ItemInStorageId" class="form-control" asp-items="ViewBag.ItemInStorageId"></select>
+                <span asp-validation-for="ItemInStorageId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeStamp" class="control-label"></label>
+                <input asp-for="TimeStamp" class="form-control" />
+                <span asp-validation-for="TimeStamp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstVerifierId" class="control-label"></label>
+                <select asp-for="FirstVerifierId" class="form-control" asp-items="ViewBag.FirstVerifierId"></select>
+                <span asp-validation-for="FirstVerifierId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondVefifierId" class="control-label"></label>
+                <select asp-for="SecondVefifierId" class="form-control" asp-items="ViewBag.SecondVefifierId"></select>
+                <span asp-validation-for="SecondVefifierId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CuratorVerified" /> @Html.DisplayNameFor(model => model.CuratorVerified)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsChallenged" /> @Html.DisplayNameFor(model => model.IsChallenged)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="SecondaryVefified" /> @Html.DisplayNameFor(model => model.SecondaryVefified)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecordNote" class="control-label"></label>
+                <input asp-for="RecordNote" class="form-control" />
+                <span asp-validation-for="RecordNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    ViewData["Username"] = _httpContext.HttpContext.Session.GetString("username") ?? "Default";
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />

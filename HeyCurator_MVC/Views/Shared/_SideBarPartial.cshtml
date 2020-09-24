@@ -14,7 +14,7 @@
         employeeId = _context.Employees.Where(e=> e.EmployeeUserName == name).FirstOrDefault().EmployeeId;
         roles = _context.EmployeeRoles.Where(e => e.EmployeeId == employeeId).Include(e=> e.CuratorRole).ToList();
     }
-    var username = _httpContext.HttpContext.Session.GetString("username") ?? "Default";
+    var username = ViewData["Username"];
 }
 
 <nav class="flex flex-col bg-yellow-200 dark:bg-gray-900 w-64 px-12 pt-4 pb-6">

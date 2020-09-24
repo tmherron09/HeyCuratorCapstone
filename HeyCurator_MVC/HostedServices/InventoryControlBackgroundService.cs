@@ -36,6 +36,7 @@ namespace HeyCurator_MVC.HostedServices
 
                    CheckDatabaseForExpirations();
                    CheckForUpdateAllCurator();
+                   RemoveUpdatedItems();
 
                    await Task.Delay(60000);
                }
@@ -104,6 +105,23 @@ namespace HeyCurator_MVC.HostedServices
                         _context.SaveChanges();
                     }
                     EventTrigger.UpdatedPendingItems();
+                }
+            }
+        }
+
+        public void RemoveUpdatedItems()
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var _context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                var updatedItems = _context.ExpiredUpdateItems.Include(e => e.Item).Where(e => e.Item.UpdateByDate > DateTime.Now).ToList();
+                for(int i =0; i < updatedItems.Count(); i++)
+                {
+                    _context.ExpiredUpdateItems.Remove(updatedItems[i]);
+                }
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
                 }
             }
         }

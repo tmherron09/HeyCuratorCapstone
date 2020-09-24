@@ -1,0 +1,32 @@
+﻿@model Record
+
+
+<div class="modal-header">
+    <h5 class="modal-title" id="displayRecodModalLabel">Edit Record</h5>
+</div>
+<div class="modal-body">
+     <h3>Update Record below.</h3>
+
+     <form asp-action="ModifyRecord" method="post">
+         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+         <input type="hidden" asp-for="RecordId" />
+         <input type="hidden" asp-for="ItemInStorageId" />
+         <input type="hidden" asp-for="EmployeeId" />
+         <input type="hidden" asp-for="CuratorVerified" />
+         <div class="form-group">
+             <label asp-for="RecordedCount" class="control-label"></label>
+             <input asp-for="RecordedCount" class="form-control" />
+             <span asp-validation-for="RecordedCount" class="text-danger"></span>
+         </div>
+         <div class="form-group">
+             <label asp-for="RecordNote" class="control-label"></label>
+             <textarea rows="5" asp-for="RecordNote" class="form-control">
+@Model.RecordNote
+</textarea>
+             <span asp-validation-for="RecordNote" class="text-danger"></span>
+         </div>
+         <div class="form-group">
+             <input type="submit" value="Update Record" class="btn btn-primary" />
+         </div>
+     </form>
+</div>

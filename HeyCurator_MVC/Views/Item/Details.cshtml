@@ -5,7 +5,7 @@
 
     var itemId = 1;
 
-    if(Model != null)
+    if (Model != null)
     {
         itemId = Model.ItemId;
     }
@@ -70,23 +70,23 @@
         </dd>
     </dl>
 </div>
-<div>
-    <button type="button" id="modalButton" data-id="@Model.ItemId"  class="btn btn-primary" >
-        Jquery Record
+<div class="flex flex-row mx-10 my-4">
+    <button type="button" id="modalButton" data-id="@Model.ItemId" class="flex-initial bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 border border-blue-800 rounded">
+        Add New Record
     </button>
     @*<button type="button" onclick="viewModal()" class="btn btn-primary" data-toggle="modal" data-target="#createRecordModal">
-        Onclick Record
-    </button>*@
+            Onclick Record
+        </button>*@
 </div>
 
 
 <div id="recordsTable" class="mx-10 flex justify-center bg-white dark:bg-gray-600 shadow-xl rounded-lg cursor-pointer">
 
-    </div>
-    @section Scripts {
+</div>
+@section Scripts {
 
 
-        <script>
+    <script>
         var id = @itemId;
 
         $(document).ready(function () {
@@ -112,10 +112,6 @@
             $('#displayModal').modal('show');
         };
 
-        </script>
+    </script>
 
-
-
-
-
-    }
+}
