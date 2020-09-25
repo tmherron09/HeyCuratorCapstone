@@ -1,0 +1,27 @@
+﻿@model AnonymousQuestion
+
+
+<form asp-action="AskQuestion" method="post">
+    <div class="form-group">
+        <label class="sr-only">Question Header</label>
+        <input asp-for="QuestionHeader" class="w-1/2 overflow-y-auto overscroll-contain border-2 bg-gray-200 bg-opacity-75 p-1" placeholder="Question Header..." />
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="message">Question body</label>
+        <textarea asp-for="Question" class="w-full overflow-y-auto overscroll-contain border-2 bg-gray-200 bg-opacity-75 p-2" rows="3" placeholder="What are you curious about?" style="resize: none"></textarea>
+    </div>
+    <div class="btn-toolbar justify-content-between">
+        <div class="btn-toolbar justify-content-between">
+            <div class="form-group">
+                <input type="submit" value="Share" class="bg-indigo-400 hover:bg-indigo-600 text-white border-b-2 border-gray-300 p-2 rounded-md" />
+            </div>
+        </div>
+        <div>
+            <span class="text-black font-semibold text-opacity-50 ">
+                Reminder: Your name is not made visable to other users.
+                <br />
+                However, your information is attached to the database record.
+            </span>
+        </div>
+    </div>
+</form>

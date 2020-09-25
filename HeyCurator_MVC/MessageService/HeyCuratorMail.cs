@@ -45,5 +45,10 @@ namespace HeyCurator_MVC.MessageService
         // messages or stored for HR reasons.
         public bool SenderDeleted { get; set; }
         public bool RecipientDeleted { get; set; }
+
+        [ForeignKey("HeyCuratorMail")]
+        public int? ResponseId { get; set; }
+        public HeyCuratorMail Response { get; set; }
+
     }
 }

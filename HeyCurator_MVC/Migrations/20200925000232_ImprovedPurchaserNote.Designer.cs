@@ -4,68 +4,22 @@ using HeyCurator_MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HeyCurator_MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200925000232_ImprovedPurchaserNote")]
+    partial class ImprovedPurchaserNote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("HeyCurator_MVC.AnonymousQuestionBoard.AnonymousComment", b =>
-                {
-                    b.Property<Guid>("AnonymousCommentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AnonymousQuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CommentBody")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AnonymousCommentId");
-
-                    b.HasIndex("AnonymousQuestionId");
-
-                    b.ToTable("AnonymousComments");
-                });
-
-            modelBuilder.Entity("HeyCurator_MVC.AnonymousQuestionBoard.AnonymousQuestion", b =>
-                {
-                    b.Property<Guid>("AnonymousQuestionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Question")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("QuestionHeader")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TimePosted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AnonymousQuestionId");
-
-                    b.ToTable("AnonymousQuestions");
-                });
 
             modelBuilder.Entity("HeyCurator_MVC.MessageService.HeyCuratorMail", b =>
                 {
@@ -90,9 +44,6 @@ namespace HeyCurator_MVC.Migrations
                     b.Property<int?>("RecipientId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ResponseId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("SenderDeleted")
                         .HasColumnType("bit");
 
@@ -106,8 +57,6 @@ namespace HeyCurator_MVC.Migrations
                     b.HasKey("HeyCuratorMailId");
 
                     b.HasIndex("RecipientId");
-
-                    b.HasIndex("ResponseId");
 
                     b.HasIndex("SenderId");
 
@@ -643,22 +592,22 @@ namespace HeyCurator_MVC.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8f9a149d-6759-485c-b5f2-94fe6a10a2f4",
-                            ConcurrencyStamp = "3f4b2b5d-bbf7-446d-a563-b30f00203a55",
+                            Id = "73089899-7552-46a5-9e81-4d20469bc488",
+                            ConcurrencyStamp = "c11c2d43-55c7-4c77-b7b4-6dd664d731a1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "69146749-fdc8-4481-a202-a6cd85da39b7",
-                            ConcurrencyStamp = "659a24a5-7cd3-4a11-8dc6-d768b40552ee",
+                            Id = "5a60b766-6a97-4233-ab19-c7f04bebeacd",
+                            ConcurrencyStamp = "c2dbab30-2742-48f3-bbf3-114ca337d331",
                             Name = "Curator",
                             NormalizedName = "CURATOR"
                         },
                         new
                         {
-                            Id = "37cbc8e6-21c6-40d7-bcec-f932126f7196",
-                            ConcurrencyStamp = "f3a718ee-5cec-4c86-8279-985882d31d53",
+                            Id = "d81ef23f-9224-42ae-8ead-a13d2949ef01",
+                            ConcurrencyStamp = "8a7e000d-d54c-49f8-9b95-df4294279a21",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -837,24 +786,11 @@ namespace HeyCurator_MVC.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("HeyCurator_MVC.AnonymousQuestionBoard.AnonymousComment", b =>
-                {
-                    b.HasOne("HeyCurator_MVC.AnonymousQuestionBoard.AnonymousQuestion", "AnonymousQuestion")
-                        .WithMany("AnonymousComments")
-                        .HasForeignKey("AnonymousQuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("HeyCurator_MVC.MessageService.HeyCuratorMail", b =>
                 {
                     b.HasOne("HeyCurator_MVC.Models.Employee", "Recipient")
                         .WithMany()
                         .HasForeignKey("RecipientId");
-
-                    b.HasOne("HeyCurator_MVC.MessageService.HeyCuratorMail", "Response")
-                        .WithMany()
-                        .HasForeignKey("ResponseId");
 
                     b.HasOne("HeyCurator_MVC.Models.Employee", "Sender")
                         .WithMany()

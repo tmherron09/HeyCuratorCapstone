@@ -11,14 +11,17 @@ namespace HeyCurator_MVC.AnonymousQuestionBoard
         [Key]
         public Guid AnonymousQuestionId { get; set; }
 
-        [Required]
+        
         public string UserId { get; set; }
-        [Required]
+
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{h:mm:ss tt, M/d}")]
         public DateTime TimePosted { get; set; }
 
+        public string QuestionHeader { get; set; }
+
         public string Question { get; set; }
 
+        public ICollection<AnonymousComment> AnonymousComments { get; set; }
 
 
     }

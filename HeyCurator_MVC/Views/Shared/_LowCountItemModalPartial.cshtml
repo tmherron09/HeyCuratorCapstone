@@ -1,0 +1,39 @@
+﻿@model LowCountItem
+
+
+<div class="modal-header">
+    <h5 class="modal-title" id="displayRecodModalLabel">Options</h5>
+</div>
+<div class="modal-body">
+    <h3>Update Record below.</h3>
+
+
+    <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+        <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+            <div class="shadow-lg bg-red-vibrant border-l-8 hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
+                <div class="p-4 flex flex-col">
+                    <a href="#" class="no-underline text-white text-2xl">
+                        Go to @Model.Item.Name Details Page
+                    </a>
+                    <a asp-controller="Item" asp-action="Details" asp-route-id="@Model.Item.ItemId" class="no-underline text-white text-lg">
+                        @Model.Item.Name
+                    </a>
+                </div>
+            </div>
+
+            <div class="shadow bg-success border-l-8 hover:bg-success-dark border-success-dark mb-2 p-2 md:w-1/4 mx-2">
+                <div class="p-4 flex flex-col">
+                    <a href="#" class="no-underline text-white text-2xl">
+                        Create Purchase Notification
+                    </a>
+                    <a  class="no-underline text-white text-lg">
+                        @Model.Item.Name
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

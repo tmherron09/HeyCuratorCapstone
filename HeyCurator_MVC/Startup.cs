@@ -61,6 +61,7 @@ namespace HeyCurator_MVC
             services.AddScoped<ItemCountService>();
             services.AddScoped<RecordAccessService>();
             services.AddScoped<ExpiredItemUpdateService>();
+            services.AddScoped<LowItemCountService>();
             /* Model Behind the scenes services for auto creating values and relations */
             services.AddScoped<ItemDateService>();
 

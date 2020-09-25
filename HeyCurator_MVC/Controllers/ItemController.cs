@@ -34,8 +34,11 @@ namespace HeyCurator_MVC.Controllers
 
         public IActionResult Index()
         {
+
+            var items = _context.Items.AsEnumerable();
+
             // Return the search page view.
-            return View();
+            return View(items);
         }
 
 

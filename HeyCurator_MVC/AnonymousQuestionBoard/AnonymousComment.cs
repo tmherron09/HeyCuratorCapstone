@@ -12,16 +12,19 @@ namespace HeyCurator_MVC.AnonymousQuestionBoard
         [Key]
         public Guid AnonymousCommentId { get; set; }
 
-        [Required]
+        
         [ForeignKey("AnonymousQuestion")]
-        public int AnonymouseId { get; set; }
+        public Guid AnonymousQuestionId { get; set; }
         public AnonymousQuestion AnonymousQuestion { get; set; }
 
-        [Required]
+        
         public string UserId { get; set; }
-        [Required]
+
+        
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{h:mm:ss tt, M/d}")]
         public DateTime TimeStamp{ get; set; }
 
+
+        public string CommentBody { get; set; }
     }
 }

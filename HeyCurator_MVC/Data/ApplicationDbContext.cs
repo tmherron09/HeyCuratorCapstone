@@ -1,4 +1,5 @@
-﻿using HeyCurator_MVC.MessageService;
+﻿using HeyCurator_MVC.AnonymousQuestionBoard;
+using HeyCurator_MVC.MessageService;
 using HeyCurator_MVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -86,7 +87,10 @@ namespace HeyCurator_MVC.Data
         public DbSet<ExhibitSpace> ExhibitSpaces { get; set; }
         public DbSet<ExhibitItemInStorage> ExhibitItemInStorages { get; set; }
         public DbSet<HeyCuratorMail> HeyCuratorMails { get; set; }
+        public DbSet<LowCountItem> LowCountItems { get; set; }
 
+        public DbSet<AnonymousQuestion> AnonymousQuestions { get; set; }
+        public DbSet<AnonymousComment> AnonymousComments { get; set; }
 
 
     }

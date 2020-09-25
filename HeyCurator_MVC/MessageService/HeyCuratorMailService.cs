@@ -44,6 +44,14 @@ namespace HeyCurator_MVC.MessageService
             mailbox.SentMail = GetSentMail(employeeMail, employee);
             return mailbox;
         }
+
+        public IEnumerable<HeyCuratorMail> GetMailBoxAll(string username)
+        {
+            Employee employee = _context.Employees.Where(e => e.EmployeeUserName == username).FirstOrDefault();
+            return GetMailBoxAll(employee);
+
+        }
+
         public IEnumerable<HeyCuratorMail> GetMailBoxAll(Employee employee) =>
             _context.HeyCuratorMails.Where(m => m.SenderId == employee.EmployeeId && m.RecipientId == employee.EmployeeId).AsEnumerable();
 

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<HeyCurator_MVC.Models.Item>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<!--Grid row-->
+<div class="row">
+
+    <!--Grid column-->
+    <div class="col-lg-4 col-md-12 mb-4">
+
+        <!-- Admin card -->
+        <div class="card mt-3">
+
+            <div class="">
+                <i class="far gg-bell primary-color z-depth-2 p-4 ml-3 mt-n3 rounded text-white"></i>
+                <div class="float-right text-right p-3">
+                    <p class="text-uppercase text-muted mb-1"><small>sales</small></p>
+                    <h4 class="font-weight-bold mb-0">23 000$</h4>
+                </div>
+            </div>
+
+            <div class="card-body pt-0">
+
+                <p class="card-text">Let's test this!</p>
+            </div>
+
+        </div>
+        <!-- Admin card -->
+
+    </div>
+    <!--Grid column-->
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MinCount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DaysBetweenUpdates)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DaysBeforeNotifyAllCurators)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateOfLastUpdate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UpdateByDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateNotifyCurators)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RecordedStorageAmount)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MinCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DaysBetweenUpdates)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DaysBeforeNotifyAllCurators)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfLastUpdate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdateByDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateNotifyCurators)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RecordedStorageAmount)
+                    </td>
+                    <td><a asp-action="Details" asp-route-id="@item.ItemId">Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>

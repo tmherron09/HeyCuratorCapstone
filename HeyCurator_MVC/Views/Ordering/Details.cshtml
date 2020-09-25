@@ -1,0 +1,91 @@
+﻿@model HeyCurator_MVC.Models.PurchaserNotification
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Item)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Employee.EmployeeUserName)
+        </dd>
+        <dt class="col-sm-2">
+            Date of Request
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+        <dt class="col-sm-2">
+            Amount as of Request
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CurrentStock)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AmountRequested)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AmountRequested)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OrderUrgency)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrderUrgency)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CuratorNote)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CuratorNote)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PurchaserNote)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PurchaserNote)
+        </dd>
+        @if (Model.OrderRefId == null || Model.OrderRefId == 0)
+        {
+            // Nothing
+        }
+        else
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.OrderRefId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OrderRefId)
+            </dd>
+        }
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsFullFilled)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.IsFullFilled)
+            {
+                <i class=" gg-check-r  mx-auto my-auto place-self-center"></i>
+            }
+            else
+            {
+                <i class="gg-close-r mx-auto my-auto place-self-center"></i>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PurchaserNotificationId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
