@@ -4,61 +4,50 @@
     ViewData["Title"] = "Register New Employee";
 }
 
-<h1 class="mt-10">@ViewData["Title"]</h1>
-<hr />
-<div class="row mx-auto">
-    <div class="col-md-8">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            @*<div asp-validation-summary="All" class="text-danger"></div>*@
-            <div class="form-group">
-                <label asp-for="Input.Email" class="block text-gray-600 text-sm font-semibold mb-2"></label>
-                <input asp-for="Input.Email" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
-                <br />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password" class="block text-gray-600 text-sm font-semibold mb-2"></label>
-                <input asp-for="Input.Password" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
-                <br />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword" class="block text-gray-600 text-sm font-semibold mb-2"></label>
-                <input asp-for="Input.ConfirmPassword" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
-                <br />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.FirstName" class="block text-gray-600 text-sm font-semibold mb-2"></label>
-                <input asp-for="Input.FirstName" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
-                <br />
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.LastName" class="block text-gray-600 text-sm font-semibold mb-2"></label>
-                <input asp-for="Input.LastName" class="border-b-2 border-gray-400 focus-within:border-teal-500" />
-                <br />
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
+@*<h1 class="mt-10">@ViewData["Title"]</h1>
+    <hr />
+    <div class="row mx-auto">
+        <div class="col-md-8">*@
+<div class="container mx-auto">
+    <div class="w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
+        <h3 class="pt-4 text-2xl text-center">Register New Employee.</h3>
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+            <div class="mb-4 md:flex md:justify-between">
+                <div class="mb-4 md:mr-2 md:mb-0">
 
-            @*<div class="form-group">
-                    <label asp-for="Input.Role"></label>
-                    <select asp-for="Input.Role" class="border-b-2 border-gray-400 focus-within:border-teal-500" aspitems="@regModel.Roles" disabled="@Model.Input.IsCurator"></select>
-                    <span asp-validation-for="Input.Role" class="text-danger"></span>
-                </div>*@
-            <div class="form-group">
-                <label asp-for="Input.CuratorRoleId" class="block text-gray-600 text-sm font-semibold mb-2"></label>
-                <select asp-for="Input.CuratorRoleId" class="form-control" asp-items="@Model.CuratorRoles"></select>
-                <br />
-                <span asp-validation-for="Input.CuratorRoleId" class="text-danger"></span>
+                    <label asp-for="Input.FirstName" class="block mb-2 text-sm font-bold text-gray-700">Employee's First Name</label>
+                    <input asp-for="Input.FirstName" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                </div>
+                <div class="md:ml-2">
+
+                    <label asp-for="Input.LastName" class="block mb-2 text-sm font-bold text-gray-700">Employee's Last Name</label>
+                    <input asp-for="Input.LastName" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <div class="mb-4">
+                <label asp-for="Input.Email" class="block mb-2 text-sm font-bold text-gray-700">Employee's Email</label>
+                <input asp-for="Input.Email" class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+            </div>
+            <div class="mb-4 md:flex md:justify-between">
+                <div class="mb-4 md:mr-2 md:mb-0">
+                    <label asp-for="Input.Password" class="block mb-2 text-sm font-bold text-gray-700">Enter Standard Museum Password</label>
+                    <input asp-for="Input.Password" class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border border-red-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                </div>
+                <div class="md:ml-2">
+                    <label asp-for="Input.ConfirmPassword" class="block mb-2 text-sm font-bold text-gray-700">Confirm Password</label>
+                    <input asp-for="Input.ConfirmPassword" class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                </div>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Input.CuratorRoleId" class="block mb-2 text-sm font-bold text-gray-700">Select Initial Employee Role</label>
+                <select asp-for="Input.CuratorRoleId" class="form-control" asp-items="@Model.CuratorRoles"></select>
+            </div>
+            <div class="mb-6 text-center">
+                <button type="submit" class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Register Employee</button>
+            </div>
         </form>
     </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

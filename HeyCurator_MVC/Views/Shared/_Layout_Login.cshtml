@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Username"] = _httpContext.HttpContext.Session.GetString("username") ?? "Default";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HeyCurator_MVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/app.css" />
+    <link rel="stylesheet" href="~/css/css-gg-icon-all.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="bg-gradient-to-br from-purple-400 via-indigo-300 to-pink-500">
+
+        
+
+            <main >
+
+                    @RenderBody()
+
+            </main>
+
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

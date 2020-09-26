@@ -21,7 +21,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HeyCurator_MVC.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -143,7 +143,7 @@ namespace HeyCurator_MVC.Areas.Identity.Pages.Account
                     {
                         
 
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }

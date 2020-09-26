@@ -17,6 +17,7 @@ using HeyCurator_MVC.Services;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using HeyCurator_MVC.MessageService;
+using HeyCurator_MVC.ActionFilters;
 
 namespace HeyCurator_MVC
 {
@@ -39,6 +40,11 @@ namespace HeyCurator_MVC
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddSession();
+
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(typeof(GlobalRouting));
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();

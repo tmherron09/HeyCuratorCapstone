@@ -57,3 +57,14 @@ for (x = 0; x < myRadios.length; x++) {
         }
     };
 }
+
+
+$('[data-toggle="collapse"]').on('click', function (e) {
+    if ($(this).parents('.accordion').find('.collapse.show')) {
+        var idx = $(this).index('[data-toggle="collapse"]');
+        if (idx == $('.collapse.show').index('.collapse')) {
+            // prevent collapse
+            e.stopPropagation();
+        }
+    }
+});

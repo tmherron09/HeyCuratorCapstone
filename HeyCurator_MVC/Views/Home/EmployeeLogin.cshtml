@@ -1,0 +1,49 @@
+﻿@model HeyCurator_MVC.Areas.Identity.Pages.Account.LoginModel
+
+<div class="text-center mt-24">
+    <div class="flex items-center justify-center">
+
+        <i class="gg-user"></i>
+
+    </div>
+    <h2 class="text-4xl tracking-tight">
+        Employee Login
+    </h2>
+    <span class="text-sm">
+        @* Only Administrators can create new accounts. *@
+           <strong>Or</strong> Contact Your Administrator
+    </span>
+</div>
+<div class="flex justify-center my-2 mx-4 md:mx-0">
+    <form asp-action="LoginEmployee" class="w-full max-w-xl bg-white rounded-lg shadow-md p-6" method="post">
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <div asp-validation-summary="All" class="text-red-600"></div>
+
+            @* Email *@
+            <div class="w-full md:w-full px-3 mb-6">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" asp-for="Input.Email">Email address</label>
+                <input asp-for="Input.Email" class="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none" type='email' required>
+                <span asp-validation-for="Input.Email" class="text-red-600"></span>
+            </div>
+
+            @* Password *@
+            <div class="w-full md:w-full px-3 mb-6">
+                <label asp-for="Input.Password" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for='Password'>Password</label>
+                <input asp-for="Input.Password" class="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none" type='password' required>
+                <span asp-validation-for="Input.Password" class="text-red-600"></span>
+            </div>
+
+            @* Disabled in setting, unsure if user can override. *@
+            <div class="w-full flex items-center justify-between px-3 mb-3 ">
+                <label asp-for="Input.RememberMe" class="flex items-center w-1/2">
+                    <input asp-for="Input.RememberMe" type="checkbox" class="mr-1 bg-white shadow">
+                    <span class="text-sm text-gray-700 pt-1">Remember Me</span>
+                </label>
+            </div>
+            <div class="w-full md:w-full px-3 mb-6">
+                @* Submit *@
+                <Input type="submit" value="Sign in" class="appearance-none block w-full bg-blue-600 text-gray-100 font-bold border border-gray-200 rounded-lg py-3 px-3 leading-tight hover:bg-blue-500 focus:outline-none focus:bg-white focus:border-gray-500"/>"
+            </div>
+        </div>
+    </form>
+</div>

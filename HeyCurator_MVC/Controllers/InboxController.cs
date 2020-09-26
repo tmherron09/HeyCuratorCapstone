@@ -22,8 +22,7 @@ namespace HeyCurator_MVC.Controllers
         {
             EmployeeMailbox mailbox = _mail.GetMailBox();
 
-
-            return View();
+            return View(mailbox);
         }
 
         public PartialViewResult UnreadMail(List<HeyCuratorMail> heyCuratorMails)
