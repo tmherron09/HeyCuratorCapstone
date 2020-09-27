@@ -141,8 +141,8 @@ namespace HeyCurator_MVC.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        
 
+                        HttpContext.Session.SetString("username", user.UserName);
                         //await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
