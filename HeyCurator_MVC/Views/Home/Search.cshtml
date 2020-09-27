@@ -1,0 +1,34 @@
+﻿
+
+
+<div class="row">
+    <div class="card mx-auto w-75">
+        <div id="searchWrapper" class="m-3">
+            <input type="text" name="searchBar" id="searchBar" placeholder="Search by name" />
+            <button onclick="">
+                Search
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Test Data from API
+    </div>   <!--en dof panel-heading -->
+    <div class="panel-body">
+        <table class="table table-bordered" id="Table">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Id</th>
+            </tr>   <!--end of table-row -->
+        </table>   <!--end of table -->
+    </div> <!--end of Panel-body -->
+</div> <!--end of Panel -->
+
+
+@section Scripts {
+    <script src="~/js/search.js"></script>
+}
