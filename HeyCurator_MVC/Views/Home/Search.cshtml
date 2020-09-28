@@ -1,36 +1,73 @@
 ﻿
 
 
-<div class="row">
-    <div class="card mx-auto w-75">
-        <div id="searchWrapper" class="m-3">
-            <input type="text" name="searchBar" id="searchBar" placeholder="Search by name" />
-            <button onclick="">
-                Search
-            </button>
+
+
+
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="list-tab" data-toggle="tab" href="#lists" role="tab" aria-controls="lists" aria-selected="true">
+                    Table
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="grid-tab" data-toggle="tab" role="tab" aria-controls="grid" aria-selected="false" href="#grids">Grid</a>
+            </li>
+        </ul>
+    </div>
+    <div id="searchWrapper" class="m-3">
+        <input type="text" name="searchBar" id="searchBar" placeholder="Search by name" />
+        <button onclick="">
+            Search
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade" id="lists" role="tabpanel" aria-labelledby="list-tab">
+
+
+                @*<div class="row">
+                        <div class="card mx-auto w-75">
+
+                        </div>
+                    </div>*@
+
+
+                <div class="card ">
+                    <div class="card-header">
+                        Search Box
+                    </div>   <!--en dof panel-heading -->
+                    <div class="card-body py-4">
+                        <table class="table table-bordered" id="Table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Color</th>
+                                <th>Icon</th>
+                                <th>Id</th>
+                            </tr>   <!--end of table-row -->
+                        </table>   <!--end of table -->
+                    </div> <!--end of Panel-body -->
+                </div> <!--end of Panel -->
+
+            </div>
+
+
+
+            <div class="tab-pane fade show active" id="grids" role="tabpanel" aria-labelledby="grids-tab">
+
+                <section class="py-8 px-4">
+                    <div id="grid-container" class="flex flex-wrap -mx-4">
+
+                    </div>
+                </section>
+
+            </div>
         </div>
     </div>
 </div>
-
-
-<div class="card ">
-    <div class="card-header">
-    Search Box
-    </div>   <!--en dof panel-heading -->
-    <div class="card-body py-4">
-        <table class="table table-bordered" id="Table">
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Color</th>
-                <th>Icon</th>
-                <th>Id</th>
-            </tr>   <!--end of table-row -->
-        </table>   <!--end of table -->
-    </div> <!--end of Panel-body -->
-</div> <!--end of Panel -->
-
-
 @section Scripts {
 
 

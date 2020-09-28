@@ -651,9 +651,9 @@ namespace HeyCurator_MVC.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "e08844b5-2383-4340-92ef-48a62d052117", "30440c23-b06a-4914-b0b5-fe50aed5ac42", "Admin", "ADMIN" },
-                    { "b82af9c4-6647-49b1-8fff-7b6684243927", "32eb5398-9466-4718-9c95-6b381eb69891", "Curator", "CURATOR" },
-                    { "cec8c04f-9b16-424d-beae-011efb4346b5", "5dd5f125-6006-497c-b611-fca9593cd496", "Employee", "EMPLOYEE" }
+                    { "9e45d53f-49a9-460b-8e12-2bd0bfab6ef1", "41011dd3-ac3c-4416-95e3-aab5b22bf4af", "Admin", "ADMIN" },
+                    { "73fa2ebe-3716-4c64-ae53-f38194964cda", "897bf9f0-ea93-4ab2-82a5-e40fcdf274d3", "Curator", "CURATOR" },
+                    { "1ef8ab70-7946-47a6-99ff-8d906a1b9a6f", "7afce334-00a6-4491-8ea6-0a2eb1219c27", "Employee", "EMPLOYEE" }
                 });
 
             migrationBuilder.InsertData(

@@ -29,9 +29,9 @@
     <link rel="stylesheet" href="~/css/chat-popup.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
-    <div id="toaster" style="position: absolute; top: 25px; right: 25px; z-index: 10;">
-
+<body class="bg-indigo-200">
+    <div id="toaster" style="position: absolute; top: 25px; right: 25px; z-index: 1;">
+        
 
     </div>
         <!-- Begin Site Wide Modal -->
@@ -119,7 +119,7 @@
         }
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/site.js"></script>
         <script src="~/js/signalr/dist/browser/signalr.js"></script>
         @if (_signInManager.IsSignedIn(User))
         {

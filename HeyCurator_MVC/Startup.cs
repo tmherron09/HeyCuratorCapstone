@@ -52,6 +52,8 @@ namespace HeyCurator_MVC
 
             
             services.AddScoped<ClaimsPrincipal>(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
+
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             /* IHostedServices  */

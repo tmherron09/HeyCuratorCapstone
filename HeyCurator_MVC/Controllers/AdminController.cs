@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HeyCurator_MVC.Data;
+using HeyCurator_MVC.Hubs;
 using HeyCurator_MVC.Models;
 using HeyCurator_MVC.Services;
 using HeyCurator_MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HeyCurator_MVC.Controllers
@@ -18,14 +20,16 @@ namespace HeyCurator_MVC.Controllers
         private DataAccessService _data;
         private ItemCountService _itemService;
         private object dbLock;
+        private IHubContext<ChatHub> _hub;
 
-        public AdminController(ApplicationDbContext context, ItemDateService dateService, DataAccessService data, ItemCountService itemService)
+        public AdminController(ApplicationDbContext context, ItemDateService dateService, DataAccessService data, ItemCountService itemService, IHubContext<ChatHub> hub)
         {
             _context = context;
             _dateService = dateService;
             _data = data;
             _itemService = itemService;
             dbLock = new object();
+            _hub = hub;
         }
 
 
@@ -63,6 +67,8 @@ namespace HeyCurator_MVC.Controllers
                 //throw new Exception("Unable to create item.");
                 return RedirectToAction("Index");
             }
+
+            _hub.Clients.All.SendAsync("PopCustomToast", $"Item Update", $"{item.Name} has been updated by ${User.Identity.Name}.", "yellow", "fa-bell");
 
             return RedirectToAction("Index");
         }

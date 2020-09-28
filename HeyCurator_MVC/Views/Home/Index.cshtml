@@ -2,7 +2,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1>Hey Curator</h1>
+@*<h1>Hey Curator</h1>
 
 
 
@@ -11,8 +11,23 @@
     <button id="getButton" class="btn-warning">I'm the Get Button</button>
     <button id="messageJosh" class="btn-warning">Send Josh a message.</button>
 </div>
-<div class="row">
+<div class="block">
     <button id="messageTim" class="btn-warning">Send Josh a message.</button>
     <button id="getDate" class="btn-warning">Date.</button>
     <button id="testToast" class="btn-warning">Toast Away!</button>
+</div>*@
+
+<div class="flex-auto w-full mt-6">
+    <div class="block">
+        <div class="flex justify-center  my-2">
+            <partial name="_ExpiredItemHomeTablePartial" />
+
+        </div>
+    </div>
+    <div class="block">
+        <div class="flex justify-center  my-2">
+            <partial name="_LowItemCountTablePartial" />
+
+        </div>
+    </div>
 </div>

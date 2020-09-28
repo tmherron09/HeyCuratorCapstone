@@ -141,6 +141,18 @@ namespace HeyCurator_MVC.Hubs
             await Clients.All.SendAsync("PopToasts", "The Title", "The really long message that Denee has updated Dolls Count.");
 
         }
+        public async Task CustomToast(string title, string msg, string color, string icon)
+        {
+            await Clients.All.SendAsync("PopCustomToast", title, msg, color, icon);
+        }
+
+
+        public async Task CustomToastTest()
+        {
+
+            await Clients.All.SendAsync("PopCustomToast", "Title", "This is the message part of the toast.", "red", "fa-bell");
+
+        }
 
         public async Task ChatToUser(string sender, string reciever, string msg)
         {

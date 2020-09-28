@@ -77,6 +77,54 @@ namespace HeyCurator_MVC.Controllers
             return results;
         }
 
+        [HttpGet("itemConnect/{id}")]
+        public ActionResult<List<SearchResult>> FindItemConnection(int id)
+        {
+            var item = _context.Items.Where(i => i.ItemId == id)
+                .Include(i => i.ItemInStorages)
+                .ThenInclude(s=> s.Storage)
+                .SingleOrDefault();
+            if (item == null)
+            {
+
+                var result = new SearchResult();
+                return new List<SearchResult> { result };
+            }
+            List<SearchResult> unorderedResult = new List<SearchResult>();
+            var iisIds = item.ItemInStorages.Select(i => i.ItemInStorageId);
+            var exhibitIIS = _context.ExhibitItemInStorages.Where(e => iisIds.Contains(e.ItemInStorageId)).Select(e=> e.ExhibitId);
+            var exhibits = _context.Exhibits.Where(e => exhibitIIS.Contains(e.ExhibitId)).Include(e=> e.ExhibitSpace).Include(e=>e.CuratorSpace);
+            foreach (var exhibit in exhibits)
+            {
+                var result = CreateSearchResult(exhibit);
+                unorderedResult.Add(result);
+            }
+            var es = exhibits.Select(e => e.ExhibitSpace);
+            foreach (var exhibitSpace in es)
+            {
+                var result = CreateSearchResult(exhibitSpace);
+                unorderedResult.Add(result);
+            }
+            var esIds = es.Select(e => e.ExhibitSpaceId);
+            var cs = _context.ExhibitSpaces.Where(e => esIds.Contains(e.ExhibitSpaceId)).Include(e => e.CuratorSpace).Select(e => e.CuratorSpace);
+            foreach (var curatorSpace in cs)
+            {
+                var result = CreateSearchResult(curatorSpace);
+                unorderedResult.Add(result);
+            }
+            foreach(var iis in item.ItemInStorages)
+            {
+                var result = CreateSearchResult(iis.Storage);
+                unorderedResult.Add(result);
+            }
+
+
+            List<SearchResult> results = unorderedResult.OrderBy(r => r.Name).ToList();
+            return results;
+        }
+
+
+
         #endregion
 
 

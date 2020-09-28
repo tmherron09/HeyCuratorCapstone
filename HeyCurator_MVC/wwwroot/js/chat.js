@@ -102,6 +102,12 @@ $(document).ready(function () {
         PopToast(title, msg);
     });
 
+    connection.on("PopCustomToast", function (title, msg, color, icon) {
+        PopNewToast(title, msg, color, icon);
+    });
+
+
+
 
     $('#getButton').click(function () {
         connection.invoke('GetListOfUsers');
@@ -123,7 +129,7 @@ $(document).ready(function () {
         connection.invoke('CheckItemPersistence');
     });
     $('#testToast').click(function () {
-        connection.invoke('TestToast');
+        connection.invoke('CustomToastTest');
     });
 
     $("#chat-submit").click(function (e) {
@@ -282,6 +288,27 @@ function PopToast(title, msg) {
     setTimeout(() => {
         closeToast()
     }, 10000);
+};
+
+function PopNewToast(title, msg, color, icon) {
+    $('#toaster').hide().fadeIn(300);
+    $('#toaster').append(
+        `<div class="bg-white border-l-4 border-${color}-300 p-4 py-6 rounded shadow-lg flex items-center justify-between mb-6">
+            <span class="fa-stack fa-2x sm:mr-2 mb-3">
+                <i class="fas fa-circle text-${color}-dark fa-stack-2x"></i>
+                <i class="fas ${icon} fa-stack-1x text-white"></i>
+            </span>
+            <div class="sm:text-left text-center sm:mb-0 mb-3 w-128">
+                <p class="font-bold mb-1 text-lg">${title}</p>
+                <p class="text-grey-dark inline-block">${msg}</p>
+            </div>
+            <button onclick="closeToast()"> <i class="fas fa-times mx-4 fa-2x text-grey-darker"></i> </button>
+        </div>`
+    )
+
+    //setTimeout(() => {
+    //    closeToast()
+    //}, 10000);
 };
 
 function closeToast() {

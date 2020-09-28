@@ -14,7 +14,9 @@
     var records = _context.Records.OrderByDescending(records => records.TimeStamp).Take(10).ToList();
 }
 
-<h1>Details</h1>
+
+
+
 
 <div>
     <h4>Item</h4>
@@ -71,26 +73,72 @@
     </dl>
 </div>
 
-<div class="flex border-6 border-indigo-100">
-
-    
-
-</div>
-
-
 <div class="flex flex-row mx-10 my-4">
     <button type="button" id="modalButton" data-id="@Model.ItemId" class="flex-initial bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 border border-blue-800 rounded">
         Add New Record
     </button>
-    @*<button type="button" onclick="viewModal()" class="btn btn-primary" data-toggle="modal" data-target="#createRecordModal">
-            Onclick Record
-        </button>*@
 </div>
 
 
-<div id="recordsTable" class="mx-10 flex justify-center bg-white dark:bg-gray-600 shadow-xl rounded-lg cursor-pointer">
+<div id="recordsTable" class="  mx-10 flex justify-center bg-white dark:bg-gray-600 shadow-xl rounded-lg cursor-pointer">
 
 </div>
+
+
+<div class="card-header mt-10">
+    <div class="card-header">
+        Details Box
+    </div>
+
+    @* Start of MarkDown *@
+    @* MD- Pipeline throwing errors, note retry Markdig and not northwind. *@
+    <h1 class="code-line" data-line-start=0 data-line-end=1><a id="Plinko_0"></a>Plinko</h1>
+    <p class="has-line-data" data-line-start="2" data-line-end="3">The Plinko exhibit is a fun exhibit where kids can watch the random yet probable path of balls sent down.</p>
+    <h2 class="code-line" data-line-start=4 data-line-end=5><a id="Year_Introduced_2014_4"></a>Year Introduced: 2014</h2>
+    <p class="has-line-data" data-line-start="5" data-line-end="6">Prior to it’s introduction this spot housed the pneumatic tubes. A fun exhibit where kids could use tubes similar to what they would see at bank drive-throughs to send messages back and forth.</p>
+    <blockquote>
+        <p class="has-line-data" data-line-start="6" data-line-end="7">The exhibit gets it’s name from the Japanese game of the same name.</p>
+    </blockquote>
+    <h3 class="code-line" data-line-start=8 data-line-end=9><a id="Connected_Exhibits_8"></a>Connected Exhibits</h3>
+    <p class="has-line-data" data-line-start="9" data-line-end="10">Plinko is connected to both the Archimedes Screw and the Work Together ball exhibit. Both paths lead to the top of the Plinko. {.text-primary}</p>
+    <h2 class="code-line" data-line-start=12 data-line-end=13><a id="Items_12"></a>Items</h2>
+    <ul>
+        <li class="has-line-data" data-line-start="14" data-line-end="15">Expo Markers</li>
+        <li class="has-line-data" data-line-start="15" data-line-end="17">Wooden Balls</li>
+    </ul>
+    <h1 class="code-line" data-line-start=17 data-line-end=18><a id="Education_17"></a>Education</h1>
+    <p class="has-line-data" data-line-start="19" data-line-end="20">The Plinko exhibit while it demonstrates the bell curve of probable paths, it is a fun exhibit to talk to kids about how the path is random each time.</p>
+    <h2 class="code-line" data-line-start=21 data-line-end=22><a id="End_of_Day_21"></a>End of Day</h2>
+    <h3 class="code-line" data-line-start=22 data-line-end=23><a id="Cleaning_22"></a>Cleaning</h3>
+    <p class="has-line-data" data-line-start="23" data-line-end="24">At the end of day, staff should ensure all stuck balls has been loosened. No debris should be found inside. 2-3 wooden balls should sit in the bottom landing/feed shelf.</p>
+    <h3 class="code-line" data-line-start=24 data-line-end=25><a id="Restock_24"></a>Restock</h3>
+    <p class="has-line-data" data-line-start="25" data-line-end="26">Restock should be tied to all Balls N’ Motion exhibits. An AFM or Manager should assist if needed. <strong>Attention/Reminder</strong> Wooden Balls are restocked on a weekly basis. Wooden balls should not be put out unless as a full set or instructed by the Manager on Duty.</p>
+    <h2 class="code-line" data-line-start=27 data-line-end=28><a id="Maintenance_27"></a>Maintenance</h2>
+    <blockquote>
+        <p class="has-line-data" data-line-start="28" data-line-end="30">
+            Throughout the day and during rotation check the bottom of the Archimedes screw for stuck wooden balls. Any key or thin flat utensil can open the bottom hatch door. Remove door and pull out any stuck balls.<br>
+            &lt;img src=’<a href="https://cdnimg.webstaurantstore.com/images/products/large/373449/1969346.jpg%E2%80%99">https://cdnimg.webstaurantstore.com/images/products/large/373449/1969346.jpg’</a> width=’50%’/&gt;
+        </p>
+    </blockquote>
+    <p class="has-line-data" data-line-start="31" data-line-end="33">
+        <img src="https://cdnimg.webstaurantstore.com/images/products/large/373449/1969346.jpg" alt="Image of Expo marker we use."><br>
+        &lt;/div&gt;
+    </p>
+    <h2 class="code-line" data-line-start=34 data-line-end=35><a id="Checklist_Points_34"></a>Checklist Points</h2>
+    <p class="has-line-data" data-line-start="36" data-line-end="37">You can publish your file by opening the <strong>Publish</strong> sub-menu and by clicking <strong>Publish to</strong>. For some locations, you can choose between the following formats:</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
 @section Scripts {
 
 
