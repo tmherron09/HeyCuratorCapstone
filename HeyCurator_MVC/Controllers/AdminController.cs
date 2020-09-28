@@ -45,7 +45,11 @@ namespace HeyCurator_MVC.Controllers
             {
                 return View("Index");
             }
+
+
             _dateService.UpdateItemDates(item);
+            item.RecordedStorageAmount = 0;
+
             _context.Items.Add(item);
             try
             {
@@ -56,7 +60,8 @@ namespace HeyCurator_MVC.Controllers
             }
             catch
             {
-                throw new Exception("Unable to create item.");
+                //throw new Exception("Unable to create item.");
+                return RedirectToAction("Index");
             }
 
             return RedirectToAction("Index");

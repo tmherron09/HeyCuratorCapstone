@@ -1,4 +1,19 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+@inject SignInManager<IdentityUser> _signInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+@{
+    string user = "Not passed.";
+    if (_signInManager.IsSignedIn(User))
+    {
+        user = _httpContext.HttpContext.Session.GetString("username") ?? "Default";
+    }
+}
+
+
+@{
     ViewData["Username"] = _httpContext.HttpContext.Session.GetString("username") ?? "Default";
 }
 <!DOCTYPE html>
@@ -9,13 +24,17 @@
     <title>@ViewData["Title"] - HeyCurator_MVC</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/app.css" />
+    <link rel="stylesheet" href="~/css/all.css" />
     <link rel="stylesheet" href="~/css/css-gg-icon-all.css" />
+    <link rel="stylesheet" href="~/css/chat-popup.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    <div id="toaster" style="position: absolute; top: 25px; right: 25px; z-index: 10;">
 
-        
- <!-- Begin Site Wide Modal -->
+
+    </div>
+        <!-- Begin Site Wide Modal -->
         <div class="modal fade" id="displayModal" tabindex="-1" aria-labelledby="displayRecodModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -47,12 +66,76 @@
                 <div class="mx-10 my-2">
                     @RenderBody()
                 </div>
+
+
+                @if (_signInManager.IsSignedIn(User))
+                {
+                    <div id="chat-circle" class="btn btn-raised">
+                        <div id="chat-overlay"></div>
+                        <svg width="26"
+                             height="26"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 9H7V7H17V9Z" fill="currentColor" />
+                            <path d="M7 13H17V11H7V13Z" fill="currentColor" />
+                            <path fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M2 18V2H22V18H16V22H14C11.7909 22 10 20.2091 10 18H2ZM12 16V18C12 19.1046 12.8954 20 14 20V16H20V4H4V16H12Z"
+                                  fill="currentColor" />
+                        </svg>
+                    </div>
+                    <div class="chat-box">
+                        <div class="chat-box-header">
+                            ChatBot
+                            <span class="chat-box-toggle"><i class="material-icons">close</i></span>
+                        </div>
+                        <div class="chat-box-body">
+                            <div class="chat-box-overlay">
+                            </div>
+                            <div class="chat-logs">
+
+
+                            </div><!--chat-log -->
+                        </div>
+                        <div class="chat-input">
+                            <form>
+                                <select id="availableList" name="availableSelection" class="d-block">
+                                    <option value="everyone">Everyone</option>
+                                </select>
+                                <input type="text" id="chat-input" placeholder="Send a message..." />
+                                <button type="submit" class="chat-submit" id="chat-submit"><i class="material-icons">send</i></button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+
+
+
+
             </main>
         </div>
-    }
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+        }
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/signalr/dist/browser/signalr.js"></script>
+        @if (_signInManager.IsSignedIn(User))
+        {
+            <script>
+            var userName;
+            $(document).ready(function () {
+                userName = "@user";
+
+            });
+
+            </script>
+
+            <script src="~/js/chat.js"></script>
+        }
+
+
+        @RenderSection("Scripts", required: false)
 </body>
 </html>

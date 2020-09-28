@@ -268,13 +268,13 @@ namespace HeyCurator_MVC.Controllers
             var storages = _context.Storages.Where(i => i.Name.Contains(input)).AsEnumerable();
             var curatorRoles = _context.CuratorRoles.Where(i => i.NameOfRole.Contains(input)).AsEnumerable();
 
-            IEnumerable<SearchResult> unorderedResult = new List<SearchResult>();
+            List<SearchResult> unorderedResult = new List<SearchResult>();
             if (items != null || items.Count() != 0)
             {
                 foreach (var item in items)
                 {
                     var result = CreateSearchResult(item);
-                    unorderedResult.Append(result);
+                    unorderedResult.Add(result);
                 }
             }
             if (exhibits != null || exhibits.Count() != 0)
@@ -282,7 +282,7 @@ namespace HeyCurator_MVC.Controllers
                 foreach (var exhibit in exhibits)
                 {
                     var result = CreateSearchResult(exhibit);
-                    unorderedResult.Append(result);
+                    unorderedResult.Add(result);
                 }
             }
             if (exhibitSpaces != null || exhibitSpaces.Count() != 0)
@@ -290,7 +290,7 @@ namespace HeyCurator_MVC.Controllers
                 foreach (var exhibitSpace in exhibitSpaces)
                 {
                     var result = CreateSearchResult(exhibitSpace);
-                    unorderedResult.Append(result);
+                    unorderedResult.Add(result);
                 }
             }
             if (curatorSpaces != null || curatorSpaces.Count() != 0)
@@ -298,7 +298,7 @@ namespace HeyCurator_MVC.Controllers
                 foreach (var curatorSpace in curatorSpaces)
                 {
                     var result = CreateSearchResult(curatorSpace);
-                    unorderedResult.Append(result);
+                    unorderedResult.Add(result);
                 }
             }
             if (employees != null || employees.Count() != 0)
@@ -306,7 +306,7 @@ namespace HeyCurator_MVC.Controllers
                 foreach (var employee in employees)
                 {
                     var result = CreateSearchResult(employee);
-                    unorderedResult.Append(result);
+                    unorderedResult.Add(result);
                 }
             }
             if (storages != null || storages.Count() != 0)
@@ -314,7 +314,7 @@ namespace HeyCurator_MVC.Controllers
                 foreach (var storage in storages)
                 {
                     var result = CreateSearchResult(storage);
-                    unorderedResult.Append(result);
+                    unorderedResult.Add(result);
                 }
             }
             if (curatorRoles != null || curatorRoles.Count() != 0)
@@ -322,7 +322,7 @@ namespace HeyCurator_MVC.Controllers
                 foreach (var role in curatorRoles)
                 {
                     var result = CreateSearchResult(role);
-                    unorderedResult.Append(result);
+                    unorderedResult.Add(result);
                 }
             }
 
@@ -343,6 +343,8 @@ namespace HeyCurator_MVC.Controllers
             {
                 Name = item.Name,
                 Type = "Item",
+                Color = "orange",
+                Icon = "<i class=\"fas fa-cubes\"></i>",
                 Id = item.ItemId
             };
             return result;
@@ -353,6 +355,8 @@ namespace HeyCurator_MVC.Controllers
             {
                 Name = exhibit.Name,
                 Type = "Exhibit",
+                Color = "indigo",
+                Icon = "<i class='fas fa-shapes'></i>",
                 Id = exhibit.ExhibitId
             };
             return result;
@@ -363,6 +367,8 @@ namespace HeyCurator_MVC.Controllers
             {
                 Name = exhibitSpace.ExhibitSpaceName,
                 Type = "Exhibit Space",
+                Color = "yellow",
+                Icon = "<i class=\"fas fa-archway\"></i>",
                 Id = exhibitSpace.ExhibitSpaceId
             };
             return result;
@@ -373,6 +379,8 @@ namespace HeyCurator_MVC.Controllers
             {
                 Name = curatorSpace.Name,
                 Type = "Curator Space",
+                Color = "teal",
+                Icon = "<i class=\"fas fa-house-user\"></i>",
                 Id = curatorSpace.CuratorSpaceId
             };
             return result;
@@ -381,8 +389,10 @@ namespace HeyCurator_MVC.Controllers
         {
             var result = new SearchResult
             {
-                Name = $"{employee.FirstName} {employee.LastName[0]}.",
+                Name = $"{employee.FirstName} {employee.LastName}.",
                 Type = "Employee",
+                Color = "red",
+                Icon = "<i class=\"fas fa-address-card\"></i>",
                 Id = employee.EmployeeId
             };
             return result;
@@ -393,6 +403,8 @@ namespace HeyCurator_MVC.Controllers
             {
                 Name = storage.Name,
                 Type = "Storage",
+                Color = "green",
+                Icon = "<i class=\"fas fa-warehouse\"></i>",
                 Id = storage.StorageId
             };
             return result;
@@ -401,9 +413,11 @@ namespace HeyCurator_MVC.Controllers
         {
             var result = new SearchResult
             {
-                Name = role.NameOfRole,
+                Name = curatorRole.NameOfRole,
                 Type = "Curator Role",
-                Id = role.CuratorRoleId
+                Color = "pink",
+                Icon = "<i class=\"fas fa-user-cog\"></i>",
+                Id = curatorRole.CuratorRoleId
             };
             return result;
         }
@@ -419,6 +433,7 @@ namespace HeyCurator_MVC.Controllers
         public string Name { get; set; }
         public string Type { get; set; }
         public string Color { get; set; }
+        public string Icon { get; set; }
         public int Id { get; set; }
 
     }

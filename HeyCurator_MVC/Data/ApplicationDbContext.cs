@@ -88,7 +88,7 @@ namespace HeyCurator_MVC.Data
         public DbSet<ExhibitItemInStorage> ExhibitItemInStorages { get; set; }
         public DbSet<HeyCuratorMail> HeyCuratorMails { get; set; }
         public DbSet<LowCountItem> LowCountItems { get; set; }
-
+        public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<AnonymousQuestion> AnonymousQuestions { get; set; }
         public DbSet<AnonymousComment> AnonymousComments { get; set; }
 

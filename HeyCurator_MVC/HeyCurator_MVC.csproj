@@ -19,6 +19,11 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+    <Folder Include="wwwroot\img\exhibit\" />
+    <Folder Include="wwwroot\img\item\" />
+    <Folder Include="wwwroot\img\curatorspace\" />
+    <Folder Include="wwwroot\img\exhibitspace\" />
+    <Folder Include="wwwroot\img\storage\" />
   </ItemGroup>
 
 </Project>

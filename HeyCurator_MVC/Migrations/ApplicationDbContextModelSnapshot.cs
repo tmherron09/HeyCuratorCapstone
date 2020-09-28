@@ -114,6 +114,27 @@ namespace HeyCurator_MVC.Migrations
                     b.ToTable("HeyCuratorMails");
                 });
 
+            modelBuilder.Entity("HeyCurator_MVC.Models.ChatMessage", b =>
+                {
+                    b.Property<int>("ChatMessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Recipient")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ChatMessageId");
+
+                    b.ToTable("ChatMessages");
+                });
+
             modelBuilder.Entity("HeyCurator_MVC.Models.CuratorRole", b =>
                 {
                     b.Property<int>("CuratorRoleId")
@@ -643,22 +664,22 @@ namespace HeyCurator_MVC.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8f9a149d-6759-485c-b5f2-94fe6a10a2f4",
-                            ConcurrencyStamp = "3f4b2b5d-bbf7-446d-a563-b30f00203a55",
+                            Id = "e08844b5-2383-4340-92ef-48a62d052117",
+                            ConcurrencyStamp = "30440c23-b06a-4914-b0b5-fe50aed5ac42",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "69146749-fdc8-4481-a202-a6cd85da39b7",
-                            ConcurrencyStamp = "659a24a5-7cd3-4a11-8dc6-d768b40552ee",
+                            Id = "b82af9c4-6647-49b1-8fff-7b6684243927",
+                            ConcurrencyStamp = "32eb5398-9466-4718-9c95-6b381eb69891",
                             Name = "Curator",
                             NormalizedName = "CURATOR"
                         },
                         new
                         {
-                            Id = "37cbc8e6-21c6-40d7-bcec-f932126f7196",
-                            ConcurrencyStamp = "f3a718ee-5cec-4c86-8279-985882d31d53",
+                            Id = "cec8c04f-9b16-424d-beae-011efb4346b5",
+                            ConcurrencyStamp = "5dd5f125-6006-497c-b611-fca9593cd496",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });

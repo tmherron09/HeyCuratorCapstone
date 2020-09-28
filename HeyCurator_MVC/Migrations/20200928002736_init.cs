@@ -3,10 +3,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HeyCurator_MVC.Migrations
 {
-    public partial class UpdateCollectionRefs : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AnonymousQuestions",
+                columns: table => new
+                {
+                    AnonymousQuestionId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    TimePosted = table.Column<DateTime>(nullable: false),
+                    QuestionHeader = table.Column<string>(nullable: true),
+                    Question = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnonymousQuestions", x => x.AnonymousQuestionId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -47,6 +62,21 @@ namespace HeyCurator_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ChatMessages",
+                columns: table => new
+                {
+                    ChatMessageId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Sender = table.Column<string>(nullable: true),
+                    Recipient = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatMessages", x => x.ChatMessageId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CuratorRoles",
                 columns: table => new
                 {
@@ -77,6 +107,27 @@ namespace HeyCurator_MVC.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Items", x => x.ItemId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AnonymousComments",
+                columns: table => new
+                {
+                    AnonymousCommentId = table.Column<Guid>(nullable: false),
+                    AnonymousQuestionId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    CommentBody = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnonymousComments", x => x.AnonymousCommentId);
+                    table.ForeignKey(
+                        name: "FK_AnonymousComments_AnonymousQuestions_AnonymousQuestionId",
+                        column: x => x.AnonymousQuestionId,
+                        principalTable: "AnonymousQuestions",
+                        principalColumn: "AnonymousQuestionId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,6 +277,29 @@ namespace HeyCurator_MVC.Migrations
                     table.PrimaryKey("PK_ExpiredUpdateItems", x => x.ExpiredUpdateItemId);
                     table.ForeignKey(
                         name: "FK_ExpiredUpdateItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LowCountItems",
+                columns: table => new
+                {
+                    ExpiredUpdateItemId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemId = table.Column<int>(nullable: false),
+                    ItemName = table.Column<string>(nullable: true),
+                    AmountInReserve = table.Column<int>(nullable: false),
+                    PurchaseNotificationMade = table.Column<bool>(nullable: false),
+                    OrderHasBeenMade = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LowCountItems", x => x.ExpiredUpdateItemId);
+                    table.ForeignKey(
+                        name: "FK_LowCountItems_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "ItemId",
@@ -448,11 +522,18 @@ namespace HeyCurator_MVC.Migrations
                     DateMessageSent = table.Column<DateTime>(nullable: false),
                     HasBeenRead = table.Column<bool>(nullable: false),
                     SenderDeleted = table.Column<bool>(nullable: false),
-                    RecipientDeleted = table.Column<bool>(nullable: false)
+                    RecipientDeleted = table.Column<bool>(nullable: false),
+                    ResponseId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HeyCuratorMails", x => x.HeyCuratorMailId);
+                    table.ForeignKey(
+                        name: "FK_HeyCuratorMails_HeyCuratorMails_ResponseId",
+                        column: x => x.ResponseId,
+                        principalTable: "HeyCuratorMails",
+                        principalColumn: "HeyCuratorMailId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -492,7 +573,8 @@ namespace HeyCurator_MVC.Migrations
                     OrderUrgency = table.Column<int>(nullable: false),
                     CuratorNote = table.Column<string>(nullable: true),
                     PurchaserNote = table.Column<string>(nullable: true),
-                    OrderRefId = table.Column<int>(nullable: true)
+                    OrderRefId = table.Column<int>(nullable: true),
+                    IsFullFilled = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -569,15 +651,10 @@ namespace HeyCurator_MVC.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "8f492bc6-bc3f-4db3-a387-b706446e2cb0", "fcacb28b-8473-4d06-9672-d576903402d6", "Admin", "ADMIN" },
-                    { "287df825-7ca3-4cc9-ba20-88ff45b7fddd", "250c1b59-6c50-4d09-b854-04827efba25a", "Curator", "CURATOR" },
-                    { "9f519b46-cb8f-4c46-ae4a-d6eea223ba5f", "8c58a743-934f-434a-86e0-afa041ecb2ee", "Employee", "EMPLOYEE" }
+                    { "e08844b5-2383-4340-92ef-48a62d052117", "30440c23-b06a-4914-b0b5-fe50aed5ac42", "Admin", "ADMIN" },
+                    { "b82af9c4-6647-49b1-8fff-7b6684243927", "32eb5398-9466-4718-9c95-6b381eb69891", "Curator", "CURATOR" },
+                    { "cec8c04f-9b16-424d-beae-011efb4346b5", "5dd5f125-6006-497c-b611-fca9593cd496", "Employee", "EMPLOYEE" }
                 });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2cfa8c64-602c-4005-8f1d-c782aab6ac38", 0, "ebe1a757-1673-4c34-8b97-b702bc5a2bc5", "Admin@admin.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEOZMRBKFYjU4nG+pWGj6PHT1PcftraGfdhAlnPGfXAyVZh4cGmiToxqw0rqicLCx1A==", null, false, "9bcda4e7-deb6-4c53-ac21-7d25bfdf7f0b", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "CuratorRoles",
@@ -592,6 +669,11 @@ namespace HeyCurator_MVC.Migrations
                 table: "Storages",
                 columns: new[] { "StorageId", "AccessLevel", "CuratorSpaceId", "Name", "StorageType" },
                 values: new object[] { 1, 7, null, "Not Declared", "Not Declared" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AnonymousComments_AnonymousQuestionId",
+                table: "AnonymousComments",
+                column: "AnonymousQuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -708,6 +790,11 @@ namespace HeyCurator_MVC.Migrations
                 column: "RecipientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HeyCuratorMails_ResponseId",
+                table: "HeyCuratorMails",
+                column: "ResponseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_HeyCuratorMails_SenderId",
                 table: "HeyCuratorMails",
                 column: "SenderId");
@@ -731,6 +818,11 @@ namespace HeyCurator_MVC.Migrations
                 name: "IX_ItemInStorages_StorageId",
                 table: "ItemInStorages",
                 column: "StorageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LowCountItems_ItemId",
+                table: "LowCountItems",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_EmployeeId",
@@ -896,6 +988,9 @@ namespace HeyCurator_MVC.Migrations
                 table: "Records");
 
             migrationBuilder.DropTable(
+                name: "AnonymousComments");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -911,6 +1006,9 @@ namespace HeyCurator_MVC.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ChatMessages");
+
+            migrationBuilder.DropTable(
                 name: "EmployeeRoles");
 
             migrationBuilder.DropTable(
@@ -923,6 +1021,9 @@ namespace HeyCurator_MVC.Migrations
                 name: "HeyCuratorMails");
 
             migrationBuilder.DropTable(
+                name: "LowCountItems");
+
+            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
@@ -930,6 +1031,9 @@ namespace HeyCurator_MVC.Migrations
 
             migrationBuilder.DropTable(
                 name: "StorageCuratorSpaces");
+
+            migrationBuilder.DropTable(
+                name: "AnonymousQuestions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

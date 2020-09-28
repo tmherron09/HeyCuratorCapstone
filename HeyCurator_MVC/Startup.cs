@@ -18,6 +18,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using HeyCurator_MVC.MessageService;
 using HeyCurator_MVC.ActionFilters;
+using HeyCurator_MVC.Hubs;
 
 namespace HeyCurator_MVC
 {
@@ -71,7 +72,8 @@ namespace HeyCurator_MVC
             /* Model Behind the scenes services for auto creating values and relations */
             services.AddScoped<ItemDateService>();
 
-            
+            services.AddSignalR();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +105,7 @@ namespace HeyCurator_MVC
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }

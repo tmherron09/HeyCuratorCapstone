@@ -90,7 +90,7 @@ namespace HeyCurator_MVC.Areas.Identity.Pages.Account
                     
 
                     HttpContext.Session.SetString("username", username);
-                    HttpContext.Session.SetInt32("Number", 500);
+                    
 
                     return LocalRedirect(returnUrl);
                 }

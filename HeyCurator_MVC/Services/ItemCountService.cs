@@ -111,8 +111,6 @@ namespace HeyCurator_MVC.Services
         {
             Record record = new Record();
 
-
-
         }
 
 

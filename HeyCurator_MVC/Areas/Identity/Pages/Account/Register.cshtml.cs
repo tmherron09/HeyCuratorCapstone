@@ -21,7 +21,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HeyCurator_MVC.Areas.Identity.Pages.Account
 {
-    [Authorize]
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;

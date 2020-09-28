@@ -18,6 +18,8 @@ function itemSearch(searchString) {
                         <tr>
                             <th>Name</th>
                             <th>Type</th>
+                            <th>Color</th>
+                            <th>Icon</th>
                             <th>Id</th>
                         </tr>
                         `);
@@ -25,7 +27,7 @@ function itemSearch(searchString) {
     else {
         $.ajax({
             type: "GET",
-            url: "/api/Search/itemResults/" + searchString,
+            url: "/api/Search/results/" + searchString,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -35,16 +37,27 @@ function itemSearch(searchString) {
                         <tr>
                             <th>Name</th>
                             <th>Type</th>
+                            <th>Color</th>
+                            <th>Icon</th>
                             <th>Id</th>
                         </tr>
                         `);
 
                 $.each(data, function (i, item) {
-                    var rows = "<tr>" +
-                        "<td id='Name'>" + item.name + "</td>" +
-                        "<td id='Type'>" + item.type + "</td>" +
-                        "<td id='Id'>" + item.id + "</td>" +
-                        "</tr>";
+                    var linkColumn = item.id;
+                    if (item.type === "Item") {
+                        linkColumn = "<a href='../Item/Details/" + item.id + "' class='bg-transparent hover:bg-" + item.color + "-100 text-" + item.color + "-700 font-semibold hover:text-white py-2 px-4 border border-" + item.color + "-700 hover:border-transparent rounded'> " +
+                            " Details " +
+                            " </a > ";
+                    }
+
+                    var rows = " <tr class=' bg-" + item.color + "-500 border-l-4 border-" + item.color +"-700' > " +
+                        "<td id='Name'>" + item.name + "</td> " +
+                        "<td id='Type'>" + item.type + "</td> " +
+                        "<td id='Color'>" + item.color + "</td> " +
+                        "<td id='Icon'> " + item.icon + " </td> " +
+                        "<td id='Id'>" + linkColumn + "</td> " +
+                        "</tr> ";
                     $('#Table').append(rows);
                 }); //End of foreach Loop
                 console.log(data);

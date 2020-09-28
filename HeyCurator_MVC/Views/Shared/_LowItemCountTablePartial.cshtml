@@ -1,7 +1,10 @@
 ﻿@inject LowItemCountService _lowCountService
+@inject ItemCountService _itemCount
 @{
     var username = _httpContext.HttpContext.Session.GetString("username");
     List<LowCountItem> LowCountItems = _lowCountService.GetLowCountItemsOfEmployee(username);
+    List<Item> itemMeetsRequiement = _itemCount.EmployeeItemsThatMeetRestockRequirements();
+
 
 }
 
