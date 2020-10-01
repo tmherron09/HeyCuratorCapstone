@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+    <Folder Include="Views\Search\Partials\" />
     <Folder Include="wwwroot\img\exhibit\" />
     <Folder Include="wwwroot\img\item\" />
     <Folder Include="wwwroot\img\curatorspace\" />

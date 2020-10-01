@@ -33,6 +33,12 @@ namespace HeyCurator_MVC.Services
 
 
         /* Item Access/Populate Methods */
+
+        /// <summary>
+        
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
         public Item GetItemById(int itemId)
         {
             lock (dbLock)
@@ -40,6 +46,11 @@ namespace HeyCurator_MVC.Services
                 return _context.Items.Where(i => i.ItemId == itemId).FirstOrDefault();
             }
         }
+
+        
+
+
+
 
         //public List<Item> GetItemsAssignedToCurator(int curatorId)
         //{

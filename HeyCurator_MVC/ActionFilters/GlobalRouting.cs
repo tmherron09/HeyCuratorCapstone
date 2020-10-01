@@ -19,11 +19,11 @@ namespace HeyCurator_MVC.ActionFilters
             var controller = context.RouteData.Values["controller"];
 
 
-            if (!_claimsPrincipal.Identity.IsAuthenticated)
-            {
-                context.Result = new RedirectResult("/Identity/Account/Login");
+            //if (!_claimsPrincipal.Identity.IsAuthenticated)
+            //{
+            //    context.Result = new RedirectResult("/Identity/Account/Login");
 
-            }
+            //}
             //Identity / Account / Login
 
         }

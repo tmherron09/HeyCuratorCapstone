@@ -55,18 +55,12 @@ namespace HeyCurator_MVC.Controllers
             item.RecordedStorageAmount = 0;
 
             _context.Items.Add(item);
-            try
-            {
+
                 lock (dbLock)
                 {
                     _context.SaveChanges();
                 }
-            }
-            catch
-            {
-                //throw new Exception("Unable to create item.");
-                return RedirectToAction("Index");
-            }
+          
 
             _hub.Clients.All.SendAsync("PopCustomToast", $"Item Update", $"{item.Name} has been updated by ${User.Identity.Name}.", "yellow", "fa-bell");
 
