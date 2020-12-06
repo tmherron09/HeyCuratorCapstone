@@ -1,4 +1,5 @@
 # HeyCuratorCapstone
+*See MVC_Switch Branch for Capstone repository.
 Capstone Project for the Proof of Concept/Working model of the "Hey Curator" museum curation system. Currently in continuation phase as it is developed further for eventually presentation and deployment within an active scenario.
 
 ## Current State
