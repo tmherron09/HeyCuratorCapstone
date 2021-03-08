@@ -83,6 +83,9 @@ namespace HeyCurator_MVC.Areas.Identity.Pages.Account
             [AllowNull]
             public string Title { get; set; }
 
+            [Required]
+            public string AdminSecretsPasscode { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -97,7 +100,8 @@ namespace HeyCurator_MVC.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/Admin/Index");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
+            // Remove hardcoded AdminSecrets Passcode.
+            if (ModelState.IsValid && Input.AdminSecretsPasscode == "!2020!HeyCuratorAdmim")
             {
                 var user = new IdentityUser { UserName = Input.FirstName + Input.LastName[0], Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
