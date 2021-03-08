@@ -15,10 +15,5 @@ namespace HeyCurator_MVC.ViewModels
         public List<Storage> Storages { get; set; }
         public string RecordedNotesOnUpdate { get; set; }
 
-
-
-
-
-
     }
 }

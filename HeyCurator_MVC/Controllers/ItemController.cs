@@ -99,7 +99,7 @@ namespace HeyCurator_MVC.Controllers
 
             Record record = new Record();
             record.RecordedCount = fullRecord.NewRecordedAmount;
-            ItemInStorage iis = _context.ItemInStorages.Where(x => x.ItemId == fullRecord.Item.ItemId && x.StorageId == fullRecord.ChoosenStorageId).SingleOrDefault();
+            ItemInStorage iis = _context.ItemInStorages.Where(x => x.ItemId == fullRecord.ItemId && x.StorageId == fullRecord.ChoosenStorageId).SingleOrDefault();
             record.ItemInStorageId = iis.ItemInStorageId;
             record.TimeStamp = DateTime.Now;
             record.RecordNote = fullRecord.RecordedNotesOnUpdate;

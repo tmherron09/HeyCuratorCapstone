@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace HeyCurator_MVC.Controllers
 {
-    [AllowAnonymous]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -27,19 +27,20 @@ namespace HeyCurator_MVC.Controllers
             _signInManager = signInManager;
             _httpContext = httpContext;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
+        [Route("/")]
         public IActionResult EmployeeLogin()
         {
-            //if(_signInManager.IsSignedIn(User))
-            //{
-            //    return RedirectToAction("Home");
-            //}
+            if(_signInManager.IsSignedIn(User))
+            {
+               return RedirectToAction("Home");
+            }
 
 
             return View();

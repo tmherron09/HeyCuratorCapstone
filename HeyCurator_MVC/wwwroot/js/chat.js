@@ -70,6 +70,9 @@ $(document).ready(function () {
             AddMessageLineUser(sender, msg);
         }
 
+        
+
+
     });
 
 

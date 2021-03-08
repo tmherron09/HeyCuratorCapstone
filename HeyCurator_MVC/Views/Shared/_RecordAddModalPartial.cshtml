@@ -14,7 +14,8 @@
 <form asp-action="CreateNewRecord" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <input type="hidden" asp-for="@Model.Item.ItemId" />
+    <input type="hidden" asp-for="@Model.Item" />
+    <input type="hidden" asp-for="@Model.ItemId" />
     <label class="block text-gray-600 text-lg font-semibold mb-2">New Recorded Amount for Specified Storage</label>
     <input type="number" asp-for="@Model.NewRecordedAmount" />
     <label class="block text-gray-600 text-lg font-semibold mb-2">Storage Location of Count</label>
