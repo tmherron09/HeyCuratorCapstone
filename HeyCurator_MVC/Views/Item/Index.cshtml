@@ -10,23 +10,31 @@
 
 <section class="py-8 px-4">
     <div class="flex flex-wrap -mx-4">
-        
+
         @foreach (var item in userItems)
         {
 
-        <div class="w-full xl:w-1/3 lg:w-1/2 px-4 mb-4 lg:mb-0 ">
-            <div class="h-full border rounded shadow bg-white">
-                <div class="flex items-center justify-between py-3 px-4 border-b">
-                    <h3 class="text-lg font-heading">@item.Name</h3>
-                    <span class="py-1 px-3 text-sm text-white font-semibold bg-green-500 rounded-full">Item</span>
-                </div>
-                <div class="flex flex-col p-4">
-                    <h3 class="text-3xl mb-3 font-heading font-semibold">@item.RecordedStorageAmount</h3>
-                    <span>Amount in Reserve</span><span class="text-green-500 text-xs">Last Update: @item.DateOfLastUpdate</span>
+            <div class="w-full xl:w-1/3 lg:w-1/2 px-4 mb-4 lg:mb-0 ">
+                <div class="h-full border rounded shadow bg-white">
+                    <div class="flex items-center justify-between py-3 px-4 border-b">
+                        <h3 class="text-lg font-heading">@item.Name</h3>
+                        <span class="py-1 px-3 text-sm text-white font-semibold bg-green-500 rounded-full">Item</span>
+                    </div>
+                    <h3 class="mx-4 mt-4 text-3xl font-heading font-semibold">@item.RecordedStorageAmount</h3>
+                    <div class="grid grid-col-3 gap-4 p-4 pt-2">
+                        <div class="col-start-1 col-end-3">
+                            <span>Amount in Reserve</span>
+                            <br />
+                            <span class="text-green-500 text-xs">
+                            Last Update: @item.DateOfLastUpdate</span>
+                        </div>
+                        <div class="col-span-1">
+                            <a class="p-2 rounded shadow bg-green-200" asp-action="Details" asp-route-id="@item.ItemId">Details</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
+
         }
 
 
@@ -40,71 +48,71 @@
 
 
 
-    <table class="table bg-indigo-100">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MinCount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DaysBetweenUpdates)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DaysBeforeNotifyAllCurators)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateOfLastUpdate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UpdateByDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateNotifyCurators)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RecordedStorageAmount)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+<table class="table bg-indigo-100">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DaysBetweenUpdates)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DaysBeforeNotifyAllCurators)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfLastUpdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateByDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateNotifyCurators)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecordedStorageAmount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var color = "";
+            if (item.RecordedStorageAmount <= item.MinCount)
             {
-                var color = "";
-                if(item.RecordedStorageAmount <= item.MinCount)
-                {
-                    color = "bg-red-200";
-                }
-                <tr class="@color">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MinCount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DaysBetweenUpdates)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DaysBeforeNotifyAllCurators)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateOfLastUpdate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UpdateByDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateNotifyCurators)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RecordedStorageAmount)
-                    </td>
-                    <td><a asp-action="Details" asp-route-id="@item.ItemId">Details</a></td>
-                </tr>
+                color = "bg-red-200";
             }
-        </tbody>
-    </table>
+            <tr class="@color">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MinCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DaysBetweenUpdates)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DaysBeforeNotifyAllCurators)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfLastUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateByDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateNotifyCurators)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RecordedStorageAmount)
+                </td>
+                <td><a asp-action="Details" asp-route-id="@item.ItemId">Details</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -12,6 +12,8 @@ namespace HeyCurator_MVC.Models
         [Key]
         public int ItemInStorageId { get; set; }
 
+        public string InstanceIdentifier { get; set; }
+
         public int StorageCount { get; set; }
 
         [ForeignKey("Item")]

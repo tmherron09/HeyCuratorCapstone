@@ -9,7 +9,7 @@
 
 <div class="my-5 mx-10 flex w-1/3 py-4 justify-center bg-white dark:bg-gray-600 shadow-xl rounded-lg cursor-pointer">
 
-    <form asp-action="CreateNewRecord">
+    <form asp-action="CreateNewRecord" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <label class="block text-gray-900 text-xl text-center font-semibold mb-2">Current Amount</label>
         <input type="number" asp-for="@Model.NewRecordedAmount" />
