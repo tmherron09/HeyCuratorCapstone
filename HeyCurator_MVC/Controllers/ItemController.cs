@@ -54,13 +54,10 @@ namespace HeyCurator_MVC.Controllers
             return View(item);
         }
 
-
-        
         public PartialViewResult CreateRecordPartial(int id)
         {
             Item item = GetItem(id);
             List<Storage> storages = _itemCountService.GetAllStoragesOfItem(item);
-
 
             RecordFull fullRecord = new RecordFull
             {
@@ -104,7 +101,7 @@ namespace HeyCurator_MVC.Controllers
             record.TimeStamp = DateTime.Now;
             record.RecordNote = fullRecord.RecordedNotesOnUpdate;
             record.Employee = _employeeService.GetCurrentlyLoggedInEmployee();
-            record.CuratorVerified = _employeeService.IsEmployeeCuratorOfItem(fullRecord.Item.ItemId);
+            record.CuratorVerified = _employeeService.IsEmployeeCuratorOfItem(fullRecord.ItemId);
             _context.Records.Add(record);
             try
             {
@@ -133,9 +130,9 @@ namespace HeyCurator_MVC.Controllers
                 throw new Exception("Unable to Create Record.");
                 
             }
-            _itemCountService.UpdateItemReserveAmount(fullRecord.Item.ItemId);
+            _itemCountService.UpdateItemReserveAmount(fullRecord.ItemId);
 
-            var viewItem = _context.Items.Where(i => i.ItemId == fullRecord.Item.ItemId).SingleOrDefault();
+            var viewItem = _context.Items.Where(i => i.ItemId == fullRecord.ItemId).SingleOrDefault();
 
             _itemDateService.UpdateItemDates(viewItem, record.TimeStamp);
 
@@ -173,6 +170,7 @@ namespace HeyCurator_MVC.Controllers
         {
             var record = _context.Records.Where(r => r.RecordId == id).SingleOrDefault();
 
+            // TODO Add Error Modal
 
             var partial = new PartialViewResult
             {
