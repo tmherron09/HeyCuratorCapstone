@@ -28,8 +28,11 @@
     <link rel="stylesheet" href="~/css/css-gg-icon-all.css" />
     <link rel="stylesheet" href="~/css/chat-popup.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    @RenderSection("AdditionalStyles", required: false)
+
 </head>
-<body class="bg-indigo-200">
+<body class="hc-neutral">
     <div id="toaster" style="position: absolute; top: 25px; right: 25px; z-index: 1;">
         
 
@@ -43,7 +46,7 @@
                         @* Content Gets insert in place of this here. *@
 
                         <div class="flex items-center justify-center h-full">
-                            <div class="bg-indigo-800 text-white font-bold rounded-lg border shadow-lg p-10">
+                            <div class="bg-viking-800 text-white font-bold rounded-lg border shadow-lg p-10">
                                 <i class="gg-loadbar"></i>
                             </div>
                         </div>
@@ -63,8 +66,8 @@
 
             <partial name="_SideBarPartial" />
 
-            <main class="flex-1 flex flex-col @*bg-yellow-100*@ dark:bg-gray-700 transition
-		duration-500 ease-in-out overflow-y-auto">
+            <main class="flex-1 flex flex-col hc-neutral transition
+		        duration-500 ease-in-out overflow-y-auto">
                 <div class="mx-10 my-2">
                     @RenderBody()
                 </div>
@@ -118,6 +121,7 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js"></script>
         <script src="~/js/signalr/dist/browser/signalr.js"></script>
+
         @if (_signInManager.IsSignedIn(User))
         {
             <script>

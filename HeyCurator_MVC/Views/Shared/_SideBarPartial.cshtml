@@ -17,7 +17,7 @@
     var username = ViewData["Username"];
 }
 
-<nav class=" flex flex-col bg-indigo-300 dark:bg-gray-900 w-64  pt-4 pb-6">
+<nav class=" flex flex-col hc-bg-primary w-64  pt-4 pb-6">
     <!-- SideNavBar -->
 
     <div class="flex flex-row border-b items-center justify-between pb-2 px-6">
@@ -30,7 +30,7 @@
         <span class="relative ">
             <a class="hover:text-green-500 dark-hover:text-green-300
 					text-gray-600 dark:text-gray-300"
-               href="inbox/">
+               asp-controller="Inbox" asp-action="Index">
                 <svg width="24"
                      height="24"
                      viewBox="0 0 24 24"
@@ -81,7 +81,7 @@
 
 
 
-    <a asp-area="Identity" asp-page="/Account/Register" class="mt-8 flex items-center justify-between py-3 px-2 text-white dark:text-gray-200 bg-green-400 dark:bg-green-500  shadow hover:no-underline">
+    <a asp-area="Identity" asp-page="/Account/Register" class="mt-8 flex items-center justify-between py-3 px-2 text-dark font-bold  bg-magic-mint-400  shadow hover:no-underline">
         <!-- Action -->
         <span class="">Register Employee</span>
         <svg class="h-5 w-5 fill-current transition-transform duration-500 ease-in-out transform  " viewBox="0 0 24 24">
@@ -93,7 +93,7 @@
             <!-- Links -->
             <li class="transition duration-500 ease-in-out    mt-8 shadow py-2 bg-white dark:bg-gray-200 border-double border-r-2 border-teal-400
 				-ml-4 text-center">
-                <a asp-controller="Admin" asp-action="Index" class="flex pl-2">
+                <a asp-controller="Admin" asp-action="Index" class="flex pl-2 hover:no-underline">
                     <div class="grid grid-cols-4 grid-rows-2 gap-0 items-center">
                         <div class=" pl-2 row-span-3 col-span-1">
                             <svg class="fill-current h-8 w-8 dark:text-gray-300"

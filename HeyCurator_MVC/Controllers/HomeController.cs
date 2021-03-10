@@ -100,5 +100,12 @@ namespace HeyCurator_MVC.Controllers
         }
 
 
+        [AllowAnonymous]
+        public IActionResult BrandGuide()
+        {
+
+            return View();
+        }
+
     }
 }
