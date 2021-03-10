@@ -2,18 +2,18 @@
 @model List<Record>
 
 
-    @{
-        List<ItemInStorage> iis = new List<ItemInStorage>();
-        foreach(var record in Model)
-        {
-            iis.Add(_context.ItemInStorages.Where(s => s.ItemInStorageId == record.ItemInStorageId).FirstOrDefault());
-        }
-        List<Storage> storages = new List<Storage>();
-        foreach (var item in iis)
-        {
-            storages.Add(_context.Storages.Where(s => s.StorageId == item.StorageId).FirstOrDefault());
-        }
+@{
+    List<ItemInStorage> iis = new List<ItemInStorage>();
+    foreach (var record in Model)
+    {
+        iis.Add(_context.ItemInStorages.Where(s => s.ItemInStorageId == record.ItemInStorageId).Include(inst => inst.Item).FirstOrDefault());
     }
+    List<Storage> storages = new List<Storage>();
+    foreach (var item in iis)
+    {
+        storages.Add(_context.Storages.Where(s => s.StorageId == item.StorageId).FirstOrDefault());
+    }
+}
 
 
 <table id="tablePreview" class="table table-striped table-hover table-sm table-bordered mb-0 text-center">
@@ -24,6 +24,9 @@
             </th>
             <th>
                 Amount Recorded
+            </th>
+            <th>
+                Minimum Recommended
             </th>
             <th>
                 Recorded By
@@ -40,19 +43,20 @@
         </tr>
     </thead>
     <tbody>
-        @for(int i = 0; i < Model.Count(); i++)
+        @for (int i = 0; i < Model.Count(); i++)
         {
             var bgColor = "";
-            if (i == 0)
-            {
-                bgColor = "bg-orange-200";
-            }
-            <tr onclick="updateRecordModal(this)" data-id="@Model[i].RecordId" >
+            bgColor = (Model[i].RecordedCount < iis[i].Item.MinCount) ? "bg-totem-pole-200" : ((i % 2 == 0) ? "bg-white" : "bg-saffron-100");
+            
+            <tr onclick="updateRecordModal(this)" data-id="@Model[i].RecordId">
                 <td class="@bgColor">
                     @storages[i].Name
                 </td>
                 <td class="@bgColor">
                     @Model[i].RecordedCount
+                </td>
+                <td class="@bgColor">
+                    @iis[i].Item.MinCount
                 </td>
                 <td class="@bgColor">
                     @Model[i].Employee.EmployeeUserName

@@ -395,6 +395,9 @@ namespace HeyCurator_MVC.Migrations
                     b.Property<int?>("ExhibitId")
                         .HasColumnType("int");
 
+                    b.Property<string>("InstanceIdentifier")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
@@ -664,22 +667,22 @@ namespace HeyCurator_MVC.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9e45d53f-49a9-460b-8e12-2bd0bfab6ef1",
-                            ConcurrencyStamp = "41011dd3-ac3c-4416-95e3-aab5b22bf4af",
+                            Id = "f2e1c51c-792e-4be1-bfbd-08386213b536",
+                            ConcurrencyStamp = "64939bb1-9214-4d4e-82d2-812029633543",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "73fa2ebe-3716-4c64-ae53-f38194964cda",
-                            ConcurrencyStamp = "897bf9f0-ea93-4ab2-82a5-e40fcdf274d3",
+                            Id = "c85b0ade-4546-4513-9eda-12fed7995fb5",
+                            ConcurrencyStamp = "16cc2d10-9924-4854-bac1-46d6fe831ae2",
                             Name = "Curator",
                             NormalizedName = "CURATOR"
                         },
                         new
                         {
-                            Id = "1ef8ab70-7946-47a6-99ff-8d906a1b9a6f",
-                            ConcurrencyStamp = "7afce334-00a6-4491-8ea6-0a2eb1219c27",
+                            Id = "4fe69a3f-395a-4301-bef2-1dc32688cde9",
+                            ConcurrencyStamp = "5ace7884-0336-4856-8127-29fd65f3be34",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });

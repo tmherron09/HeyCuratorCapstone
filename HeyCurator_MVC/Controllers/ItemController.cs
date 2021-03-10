@@ -136,7 +136,9 @@ namespace HeyCurator_MVC.Controllers
 
             _itemDateService.UpdateItemDates(viewItem, record.TimeStamp);
 
-            return View("Details", viewItem);
+            return RedirectToAction("Details", "Item", new { id = viewItem.ItemId });
+
+            //return View("Details", viewItem);
             
         }
 

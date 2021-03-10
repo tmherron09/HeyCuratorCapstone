@@ -26,6 +26,7 @@ function viewExpiredModal(button) {
 }
 
 function updateRecordModal(button) {
+    $('#modalContainer').empty();
     $('#modalContainer').load('/item/ModifyRecordPartial/' + button.getAttribute('data-id'));
     $('#displayModal').modal('show');
 }

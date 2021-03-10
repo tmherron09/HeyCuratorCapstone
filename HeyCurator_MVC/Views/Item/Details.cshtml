@@ -16,62 +16,91 @@
 
 
 
+<div class="hc-model-details-card">
+    <div class="px-4 py-5 sm:px-6">
+        <h3 class="hc-model-details-row-h1">
+            Item: @Model.Name
+        </h3>
+        <p class="hc-model-details-row-sub-h1">
+            Description of Item Type
+        </p>
+    </div>
+    <div class="border-t border-gray-200">
+        <dl>
+            <div class="hc-detail-alternate hc-model-details-row">
+                <dt class="hc-model-details-row-dt">
+                    Item Type Description
+                </dt>
+                <dd class="hc-model-details-row-dd font-medium">
+                    TODO: Add Item Type Description
+                </dd>
+            </div>
+            <div class="hc-detail-alternate hc-model-details-row">
+                <dt class="hc-model-details-row-dt">
+                    Minimum Inventory Recommended
+                </dt>
+                <dd class="hc-model-details-row-dd font-medium">
+                    @Model.MinCount
+                </dd>
+            </div>
+            <div class="hc-detail-alternate hc-model-details-row">
+                <dt class="hc-model-details-row-dt">
+                    Update Period
+                </dt>
+                <dd class="hc-model-details-row-dd font-medium">
+                    @Model.DaysBetweenUpdates Days
+                </dd>
+            </div>
+            <div class="hc-detail-alternate hc-model-details-row">
+                <dt class="hc-model-details-row-dt">
+                    Update Expiration Leniency Period
+                </dt>
+                <dd class="hc-model-details-row-dd font-medium">
+                    @Model.DaysBeforeNotifyAllCurators Days
+                </dd>
+            </div>
+            <div class="hc-detail-alternate hc-model-details-row">
+                <dt class="hc-model-details-row-dt">
+                    Item Type Last Updated
+                </dt>
+                <dd class="hc-model-details-row-dd font-medium">
+                    @Model.DateOfLastUpdate.ToString("D")
+                </dd>
+            </div>
+            <div class="hc-detail-alternate hc-model-details-row">
+                <dt class="hc-model-details-row-dt">
+                    Upcoming Updae
+                </dt>
+                <dd class="hc-model-details-row-dd font-medium">
+                    @Model.UpdateByDate.ToString("D")
+                </dd>
+            </div>
+            <div class="hc-detail-alternate hc-model-details-row">
+                <dt class="hc-model-details-row-dt">
+                    Total Inventory Count Across All Instances
+                </dt>
+                <dd class="hc-model-details-row-dd font-medium">
+                    @Model.RecordedStorageAmount
+                </dd>
+            </div>
 
+            
 
-<div>
-    <h4>Item</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MinCount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MinCount)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DaysBetweenUpdates)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DaysBetweenUpdates)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DaysBeforeNotifyAllCurators)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DaysBeforeNotifyAllCurators)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DateOfLastUpdate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DateOfLastUpdate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdateByDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UpdateByDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DateNotifyCurators)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DateNotifyCurators)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RecordedStorageAmount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RecordedStorageAmount)
-        </dd>
-    </dl>
+            <div class="hc-detail-alternate hc-model-details-row">
+                <dt class="hc-model-details-row-dt">
+                    Generated QR Code
+                </dt>
+                <dd id="qrcode" class="hc-model-details-row-dd">
+
+                </dd>
+            </div>
+        </dl>
+    </div>
 </div>
+
+
+
+
 
 <div class="flex flex-row mx-10 my-4">
     <button type="button" id="modalButton" data-id="@Model.ItemId" class="flex-initial bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 border border-blue-800 rounded">
@@ -105,10 +134,7 @@
             if (id == 0) {
                 window.location.href = "/item/index";
             }
-
             $('#recordsTable').load('/item/DisplayRecordsTable/' + id)
-
-
         });
 
         $(function () {
