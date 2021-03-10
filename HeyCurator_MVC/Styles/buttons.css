@@ -1,0 +1,146 @@
+﻿.hc-btn {
+    @apply focus:outline-none text-sm py-2.5 px-5;
+    @apply rounded-md hover:shadow-lg;
+}
+
+.btn-mm {
+    @apply text-white font-semibold;
+    @apply bg-magic-mint-500 hover:bg-magic-mint-600;
+}
+
+.btn-v {
+    @apply text-white font-semibold;
+    @apply bg-viking-500 hover:bg-viking-600;
+}
+
+.btn-phrt {
+    @apply text-white font-semibold;
+    @apply bg-purple-heart-500 hover:bg-purple-heart-600;
+}
+
+.btn-saf {
+    @apply text-white font-semibold;
+    @apply bg-saffron-500 hover:bg-saffron-600;
+}
+
+.btn-tp {
+    @apply text-white font-semibold;
+    @apply bg-totem-pole-300 hover:bg-totem-pole-400;
+}
+
+.btn-pg {
+    @apply text-white font-semibold;
+    @apply bg-purpleGrey-500 hover:bg-purpleGrey-600;
+}
+
+
+
+.btn-mm-alt {
+    @apply text-gray-600 font-semibold;
+    @apply bg-magic-mint-500 hover:bg-magic-mint-600;
+}
+.btn-v-alt {
+    @apply text-gray-700 font-semibold;
+    @apply bg-viking-500 hover:bg-viking-600;
+}
+
+.btn-saf-alt {
+    @apply text-gray-500 font-semibold;
+    @apply bg-saffron-500 hover:bg-saffron-600;
+}
+
+.btn-tp-alt {
+    @apply text-gray-900 font-semibold;
+    @apply bg-totem-pole-300 hover:bg-totem-pole-400;
+}
+
+
+.ring-mm {
+    @apply ring-2 ring-offset-0 ring-magic-mint-600;
+    @apply font-medium text-magic-mint-700 hover:bg-magic-mint-300;
+}
+
+.ring-mm-in {
+    @apply ring-2 ring-inset ring-magic-mint-600;
+    @apply font-medium text-magic-mint-700 hover:bg-magic-mint-300;
+}
+
+.ring-v {
+    @apply ring-2 ring-offset-0 ring-viking-600;
+    @apply font-medium text-viking-700 hover:bg-viking-300;
+}
+
+.ring-v-in {
+    @apply ring-2 ring-inset ring-viking-600;
+    @apply font-medium text-viking-700 hover:bg-viking-300;
+}
+
+.ring-saf {
+    @apply ring-2 ring-offset-0 ring-saffron-600;
+    @apply font-medium text-saffron-800 hover:bg-saffron-300;
+}
+
+.ring-saf-in {
+    @apply ring-2 ring-inset ring-saffron-600;
+    @apply font-medium text-saffron-800 hover:bg-saffron-300;
+}
+
+.ring-phrt {
+    @apply ring-2 ring-offset-0 ring-purple-heart-600;
+    @apply font-medium text-purple-heart-700 hover:bg-purple-heart-200;
+}
+
+.ring-phrt-in {
+    @apply ring-2 ring-inset ring-purple-heart-600;
+    @apply font-medium text-purple-heart-700 hover:bg-purple-heart-200;
+}
+
+.ring-tp {
+    @apply ring-2 ring-offset-0 ring-totem-pole-600;
+    @apply font-medium text-totem-pole-800 hover:bg-totem-pole-300;
+}
+
+.ring-tp-in {
+    @apply ring-2 ring-inset ring-totem-pole-600;
+    @apply font-medium text-totem-pole-800 hover:bg-totem-pole-300;
+}
+
+.ring-pg {
+    @apply ring-2 ring-offset-0 ring-purpleGrey-600;
+    @apply font-medium text-purpleGrey-900 hover:bg-purpleGrey-300;
+}
+
+.ring-pg-in {
+    @apply ring-2 ring-inset ring-purpleGrey-600;
+    @apply font-medium text-purpleGrey-900 hover:bg-purpleGrey-300;
+}
+
+.btn-mm-outline {
+    @apply btn-mm;
+    @apply ring-2 ring-offset-0 ring-magic-mint-600;
+}
+
+.btn-v-outline {
+    @apply btn-v;
+    @apply ring-2 ring-offset-0 ring-viking-600;
+}
+
+.btn-phrt-outline {
+    @apply btn-phrt;
+    @apply ring-2 ring-offset-0 ring-purple-heart-600;
+}
+
+.btn-saf-outline {
+    @apply btn-saf;
+    @apply ring-2 ring-offset-0 ring-saffron-600;
+}
+
+.btn-tp-outline {
+    @apply btn-tp;
+    @apply ring-2 ring-offset-0 ring-totem-pole-600;
+}
+
+.btn-pg-outline {
+    @apply btn-pg;
+    @apply ring-2 ring-offset-0 ring-purpleGrey-600;
+}
