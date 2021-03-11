@@ -20,6 +20,7 @@ namespace HeyCurator_MVC.Models
         [DisplayName("Last Name")]
         public string LastName { get; set; }
 
+        [DisplayName("User Name")]
         public string EmployeeUserName { get; set; }
 
         [AllowNull]

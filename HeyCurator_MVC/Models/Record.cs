@@ -14,25 +14,43 @@ namespace HeyCurator_MVC.Models
         [Key]
         public int RecordId { get; set; }
 
+        [Display(Name = "Updated Inventory Count in Units")]
         public int RecordedCount { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [Display(Name = "Time of Record")]
+        public DateTime TimeStamp { get; set; }
+
+        [Display(Name = "Recording Employee")]
+        [ForeignKey("Employee")]
+        public int? EmployeeId { get; set; }
+        public Employee Employee { get; set; }
+
+        [Display(Name = "Record Verified By Assigned Curator")]
+        public bool CuratorVerified { get; set; }
+
+        [Display(Name = "Record Note")]
+        public string RecordNote { get; set; }
+
+        [ForeignKey("InventoryControlModel")]
+        public int InventoryControlModelID { get; set; }
+        public InventoryControlModel InventoryControlModel { get; }
+
+
+
+
+
+        /*
+         * 
+         *  TODO: DEPRECIATE ALL FIELDS BELOW
+         * 
+         */
 
         [ForeignKey("ItemInStorage")]
         public int ItemInStorageId { get; set; }
         public ItemInStorage ItemInStorage { get; }
 
 
-        // DateTime.Today
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public DateTime TimeStamp { get; set; }
-        
-
-        // Add All Info into Record
-        // This is Set if the staff member recording count is the assigned curator. Sets CuratorVerified to true.
-        [ForeignKey("Employee")]
-        public int? EmployeeId { get; set; }
-        public Employee Employee { get; set; }
-        // Verified by staff member other that item's curator, set Curator verified to false.
-        
         [AllowNull]
         public int? FirstVerifierId { get; set; }
         [ForeignKey("FirstVerifierId")]
@@ -44,23 +62,11 @@ namespace HeyCurator_MVC.Models
         [ForeignKey("SecondVefifierId")]
         public Employee SecondVefifier { get; set; }
         
-        
-        // If curatorid matches the items id, set to true.
-        public bool CuratorVerified { get; set; }
-        
-        
-        // For later feature of challenging a count to correct it.
         public bool IsChallenged { get; set; }
         public bool SecondaryVefified { get; set; }
-        
-        
-        
-        // Record special conditions as to why count is at a certain value.
-        public string RecordNote { get; set; }
 
-        //public ICollection<ItemInStorage> ItemInStorages { get; set; }
+
         public ICollection<Employee> Employees { get; set; }
-
 
 
     }

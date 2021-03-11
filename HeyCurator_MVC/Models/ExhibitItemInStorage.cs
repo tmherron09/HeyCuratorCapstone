@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace HeyCurator_MVC.Models
 {
+
+    /// <summary>
+    /// To Be Depreciated
+    /// </summary>
     public class ExhibitItemInStorage
     {
 

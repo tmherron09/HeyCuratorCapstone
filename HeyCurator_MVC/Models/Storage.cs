@@ -11,10 +11,21 @@ namespace HeyCurator_MVC.Models
         [Key]
         public int StorageId { get; set; }
         public string Name { get; set; }
+
+        [Display(Name = "Storage Space Decription")]
+        public string Description { get; set; }
+        [Display(Name = "Description of the Location of the Storage Space")]
+        public string LocationDescription { get; set; }
+        [Display(Name = "Restricted Access Rules")]
+        public string RestrictedAccessRules { get; set; }
+
+        // TODO: Remove
         public string StorageType { get; set; }
         public AccessLevel AccessLevel { get; set; }
 
-        // Non-Database Objects
+
+
+        public ICollection<StorageItemInstances> StorageItemInstances { get; set; }
 
     }
 

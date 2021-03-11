@@ -12,9 +12,34 @@ namespace HeyCurator_MVC.Models
     {
         [Key]
         public int ItemId { get; set; }
+
         [Required]
         [DisplayName("Item Name")]
         public string Name { get; set; }
+
+        [DisplayName("Item Description")]
+        public string ItemDescription { get; set; }
+
+        public ICollection<ItemInstance> ItemInstances { get; set; }
+
+
+
+
+
+
+
+
+
+
+        /*
+         * 
+         *   TODO: Depreciate Items Below
+         * 
+         * 
+         */
+
+
+
         [Required]
         [DisplayName("Minimum Reserve Count")]
         public int MinCount { get; set; }

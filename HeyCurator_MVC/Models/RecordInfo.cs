@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace HeyCurator_MVC.Models
 {
+
+
+    /// <summary>
+    /// DEPRECIATED
+    /// </summary>
     public class RecordInfo
     {
 
