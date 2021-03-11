@@ -18,47 +18,9 @@ namespace HeyCurator_MVC.Models
         [ForeignKey("CuratorRole")]
         public int CuratorRoleId { get; set; }
         public CuratorRole CuratorRole { get; set; }
+
+        // TODO: Remove at next Migration
         public CuratorRole StaffRole { get; set; }
     }
 
-    public enum StaffRole
-    {
-        President,
-        Director,
-        SeniorManager,
-        Manager,
-        FloorManager,
-        AssistantFloorManager,
-        FloorStaffLevelTwo,
-        FloorStaff,
-        FloorStaffProbation,
-        BirthdayManager,
-        STEAMDirector,
-        STEAMManager,
-        EducationManager,
-        OutreachManager,
-        FrontDeskStaff,
-        MuseumStoreStaff,
-        MaintenanceDirector,
-        MaintenanceSpecialist,
-        ExhibitTeamMember,
-        CustodialTeamMember,
-        MembershipDirector,
-        VolunteerDirector,
-        MarketingDirector,
-        MarketingTeamMember,
-        SpecialEventsCoordinator,
-        SpecialEventsStaff,
-        OfficeIntern,
-        DevelopementDirector,
-        DevelopementTeamMember,
-        GraphicsTeamMember,
-        AdministrativeAssistantToPresident,
-        AdministrativeOfficeStaff,
-        CafeDirector,
-        CafeManager,
-        WorldTravelerCoordinator, // WTG Curator
-        TravelingExhibitGalleryCoordinator, // TEG Curator
-        GroundsKeeper,
-    }
 }
