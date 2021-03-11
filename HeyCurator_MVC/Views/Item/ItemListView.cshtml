@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Item>
+
+
+<table class="table bg-indigo-100">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DaysBetweenUpdates)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DaysBeforeNotifyAllCurators)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfLastUpdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateByDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateNotifyCurators)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecordedStorageAmount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var color = "";
+            if (item.RecordedStorageAmount <= item.MinCount)
+            {
+                color = "bg-red-200";
+            }
+            <tr class="@color">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MinCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DaysBetweenUpdates)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DaysBeforeNotifyAllCurators)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfLastUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateByDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateNotifyCurators)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RecordedStorageAmount)
+                </td>
+                <td><a asp-action="Details" asp-route-id="@item.ItemId">Details</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

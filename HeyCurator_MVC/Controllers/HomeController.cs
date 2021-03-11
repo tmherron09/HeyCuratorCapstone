@@ -28,6 +28,7 @@ namespace HeyCurator_MVC.Controllers
             _httpContext = httpContext;
         }
         [Authorize]
+        [Route("/Index")]
         public IActionResult Index()
         {
             return View();

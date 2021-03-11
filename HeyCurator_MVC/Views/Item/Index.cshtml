@@ -1,42 +1,98 @@
-﻿@model IEnumerable<HeyCurator_MVC.Models.Item>
+﻿@model IEnumerable<Item>
 @inject EmployeeService _employee
 @{
     ViewData["Title"] = "Index";
-    var empItems = _employee.GetEmployeesItems();
-    var userItems = Model.Where(m => empItems.Contains(m));
+    //var empItems = _employee.GetEmployeesItems();
+    //var userItems = Model.Where(m => empItems.Contains(m));
+    var userItems = Model;
+
+    var userName = _httpContext.HttpContext.Session.GetString("username") ?? "Default";
 }
 
 
 
-<section class="py-8 px-4">
-    <div class="grid grid-cols-6">
+<section x-data="{ openTab: 1 }" x-init=" openTab = 1 " class="py-8 px-4">
+    <div class="border-b border-t border-gray-200 sm:border sm:rounded-lg mt-4">
+        <div class="px-4 py-2 border-b border-gray-200 sm:py-4 sm:px-6 bg-viking-100">
 
-        @foreach (var item in userItems)
-        {
+            <ul class="bg-white flex border-b w-max rounded-t">
+                <li x-on:click="openTab = 1" class="" :class="openTab === 1 ? '-mb-px' : '' " >
+                    <a class="inline-block  py-2 px-4  rounded-t text-viking-700 font-semibold hover:no-underline "
+                       :class="openTab === 1 ?  'border-l border-t border-r bg-viking-200' : 'hover:bg-viking-200 hover:text-viking-800' "
+                       href="#">Card Display</a>
+                </li>
+                <li x-on:click="openTab = 2" class="" :class="openTab === 2 ? '-mb-px' : '' " >
+                    <a class="inline-block py-2 px-4 rounded-t text-viking-700 font-semibold hover:no-underline "
+                       :class="openTab === 2 ?  'border-l border-t border-r bg-viking-200' : 'hover:text-viking-800 hover:bg-viking-200' "
+                       href="#">Table Display</a>
+                </li>
+                <li class="ml-3 bg-viking-100">
+                    <h3 class="pt-2 px-4 text-xl text-gray-700 font-bold">Items for @userName</h3>
+                </li>
+            </ul>
+            <div class="w-full">
 
-        <div class="col-span-2 px-4 mb-4 lg:mb-0">
-            <div class="h-full border rounded shadow bg-white relative">
-                <div class="flex items-center justify-between py-3 px-4 border-b bg-saffron-100 ">
-                    <h3 class="text-lg font-heading">@item.Name</h3>
-                    <span class="py-1 px-3 text-sm text-white font-semibold bg-saffron-300 rounded-full">Item</span>
+                <div x-show="openTab === 1" class="grid grid-cols-6 pt-5">
+                    @foreach (var item in userItems)
+                    {
+
+                        <div class="col-span-2 px-4 mb-4 lg:mb-0">
+                            <div class="h-full border rounded shadow bg-white relative">
+                                <div class="flex items-center justify-between py-3 px-4 border-b bg-saffron-100 ">
+                                    <h3 class="text-lg font-heading">@item.Name</h3>
+                                    <span class="py-1 px-3 text-sm text-white font-semibold bg-saffron-300 rounded-full">Item</span>
+                                </div>
+                                <div class="mx-3 my-2 rounded">
+                                    <h3 class="text-3xl font-heading font-semibold text-right">@item.RecordedStorageAmount</h3>
+                                    <p class="font-semibold">Amount in Reserve</p>
+                                    <span class="text-md"> Last Update: @item.DateOfLastUpdate</span>
+                                </div>
+                                <div class="w-full bottom-0">
+                                    <a class="inline-block w-full py-4 text-center bg-saffron-100 hover:bg-saffron-300 hover:no-underline" asp-action="Details" asp-route-id="@item.ItemId">
+                                        Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
                 </div>
-                <div class="mx-3 my-2 rounded">
-                    <h3 class="text-3xl font-heading font-semibold text-right">500</h3>
-                    <p class="font-semibold">Amount in Reserve</p>
-                    <span class="text-md"> Last Update: @item.DateOfLastUpdate</span>
-                </div>
-                <div class="w-full bottom-0">
-                    <a class="inline-block w-full py-4 text-center bg-saffron-100 hover:bg-saffron-300 hover:no-underline" asp-action="Details" asp-route-id="@item.ItemId">
-                        Details
-                    </a>
+
+
+                <div x-show="openTab === 2">
+                    <div class="mt-8 overflow-hidden bg-white shadow-lg sm:rounded-sm sm:rounded-b-md">
+                        <table id="tablePreview" class="text-center">
+                            <thead>
+                                <tr class="bg-saffron-200">
+                                    <th class="w-2/12 py-2">Item Name</th>
+                                    <th class="w-1/12 py-2">Amount Recorded</th>
+                                    <th class="w-2/12 py-2">Date of Last Update</th>
+                                    <th class="w-2/12 py-2">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody class="">
+                                @foreach (var item in userItems)
+                                {
+                                    <tr class="h-12 font-bold text-gray-600 table-alternate">
+                                        <td>@item.Name</td>
+                                        <td> @item.RecordedStorageAmount </td>
+                                        <td>@item.DateOfLastUpdate</td>
+
+                                        <td>
+                                            <a class="hc-btn btn-saf hover:no-underline" asp-action="Details" asp-route-id="@item.ItemId">
+                                                Details
+                                            </a>
+                                        </td>
+
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-
-        }
-
-
-
 
     </div>
 </section>
@@ -44,73 +100,3 @@
 
 
 
-
-
-<table class="table bg-indigo-100">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MinCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DaysBetweenUpdates)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DaysBeforeNotifyAllCurators)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfLastUpdate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdateByDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateNotifyCurators)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RecordedStorageAmount)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            var color = "";
-            if (item.RecordedStorageAmount <= item.MinCount)
-            {
-                color = "bg-red-200";
-            }
-            <tr class="@color">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MinCount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DaysBetweenUpdates)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DaysBeforeNotifyAllCurators)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfLastUpdate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdateByDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateNotifyCurators)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RecordedStorageAmount)
-                </td>
-                <td><a asp-action="Details" asp-route-id="@item.ItemId">Details</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
