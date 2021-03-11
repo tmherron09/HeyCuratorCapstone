@@ -288,23 +288,88 @@
     </div>
 
 
-
+    @* Card- Item Type for Employee/Curator *@
     <div class="border-b border-t border-gray-200 sm:border sm:rounded-lg overflow-hidden mt-4 mb-12">
         <div class="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-white sm:py-4 sm:px-6 sm:items-baseline">
             <div class="flex-shrink min-w-0 flex items-center">
-                <h3 class="flex-shrink min-w-0 font-regular text-base md:text-lg leading-snug truncate">Card</h3>
+                <h3 class="flex-shrink min-w-0 font-regular text-base md:text-lg leading-snug truncate">Card - Item Type</h3>
             </div>
             <div class="ml-4 flex flex-shrink-0 items-center">
-                <h3>Generic</h3>
+                <h3>Item Index Employee's Item</h3>
             </div>
         </div>
         <div class="relative">
             <div class="block">
-                <div class="sm:min-w-preview-mobile relative sm:pr-4">
-                    <div class="container p-4">
-
-
-
+                <div class="sm:min-w-preview-mobile relative">
+                    <div class="container p-4 mx-auto">
+                        <!-- Start Item Index Cards -->
+                        <div class="grid grid-cols-6">
+                            <!-- Item 1 -->
+                            <div class="col-span-2 px-4 mb-4 lg:mb-0">
+                                <div class="h-full border rounded shadow bg-white relative">
+                                    <div class="flex items-center justify-between py-3 px-4 border-b bg-saffron-100 ">
+                                        <h3 class="text-lg font-heading">item.Name</h3>
+                                        <span class="py-1 px-3 text-sm text-white font-semibold bg-saffron-300 rounded-full">Item</span>
+                                    </div>
+                                    <div class="mx-3 my-2 rounded">
+                                        <h3 class="text-3xl font-heading font-semibold text-right">500</h3>
+                                        <p class="font-semibold">Amount in Reserve</p>
+                                        <span class="text-md"> Last Update: item.DateOfLastUpdate</span>
+                                    </div>
+                                    <div class="w-full bottom-0">
+                                        <a class="inline-block w-full py-4 text-center bg-saffron-100 hover:bg-saffron-300" asp-action="Details" asp-route-id="item.ItemId">
+                                            Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Item 1 -->
+                            <!-- Item 2 -->
+                            <div class="col-span-2 px-4 mb-4 lg:mb-0">
+                                <div class="h-full border rounded shadow bg-white relative">
+                                    <div class="flex items-center justify-between py-3 px-4 border-b">
+                                        <h3 class="text-lg font-heading">Wooden Balls</h3>
+                                        <span class="py-1 px-3 text-sm text-white font-semibold bg-saffron-300 rounded-full">Item</span>
+                                    </div>
+                                    <div class="ml-4 mt-2 rounded">
+                                        <h3 class="text-3xl font-heading font-semibold">500</h3>
+                                        <p class="font-semibold">Amount in Reserve</p>
+                                    </div>
+                                    <div class="mt- pl-2 pb-3 bg-gray-00">
+                                        <span class="text-md"> Last Update: May 5th, 2020</span>
+                                    </div>
+                                    <div class="w-full absolute bottom-0">
+                                        <button class="w-full py-4 bg-saffron-300">
+                                            Details
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Item 2 -->
+                            <!-- Item 3 -->
+                            <div class="col-span-2 px-4 mb-4 lg:mb-0">
+                                <div class="h-full border rounded shadow bg-white relative">
+                                    <div class="flex items-center justify-between py-3 px-4 border-b">
+                                        <h3 class="text-lg font-heading">Wooden Balls</h3>
+                                        <span class="py-1 px-3 text-sm text-white font-semibold bg-saffron-300 rounded-full">Item</span>
+                                    </div>
+                                    <div class="ml-4 mt-2 rounded">
+                                        <h3 class="text-3xl font-heading font-semibold">500</h3>
+                                        <p class="font-semibold">Amount in Reserve</p>
+                                    </div>
+                                    <div class="mt- pl-2 pb-3 bg-gray-00">
+                                        <span class="text-md"> Last Update: May 5th, 2020</span>
+                                    </div>
+                                    <div class="w-full absolute bottom-0">
+                                        <button class="w-full py-4 bg-saffron-300">
+                                            Details
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Item 3 -->
+                        </div>
+                        <!-- End Item Cards -->
                     </div>
                 </div>
             </div>
@@ -319,8 +384,8 @@
 
 
 
-
-
+    @* https://play.tailwindcss.com/X84Tl6tItp *@
+    @* https://play.tailwindcss.com/NxjuXo1S96 *@
     @* https://play.tailwindcss.com/jsGXQsLfaB *@
     @* https://play.tailwindcss.com/SCoe7VGUKk *@
     @* https://play.tailwindcss.com/9GHkFqNyLG *@

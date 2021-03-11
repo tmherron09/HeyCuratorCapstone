@@ -7,7 +7,12 @@ const cleanCSS = require('gulp-clean-css');
 gulp.task('css:prod', () => {
 
 
-    return gulp.src('./Styles/site.css')
+    return gulp.src([
+            './Styles/site.css',
+            './Styles/buttons.css',
+            './Styles/branding.css',
+            './Styles/cards.css',
+        ])
         .pipe(sourcemaps.init())
         .pipe(postcss([
             require('precss'),
@@ -24,7 +29,12 @@ gulp.task('css:prod', () => {
 });
 
 gulp.task('css:dev', () => {
-    return gulp.src('./Styles/site.css')
+    return gulp.src([
+            './Styles/site.css',
+            './Styles/buttons.css',
+            './Styles/branding.css',
+            './Styles/cards.css',
+        ])
         .pipe(sourcemaps.init())
         .pipe(postcss([
             require('precss'),

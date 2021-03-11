@@ -281,3 +281,10 @@
     height: 400px;
 }
 
+.table-alternate:nth-child(even) {
+    @apply bg-white;
+}
+
+.table-alternate:nth-child(odd) {
+    @apply bg-saffron-100;
+}

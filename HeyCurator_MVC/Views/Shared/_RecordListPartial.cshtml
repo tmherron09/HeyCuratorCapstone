@@ -16,70 +16,49 @@
 }
 
 
-<table id="tablePreview" class="table table-striped table-hover table-sm table-bordered mb-0 text-center">
-    <thead>
-        <tr>
-            <th>
-                Storage
-            </th>
-            <th>
-                Amount Recorded
-            </th>
-            <th>
-                Minimum Recommended
-            </th>
-            <th>
-                Recorded By
-            </th>
-            <th>
-                Date Recorded
-            </th>
-            <th>
-                Notes
-            </th>
-            <th>
-                Curator Reported
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.Count(); i++)
-        {
-            var bgColor = "";
-            bgColor = (Model[i].RecordedCount < iis[i].Item.MinCount) ? "bg-totem-pole-200" : ((i % 2 == 0) ? "bg-white" : "bg-saffron-100");
-            
-            <tr onclick="updateRecordModal(this)" data-id="@Model[i].RecordId">
-                <td class="@bgColor">
-                    @storages[i].Name
-                </td>
-                <td class="@bgColor">
-                    @Model[i].RecordedCount
-                </td>
-                <td class="@bgColor">
-                    @iis[i].Item.MinCount
-                </td>
-                <td class="@bgColor">
-                    @Model[i].Employee.EmployeeUserName
-                </td>
-                <td class="@bgColor">
-                    @Model[i].TimeStamp
-                </td>
-                <td class="@bgColor">
-                    @Model[i].RecordNote
-                </td>
-                <td class=" @bgColor grid h-100">
-                    @if (Model[i].CuratorVerified)
-                    {
-                        <i class="gg-check-o mx-auto my-auto place-self-center"></i>
-                    }
-                    else
-                    {
-                        <i class="gg-shape-circle mx-auto my-auto place-self-center"></i>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
+<div class="my-16">
+    <div class="mt-8 overflow-hidden bg-white shadow-lg sm:rounded-sm sm:rounded-b-md">
+        <table id="tablePreview" class="text-center">
+            <thead>
+                <tr class="bg-saffron-200">
+                    <th class="w-2/12 py-2">Storage</th>
+                    <th class="w-1/12 py-2">Amount Recorded</th>
+                    <th class="w-1/12 py-2">Minimum Recommended</th>
+                    <th class="w-1/12 py-2">Recorded By</th>
+                    <th class="w-2/12 py-2">Date Recorded</th>
+                    <th class="w-3/12 py-2">Notes</th>
+                    <th class="w-1/12 py-2">Curator Reported</th>
+                </tr>
+            </thead>
+            <tbody class="">
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    var bgColor = "";
+                    bgColor = (Model[i].RecordedCount < iis[i].Item.MinCount) ? "bg-totem-pole-200" : "table-alternate";
+                    <tr class="h-10 font-bold text-gray-600 cursor-pointer @bgColor" onclick="updateRecordModal(this)" data-id="@Model[i].RecordId">
+                        <td>@storages[i].Name</td>
+                        <td> @Model[i].RecordedCount </td>
+                        <td>@iis[i].Item.MinCount</td>
+                        <td>@Model[i].Employee.EmployeeUserName</td>
+                        <td>@Model[i].TimeStamp</td>
+                        <td>
+                            <div class="max-h-12 overflow-auto text-sm text-left">
+                                @Model[i].RecordNote
+                            </div>
+                        </td>
+                        <td class="grid h-100">
+                            @if (Model[i].CuratorVerified)
+                            {
+                                <i class="gg-check-o mx-auto my-auto place-self-center"></i>
+                            }
+                            else
+                            {
+                                <i class="gg-shape-circle mx-auto my-auto place-self-center"></i>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

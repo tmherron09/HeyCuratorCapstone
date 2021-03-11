@@ -9,31 +9,29 @@
 
 
 <section class="py-8 px-4">
-    <div class="flex flex-wrap -mx-4">
+    <div class="grid grid-cols-6">
 
         @foreach (var item in userItems)
         {
 
-            <div class="w-full xl:w-1/3 lg:w-1/2 px-4 mb-4 lg:mb-0 ">
-                <div class="h-full border rounded shadow bg-white">
-                    <div class="flex items-center justify-between py-3 px-4 border-b">
-                        <h3 class="text-lg font-heading">@item.Name</h3>
-                        <span class="py-1 px-3 text-sm text-white font-semibold bg-green-500 rounded-full">Item</span>
-                    </div>
-                    <h3 class="mx-4 mt-4 text-3xl font-heading font-semibold">@item.RecordedStorageAmount</h3>
-                    <div class="grid grid-col-3 gap-4 p-4 pt-2">
-                        <div class="col-start-1 col-end-3">
-                            <span>Amount in Reserve</span>
-                            <br />
-                            <span class="text-green-500 text-xs">
-                            Last Update: @item.DateOfLastUpdate</span>
-                        </div>
-                        <div class="col-span-1">
-                            <a class="p-2 rounded shadow bg-green-200" asp-action="Details" asp-route-id="@item.ItemId">Details</a>
-                        </div>
-                    </div>
+        <div class="col-span-2 px-4 mb-4 lg:mb-0">
+            <div class="h-full border rounded shadow bg-white relative">
+                <div class="flex items-center justify-between py-3 px-4 border-b bg-saffron-100 ">
+                    <h3 class="text-lg font-heading">@item.Name</h3>
+                    <span class="py-1 px-3 text-sm text-white font-semibold bg-saffron-300 rounded-full">Item</span>
+                </div>
+                <div class="mx-3 my-2 rounded">
+                    <h3 class="text-3xl font-heading font-semibold text-right">500</h3>
+                    <p class="font-semibold">Amount in Reserve</p>
+                    <span class="text-md"> Last Update: @item.DateOfLastUpdate</span>
+                </div>
+                <div class="w-full bottom-0">
+                    <a class="inline-block w-full py-4 text-center bg-saffron-100 hover:bg-saffron-300 hover:no-underline" asp-action="Details" asp-route-id="@item.ItemId">
+                        Details
+                    </a>
                 </div>
             </div>
+        </div>
 
         }
 

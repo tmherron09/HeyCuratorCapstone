@@ -39,7 +39,7 @@ namespace HeyCurator_MVC.Controllers
         {
             if(_signInManager.IsSignedIn(User))
             {
-               return RedirectToAction("Home");
+               return RedirectToAction("Index");
             }
 
 
