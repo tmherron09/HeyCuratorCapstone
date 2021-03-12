@@ -70,6 +70,30 @@ namespace HeyCurator_MVC.Data
                     AccessLevel = AccessLevel.Other
                 });
 
+
+            builder.Entity<EmployeeRoles>()
+                .HasKey(er => new { er.EmployeeId , er.CuratorRoleId});
+            builder.Entity<EmployeeRoles>()
+                .HasOne(er => er.Employee)
+                .WithMany(emp => emp.EmployeeRoles)
+                .HasForeignKey(er => er.EmployeeId);
+            builder.Entity<EmployeeRoles>()
+                .HasOne(er => er.CuratorRole)
+                .WithMany(cr => cr.EmployeeRoles)
+                .HasForeignKey(er => er.CuratorRoleId);
+
+            builder.Entity<StorageItemInstance>()
+                .HasKey(sii => new { sii.StorageId, sii.ItemInstanceId });
+            builder.Entity<StorageItemInstance>()
+                .HasOne(sii => sii.Storage)
+                .WithMany(s => s.StorageItemInstances)
+                .HasForeignKey(sii => sii.StorageId);
+            builder.Entity<StorageItemInstance>()
+                .HasOne(sii => sii.ItemInstance)
+                .WithMany(ii => ii.StorageItemInstances)
+                .HasForeignKey(sii => sii.ItemInstanceId);
+
+
         }
         public DbSet<CuratorSpace> CuratorSpaces { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -78,6 +102,8 @@ namespace HeyCurator_MVC.Data
         public DbSet<Exhibit> Exhibits { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<ExpiredUpdateItem> ExpiredUpdateItems { get; set; }
+        public DbSet<ItemInstance> ItemInstances { get; set; }
+        public DbSet<InventoryControlModel> InventoryControlModels { get; set; }
         public DbSet<ItemInStorage> ItemInStorages { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<PurchaserNotification> PurchaserNotifications { get; set; }

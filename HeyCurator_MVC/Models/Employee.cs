@@ -27,6 +27,8 @@ namespace HeyCurator_MVC.Models
         [DisplayName("Employee Title")]
         public string Title { get; set; }
 
+
+        // To Do create new Identity User Context w/Claims
         [ForeignKey("IdentityUser")]
         [AllowNull]
         public string IdentityUser { get; set; }
@@ -34,10 +36,6 @@ namespace HeyCurator_MVC.Models
         [DisplayName("Employee's Roles")]
         public ICollection<EmployeeRoles> EmployeeRoles { get; set; }
 
-
     }
-
-    // Possible Switch to string and allow Admin defined values.
-    // Or predefined in IdentityRoles
     
 }

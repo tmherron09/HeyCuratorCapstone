@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,11 @@ namespace HeyCurator_MVC.Models
 
         // Name of the Type of Role or Name of Space it should be responsible for.
         public string NameOfRole { get; set; }
+
+        [DisplayName("Curator Employees")]
+        public ICollection<EmployeeRoles> EmployeeRoles { get; set; }
+
+        // TODO: Add descriptor propety.
 
     }
 }

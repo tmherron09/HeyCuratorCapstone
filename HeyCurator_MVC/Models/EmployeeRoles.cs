@@ -9,8 +9,9 @@ namespace HeyCurator_MVC.Models
 {
     public class EmployeeRoles
     {
-        [Key]
-        public int EmployeeRoleId { get; set; }
+        //[Key]
+        //public int EmployeeRoleId { get; set; }
+
         [ForeignKey("Employee")]
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
@@ -19,8 +20,8 @@ namespace HeyCurator_MVC.Models
         public int CuratorRoleId { get; set; }
         public CuratorRole CuratorRole { get; set; }
 
-        // TODO: Remove at next Migration
-        public CuratorRole StaffRole { get; set; }
+        // Depreciating
+        // public CuratorRole StaffRole { get; set; }
     }
 
 }

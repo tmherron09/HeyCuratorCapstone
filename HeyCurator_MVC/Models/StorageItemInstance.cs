@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace HeyCurator_MVC.Models
 {
-    public class StorageItemInstances
+
+    /// <summary>
+    /// Represents both an Item Instance stored in multiple places and
+    /// a storage space holds multiple item instances within.
+    /// </summary>
+    public class StorageItemInstance
     {
         public int ItemInstanceId { get; set; }
         public ItemInstance ItemInstance { get; set; }

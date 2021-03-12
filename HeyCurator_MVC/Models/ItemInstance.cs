@@ -25,7 +25,7 @@ namespace HeyCurator_MVC.Models
         public InventoryControlModel InventoryControlModel { get; set; }
 
 
-        public ICollection<StorageItemInstances> StorageItemInstances { get; set; }
+        public ICollection<StorageItemInstance> StorageItemInstances { get; set; }
 
 
     }

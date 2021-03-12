@@ -19,31 +19,17 @@ namespace HeyCurator_MVC.Models
         [Display(Name = "Restricted Access Rules")]
         public string RestrictedAccessRules { get; set; }
 
+        public ICollection<StorageItemInstance> StorageItemInstances { get; set; }
+
+
+
+
         // TODO: Remove
         public string StorageType { get; set; }
         public AccessLevel AccessLevel { get; set; }
 
-
-
-        public ICollection<StorageItemInstances> StorageItemInstances { get; set; }
-
     }
 
-
-    public enum StorageType
-    {
-        Closet,
-        LowerCabinet,
-        UpperCabinet,
-        InExhibitPiece,
-        Basement,
-        Office,
-        OutdoorContainer,
-        Warehouse,
-        InExhibitOutOfVisitorReach,
-        StorageRoom
-
-    }
 
     public enum AccessLevel
     {

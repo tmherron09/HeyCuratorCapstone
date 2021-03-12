@@ -24,13 +24,6 @@ namespace HeyCurator_MVC.Models
 
 
 
-
-
-
-
-
-
-
         /*
          * 
          *   TODO: Depreciate Items Below
