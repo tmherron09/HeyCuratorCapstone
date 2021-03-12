@@ -35,11 +35,83 @@ namespace HeyCurator_MVC.Controllers
 
         public IActionResult Index()
         {
-            
+
 
 
             return View();
         }
+
+        [HttpGet]
+        public IActionResult CreateEmployee()
+        {
+            
+            // Present Model Requires Employee To Register Themselves with Admin Secrets Code.
+            // Only For Demo/Testing.
+
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult CreateCuratorRole()
+        {
+
+            CreateCuratorRoleViewModel curatorViewModel = new CreateCuratorRoleViewModel();
+
+            return View(curatorViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult CreateCuratorRole(CreateCuratorRoleViewModel viewModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View();
+            }
+
+            _context.CuratorRoles.Add(viewModel.Curator);
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to create role.");
+            }
+
+
+            EmployeeRoles empRole = new EmployeeRoles()
+            {
+                EmployeeId = viewModel.InitialEmployeeId,
+                CuratorRoleId = viewModel.Curator.CuratorRoleId
+            };
+
+
+
+            _context.EmployeeRoles.Add(empRole);
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to Employee/Curator Role Join.");
+            }
+
+
+            _hub.Clients.All.SendAsync("PopCustomToast", $"Curator Role Update", $"{viewModel.Curator.NameOfRole} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+
+            return View("Index");
+        }
+
+
 
 
         [HttpPost]
@@ -56,11 +128,11 @@ namespace HeyCurator_MVC.Controllers
 
             _context.Items.Add(item);
 
-                lock (dbLock)
-                {
-                    _context.SaveChanges();
-                }
-          
+            lock (dbLock)
+            {
+                _context.SaveChanges();
+            }
+
 
             _hub.Clients.All.SendAsync("PopCustomToast", $"Item Update", $"{item.Name} has been updated by ${User.Identity.Name}.", "yellow", "fa-bell");
 
@@ -184,7 +256,7 @@ namespace HeyCurator_MVC.Controllers
             {
                 return View("Index");
             }
-           
+
             _context.Storages.Add(storage);
             try
             {
@@ -214,9 +286,9 @@ namespace HeyCurator_MVC.Controllers
                 StorageCount = itemInStorageViewModel.StorageCount,
                 StorageId = itemInStorageViewModel.StorageId
             };
-            
-            
-            
+
+
+
             ExhibitSpace es = _context.Exhibits.Where(e => e.ExhibitId == itemInStorageViewModel.ExhibitId).Select(e => e.ExhibitSpace).SingleOrDefault();
 
             iis.CuratorSpaceId = es.CuratorSpaceId;
