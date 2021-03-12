@@ -21,9 +21,12 @@ namespace HeyCurator_MVC.Models
         public CuratorRole CuratorRole { get; set; }
 
         public ICollection<ExhibitSpace> ExhibitSpaces { get; set; }
-        public ICollection<Exhibit> Exhibits { get; set; }
-        public ICollection<ItemInStorage> ItemsInStorage { get; set; }
-        public ICollection<Storage> Storages { get; set; }
+
+
+
+        //public ICollection<Exhibit> Exhibits { get; set; }
+        //public ICollection<ItemInStorage> ItemsInStorage { get; set; }
+        //public ICollection<Storage> Storages { get; set; }
 
     }
 }

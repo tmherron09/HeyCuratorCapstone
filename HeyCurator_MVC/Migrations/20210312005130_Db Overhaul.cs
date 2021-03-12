@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HeyCurator_MVC.Migrations
 {
-    public partial class init : Migration
+    public partial class DbOverhaul : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -96,6 +96,7 @@ namespace HeyCurator_MVC.Migrations
                     ItemId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
+                    ItemDescription = table.Column<string>(nullable: true),
                     MinCount = table.Column<int>(nullable: false),
                     DaysBetweenUpdates = table.Column<int>(nullable: false),
                     DaysBeforeNotifyAllCurators = table.Column<int>(nullable: false),
@@ -107,6 +108,24 @@ namespace HeyCurator_MVC.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Items", x => x.ItemId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Storages",
+                columns: table => new
+                {
+                    StorageId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    LocationDescription = table.Column<string>(nullable: true),
+                    RestrictedAccessRules = table.Column<string>(nullable: true),
+                    StorageType = table.Column<string>(nullable: true),
+                    AccessLevel = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Storages", x => x.StorageId);
                 });
 
             migrationBuilder.CreateTable(
@@ -284,6 +303,26 @@ namespace HeyCurator_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ItemInstances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemInstanceName = table.Column<string>(nullable: true),
+                    ItemId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemInstances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemInstances_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LowCountItems",
                 columns: table => new
                 {
@@ -312,7 +351,9 @@ namespace HeyCurator_MVC.Migrations
                 {
                     ExhibitSpaceId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ExhibitSpaceName = table.Column<string>(nullable: true),
+                    ExhibitSpaceName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    LocationDescription = table.Column<string>(nullable: true),
                     CuratorSpaceId = table.Column<int>(nullable: true),
                     ItemId = table.Column<int>(nullable: true)
                 },
@@ -334,25 +375,88 @@ namespace HeyCurator_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Storages",
+                name: "ItemInStorages",
                 columns: table => new
                 {
-                    StorageId = table.Column<int>(nullable: false)
+                    ItemInStorageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    StorageType = table.Column<string>(nullable: true),
-                    AccessLevel = table.Column<int>(nullable: false),
+                    InstanceIdentifier = table.Column<string>(nullable: true),
+                    StorageCount = table.Column<int>(nullable: false),
+                    ItemId = table.Column<int>(nullable: false),
+                    StorageId = table.Column<int>(nullable: false),
                     CuratorSpaceId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Storages", x => x.StorageId);
+                    table.PrimaryKey("PK_ItemInStorages", x => x.ItemInStorageId);
                     table.ForeignKey(
-                        name: "FK_Storages_CuratorSpaces_CuratorSpaceId",
+                        name: "FK_ItemInStorages_CuratorSpaces_CuratorSpaceId",
                         column: x => x.CuratorSpaceId,
                         principalTable: "CuratorSpaces",
                         principalColumn: "CuratorSpaceId",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ItemInStorages_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemInStorages_Storages_StorageId",
+                        column: x => x.StorageId,
+                        principalTable: "Storages",
+                        principalColumn: "StorageId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InventoryControlModels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemInstanceId = table.Column<int>(nullable: false),
+                    UnitMeasurement = table.Column<string>(nullable: true),
+                    MinimumUnitCount = table.Column<float>(nullable: false),
+                    RecommendedUnitCount = table.Column<float>(nullable: false),
+                    MostRecentInventoryCount = table.Column<int>(nullable: false),
+                    DateOfMostRecentInventoryCount = table.Column<DateTime>(nullable: false),
+                    ScheduledUpdatePeriodInDays = table.Column<int>(nullable: false),
+                    AllowUpdateLapseInDays = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InventoryControlModels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InventoryControlModels_ItemInstances_ItemInstanceId",
+                        column: x => x.ItemInstanceId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StorageItemInstances",
+                columns: table => new
+                {
+                    ItemInstanceId = table.Column<int>(nullable: false),
+                    StorageId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StorageItemInstances", x => new { x.StorageId, x.ItemInstanceId });
+                    table.ForeignKey(
+                        name: "FK_StorageItemInstances_ItemInstances_ItemInstanceId",
+                        column: x => x.ItemInstanceId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StorageItemInstances_Storages_StorageId",
+                        column: x => x.StorageId,
+                        principalTable: "Storages",
+                        principalColumn: "StorageId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -361,20 +465,15 @@ namespace HeyCurator_MVC.Migrations
                 {
                     ExhibitId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    CuratorSpaceId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    LocationDescription = table.Column<string>(nullable: true),
                     ExhibitSpaceId = table.Column<int>(nullable: false),
                     ItemId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Exhibits", x => x.ExhibitId);
-                    table.ForeignKey(
-                        name: "FK_Exhibits_CuratorSpaces_CuratorSpaceId",
-                        column: x => x.CuratorSpaceId,
-                        principalTable: "CuratorSpaces",
-                        principalColumn: "CuratorSpaceId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Exhibits_ExhibitSpaces_ExhibitSpaceId",
                         column: x => x.ExhibitSpaceId,
@@ -390,69 +489,26 @@ namespace HeyCurator_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StorageCuratorSpaces",
+                name: "ExhibitItemInstances",
                 columns: table => new
                 {
-                    StorageCuratorSpacesId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StorageId = table.Column<int>(nullable: false),
-                    CuratorSpaceId = table.Column<int>(nullable: false)
+                    ExhibitId = table.Column<int>(nullable: false),
+                    ItemInstanceId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StorageCuratorSpaces", x => x.StorageCuratorSpacesId);
+                    table.PrimaryKey("PK_ExhibitItemInstances", x => new { x.ExhibitId, x.ItemInstanceId });
                     table.ForeignKey(
-                        name: "FK_StorageCuratorSpaces_CuratorSpaces_CuratorSpaceId",
-                        column: x => x.CuratorSpaceId,
-                        principalTable: "CuratorSpaces",
-                        principalColumn: "CuratorSpaceId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StorageCuratorSpaces_Storages_StorageId",
-                        column: x => x.StorageId,
-                        principalTable: "Storages",
-                        principalColumn: "StorageId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ItemInStorages",
-                columns: table => new
-                {
-                    ItemInStorageId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StorageCount = table.Column<int>(nullable: false),
-                    ItemId = table.Column<int>(nullable: false),
-                    StorageId = table.Column<int>(nullable: false),
-                    CuratorSpaceId = table.Column<int>(nullable: true),
-                    ExhibitId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ItemInStorages", x => x.ItemInStorageId);
-                    table.ForeignKey(
-                        name: "FK_ItemInStorages_CuratorSpaces_CuratorSpaceId",
-                        column: x => x.CuratorSpaceId,
-                        principalTable: "CuratorSpaces",
-                        principalColumn: "CuratorSpaceId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ItemInStorages_Exhibits_ExhibitId",
+                        name: "FK_ExhibitItemInstances_Exhibits_ExhibitId",
                         column: x => x.ExhibitId,
                         principalTable: "Exhibits",
                         principalColumn: "ExhibitId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ItemInStorages_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
-                        principalColumn: "ItemId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ItemInStorages_Storages_StorageId",
-                        column: x => x.StorageId,
-                        principalTable: "Storages",
-                        principalColumn: "StorageId",
+                        name: "FK_ExhibitItemInstances_ItemInstances_ItemInstanceId",
+                        column: x => x.ItemInstanceId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -486,27 +542,18 @@ namespace HeyCurator_MVC.Migrations
                 name: "EmployeeRoles",
                 columns: table => new
                 {
-                    EmployeeRoleId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeId = table.Column<int>(nullable: false),
-                    CuratorRoleId = table.Column<int>(nullable: false),
-                    StaffRoleCuratorRoleId = table.Column<int>(nullable: true)
+                    CuratorRoleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeRoles", x => x.EmployeeRoleId);
+                    table.PrimaryKey("PK_EmployeeRoles", x => new { x.EmployeeId, x.CuratorRoleId });
                     table.ForeignKey(
                         name: "FK_EmployeeRoles_CuratorRoles_CuratorRoleId",
                         column: x => x.CuratorRoleId,
                         principalTable: "CuratorRoles",
                         principalColumn: "CuratorRoleId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EmployeeRoles_CuratorRoles_StaffRoleCuratorRoleId",
-                        column: x => x.StaffRoleCuratorRoleId,
-                        principalTable: "CuratorRoles",
-                        principalColumn: "CuratorRoleId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -594,20 +641,27 @@ namespace HeyCurator_MVC.Migrations
                     RecordId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RecordedCount = table.Column<int>(nullable: false),
-                    ItemInStorageId = table.Column<int>(nullable: false),
                     TimeStamp = table.Column<DateTime>(nullable: false),
                     EmployeeId = table.Column<int>(nullable: true),
+                    CuratorVerified = table.Column<bool>(nullable: false),
+                    RecordNote = table.Column<string>(nullable: true),
+                    InventoryControlModelID = table.Column<int>(nullable: false),
+                    ItemInStorageId = table.Column<int>(nullable: false),
                     FirstVerifierId = table.Column<int>(nullable: true),
                     SecondVefifierId = table.Column<int>(nullable: true),
-                    CuratorVerified = table.Column<bool>(nullable: false),
                     IsChallenged = table.Column<bool>(nullable: false),
                     SecondaryVefified = table.Column<bool>(nullable: false),
-                    RecordNote = table.Column<string>(nullable: true),
                     ItemId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Records", x => x.RecordId);
+                    table.ForeignKey(
+                        name: "FK_Records_InventoryControlModels_InventoryControlModelID",
+                        column: x => x.InventoryControlModelID,
+                        principalTable: "InventoryControlModels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Records_Items_ItemId",
                         column: x => x.ItemId,
@@ -651,9 +705,9 @@ namespace HeyCurator_MVC.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "9e45d53f-49a9-460b-8e12-2bd0bfab6ef1", "41011dd3-ac3c-4416-95e3-aab5b22bf4af", "Admin", "ADMIN" },
-                    { "73fa2ebe-3716-4c64-ae53-f38194964cda", "897bf9f0-ea93-4ab2-82a5-e40fcdf274d3", "Curator", "CURATOR" },
-                    { "1ef8ab70-7946-47a6-99ff-8d906a1b9a6f", "7afce334-00a6-4491-8ea6-0a2eb1219c27", "Employee", "EMPLOYEE" }
+                    { "7d15f7ab-daa3-4be9-8d2a-cdd9bc7aca20", "6c6299de-b83f-4069-87ab-5dea24c6f5cb", "Admin", "ADMIN" },
+                    { "c3a2cee3-62cb-4adb-8962-5ce39bf54162", "7e39deae-2cd7-470c-91e4-9a2bf53aedb8", "Curator", "CURATOR" },
+                    { "d5877253-8af7-41b5-9912-ed515d44cfaf", "2258cafe-a4ea-493e-b292-372395a59ef2", "Employee", "EMPLOYEE" }
                 });
 
             migrationBuilder.InsertData(
@@ -667,8 +721,8 @@ namespace HeyCurator_MVC.Migrations
 
             migrationBuilder.InsertData(
                 table: "Storages",
-                columns: new[] { "StorageId", "AccessLevel", "CuratorSpaceId", "Name", "StorageType" },
-                values: new object[] { 1, 7, null, "Not Declared", "Not Declared" });
+                columns: new[] { "StorageId", "AccessLevel", "Description", "LocationDescription", "Name", "RestrictedAccessRules", "StorageType" },
+                values: new object[] { 1, 7, null, null, "Not Declared", null, "Not Declared" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AnonymousComments_AnonymousQuestionId",
@@ -730,19 +784,14 @@ namespace HeyCurator_MVC.Migrations
                 column: "CuratorRoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeRoles_EmployeeId",
-                table: "EmployeeRoles",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmployeeRoles_StaffRoleCuratorRoleId",
-                table: "EmployeeRoles",
-                column: "StaffRoleCuratorRoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Employees_RecordId",
                 table: "Employees",
                 column: "RecordId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExhibitItemInstances_ItemInstanceId",
+                table: "ExhibitItemInstances",
+                column: "ItemInstanceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExhibitItemInStorages_ExhibitId",
@@ -753,11 +802,6 @@ namespace HeyCurator_MVC.Migrations
                 name: "IX_ExhibitItemInStorages_ItemInStorageId",
                 table: "ExhibitItemInStorages",
                 column: "ItemInStorageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Exhibits_CuratorSpaceId",
-                table: "Exhibits",
-                column: "CuratorSpaceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Exhibits_ExhibitSpaceId",
@@ -800,14 +844,20 @@ namespace HeyCurator_MVC.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_InventoryControlModels_ItemInstanceId",
+                table: "InventoryControlModels",
+                column: "ItemInstanceId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemInstances_ItemId",
+                table: "ItemInstances",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ItemInStorages_CuratorSpaceId",
                 table: "ItemInStorages",
                 column: "CuratorSpaceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItemInStorages_ExhibitId",
-                table: "ItemInStorages",
-                column: "ExhibitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItemInStorages_ItemId",
@@ -855,6 +905,11 @@ namespace HeyCurator_MVC.Migrations
                 column: "FirstVerifierId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Records_InventoryControlModelID",
+                table: "Records",
+                column: "InventoryControlModelID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Records_ItemId",
                 table: "Records",
                 column: "ItemId");
@@ -870,19 +925,9 @@ namespace HeyCurator_MVC.Migrations
                 column: "SecondVefifierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StorageCuratorSpaces_CuratorSpaceId",
-                table: "StorageCuratorSpaces",
-                column: "CuratorSpaceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StorageCuratorSpaces_StorageId",
-                table: "StorageCuratorSpaces",
-                column: "StorageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Storages_CuratorSpaceId",
-                table: "Storages",
-                column: "CuratorSpaceId");
+                name: "IX_StorageItemInstances_ItemInstanceId",
+                table: "StorageItemInstances",
+                column: "ItemInstanceId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_EmployeeRoles_Employees_EmployeeId",
@@ -960,12 +1005,8 @@ namespace HeyCurator_MVC.Migrations
                 table: "CuratorSpaces");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Exhibits_Items_ItemId",
-                table: "Exhibits");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ExhibitSpaces_Items_ItemId",
-                table: "ExhibitSpaces");
+                name: "FK_ItemInstances_Items_ItemId",
+                table: "ItemInstances");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_ItemInStorages_Items_ItemId",
@@ -1012,6 +1053,9 @@ namespace HeyCurator_MVC.Migrations
                 name: "EmployeeRoles");
 
             migrationBuilder.DropTable(
+                name: "ExhibitItemInstances");
+
+            migrationBuilder.DropTable(
                 name: "ExhibitItemInStorages");
 
             migrationBuilder.DropTable(
@@ -1030,7 +1074,7 @@ namespace HeyCurator_MVC.Migrations
                 name: "PurchaserNotifications");
 
             migrationBuilder.DropTable(
-                name: "StorageCuratorSpaces");
+                name: "StorageItemInstances");
 
             migrationBuilder.DropTable(
                 name: "AnonymousQuestions");
@@ -1040,6 +1084,12 @@ namespace HeyCurator_MVC.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Exhibits");
+
+            migrationBuilder.DropTable(
+                name: "ExhibitSpaces");
 
             migrationBuilder.DropTable(
                 name: "CuratorRoles");
@@ -1054,19 +1104,19 @@ namespace HeyCurator_MVC.Migrations
                 name: "Records");
 
             migrationBuilder.DropTable(
+                name: "InventoryControlModels");
+
+            migrationBuilder.DropTable(
                 name: "ItemInStorages");
 
             migrationBuilder.DropTable(
-                name: "Exhibits");
-
-            migrationBuilder.DropTable(
-                name: "Storages");
-
-            migrationBuilder.DropTable(
-                name: "ExhibitSpaces");
+                name: "ItemInstances");
 
             migrationBuilder.DropTable(
                 name: "CuratorSpaces");
+
+            migrationBuilder.DropTable(
+                name: "Storages");
         }
     }
 }

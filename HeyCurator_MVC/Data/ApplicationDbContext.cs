@@ -93,31 +93,64 @@ namespace HeyCurator_MVC.Data
                 .WithMany(ii => ii.StorageItemInstances)
                 .HasForeignKey(sii => sii.ItemInstanceId);
 
+            builder.Entity<ExhibitItemInstance>()
+                .HasKey(eii => new { eii.ExhibitId, eii.ItemInstanceId });
+            builder.Entity<ExhibitItemInstance>()
+                .HasOne(eii => eii.Exhibit)
+                .WithMany(s => s.ExhibitItemInstances)
+                .HasForeignKey(eii => eii.ExhibitId);
+            builder.Entity<ExhibitItemInstance>()
+                .HasOne(eii => eii.ItemInstance)
+                .WithMany(ii => ii.ExhibitItemInstances)
+                .HasForeignKey(eii => eii.ItemInstanceId);
+
+            builder.Entity<Record>()
+                .HasOne<InventoryControlModel>(r => r.InventoryControlModel)
+                .WithMany(icm => icm.Records)
+                .HasForeignKey(r => r.InventoryControlModelID)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
         }
-        public DbSet<CuratorSpace> CuratorSpaces { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeRoles> EmployeeRoles { get; set; }
-        public DbSet<Storage> Storages { get; set; }
+        public DbSet<CuratorRole> CuratorRoles { get; set; }
+        public DbSet<CuratorSpace> CuratorSpaces { get; set; }
+        public DbSet<ExhibitSpace> ExhibitSpaces { get; set; }
         public DbSet<Exhibit> Exhibits { get; set; }
-        public DbSet<Item> Items { get; set; }
-        public DbSet<ExpiredUpdateItem> ExpiredUpdateItems { get; set; }
+        public DbSet<ExhibitItemInstance> ExhibitItemInstances { get; set; }
+       
         public DbSet<ItemInstance> ItemInstances { get; set; }
         public DbSet<InventoryControlModel> InventoryControlModels { get; set; }
-        public DbSet<ItemInStorage> ItemInStorages { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<PurchaserNotification> PurchaserNotifications { get; set; }
+        public DbSet<Item> Items { get; set; }
+
+
+
+        public DbSet<StorageItemInstance> StorageItemInstances { get; set; }
+        public DbSet<Storage> Storages { get; set; }
         public DbSet<Record> Records { get; set; }
-        public DbSet<StorageCuratorSpace> StorageCuratorSpaces { get; set; }
-        public DbSet<CuratorRole> CuratorRoles { get; set; }
-        public DbSet<ExhibitSpace> ExhibitSpaces { get; set; }
-        public DbSet<ExhibitItemInStorage> ExhibitItemInStorages { get; set; }
+
+
+
+
+        public DbSet<ExpiredUpdateItem> ExpiredUpdateItems { get; set; }
+
+        public DbSet<PurchaserNotification> PurchaserNotifications { get; set; }
+        
+
         public DbSet<HeyCuratorMail> HeyCuratorMails { get; set; }
         public DbSet<LowCountItem> LowCountItems { get; set; }
-        public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<AnonymousQuestion> AnonymousQuestions { get; set; }
         public DbSet<AnonymousComment> AnonymousComments { get; set; }
 
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
+
+        // TODO: Depereciate the following.
+        public DbSet<ItemInStorage> ItemInStorages { get; set; }
+        public DbSet<ExhibitItemInStorage> ExhibitItemInStorages { get; set; }
 
     }
 }

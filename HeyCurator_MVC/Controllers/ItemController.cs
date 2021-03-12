@@ -6,12 +6,14 @@ using HeyCurator_MVC.Data;
 using HeyCurator_MVC.Models;
 using HeyCurator_MVC.Services;
 using HeyCurator_MVC.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 
 namespace HeyCurator_MVC.Controllers
 {
+    [Authorize]
     public class ItemController : Controller
     {
 

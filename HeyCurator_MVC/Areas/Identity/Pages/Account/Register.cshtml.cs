@@ -107,7 +107,8 @@ namespace HeyCurator_MVC.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    Employee addedEmployee = new Employee { 
+                    Employee addedEmployee = new Employee
+                    {
                         FirstName = Input.FirstName,
                         LastName = Input.LastName,
                         EmployeeUserName = Input.FirstName + Input.LastName[0],
@@ -118,7 +119,8 @@ namespace HeyCurator_MVC.Areas.Identity.Pages.Account
                     _context.Employees.Add(addedEmployee);
                     _context.SaveChanges();
 
-                    EmployeeRoles employeeRole = new EmployeeRoles { 
+                    EmployeeRoles employeeRole = new EmployeeRoles
+                    {
                         EmployeeId = addedEmployee.EmployeeId,
                         CuratorRoleId = Input.CuratorRoleId
                     };
@@ -128,28 +130,11 @@ namespace HeyCurator_MVC.Areas.Identity.Pages.Account
 
                     _logger.LogInformation("User created a new account with password.");
 
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    //var callbackUrl = Url.Page(
-                    //    "/Account/ConfirmEmail",
-                    //    pageHandler: null,
-                    //    values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                    //    protocol: Request.Scheme);
+                    HttpContext.Session.SetString("username", user.UserName);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    return LocalRedirect(returnUrl);
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-
-                        HttpContext.Session.SetString("username", user.UserName);
-                        //await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
                 }
                 foreach (var error in result.Errors)
                 {

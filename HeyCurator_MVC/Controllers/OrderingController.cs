@@ -1,6 +1,7 @@
 ﻿using HeyCurator_MVC.Data;
 using HeyCurator_MVC.Models;
 using HeyCurator_MVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace HeyCurator_MVC.Controllers
 {
+    [Authorize]
     public class OrderingController : Controller
     {
         private readonly ApplicationDbContext _context;

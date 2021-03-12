@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HeyCurator_MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210308203730_ItemInstanceInstanceIdentifier")]
-    partial class ItemInstanceInstanceIdentifier
+    [Migration("20210312005130_Db Overhaul")]
+    partial class DbOverhaul
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -225,27 +225,15 @@ namespace HeyCurator_MVC.Migrations
 
             modelBuilder.Entity("HeyCurator_MVC.Models.EmployeeRoles", b =>
                 {
-                    b.Property<int>("EmployeeRoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CuratorRoleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StaffRoleCuratorRoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmployeeRoleId");
+                    b.HasKey("EmployeeId", "CuratorRoleId");
 
                     b.HasIndex("CuratorRoleId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("StaffRoleCuratorRoleId");
 
                     b.ToTable("EmployeeRoles");
                 });
@@ -257,8 +245,8 @@ namespace HeyCurator_MVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CuratorSpaceId")
-                        .HasColumnType("int");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ExhibitSpaceId")
                         .HasColumnType("int");
@@ -266,12 +254,14 @@ namespace HeyCurator_MVC.Migrations
                     b.Property<int?>("ItemId")
                         .HasColumnType("int");
 
+                    b.Property<string>("LocationDescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ExhibitId");
-
-                    b.HasIndex("CuratorSpaceId");
 
                     b.HasIndex("ExhibitSpaceId");
 
@@ -302,6 +292,21 @@ namespace HeyCurator_MVC.Migrations
                     b.ToTable("ExhibitItemInStorages");
                 });
 
+            modelBuilder.Entity("HeyCurator_MVC.Models.ExhibitItemInstance", b =>
+                {
+                    b.Property<int>("ExhibitId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemInstanceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ExhibitId", "ItemInstanceId");
+
+                    b.HasIndex("ItemInstanceId");
+
+                    b.ToTable("ExhibitItemInstances");
+                });
+
             modelBuilder.Entity("HeyCurator_MVC.Models.ExhibitSpace", b =>
                 {
                     b.Property<int>("ExhibitSpaceId")
@@ -312,11 +317,18 @@ namespace HeyCurator_MVC.Migrations
                     b.Property<int?>("CuratorSpaceId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ExhibitSpaceName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ItemId")
                         .HasColumnType("int");
+
+                    b.Property<string>("LocationDescription")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ExhibitSpaceId");
 
@@ -347,6 +359,45 @@ namespace HeyCurator_MVC.Migrations
                     b.ToTable("ExpiredUpdateItems");
                 });
 
+            modelBuilder.Entity("HeyCurator_MVC.Models.InventoryControlModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AllowUpdateLapseInDays")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfMostRecentInventoryCount")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ItemInstanceId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("MinimumUnitCount")
+                        .HasColumnType("real");
+
+                    b.Property<int>("MostRecentInventoryCount")
+                        .HasColumnType("int");
+
+                    b.Property<float>("RecommendedUnitCount")
+                        .HasColumnType("real");
+
+                    b.Property<int>("ScheduledUpdatePeriodInDays")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UnitMeasurement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemInstanceId")
+                        .IsUnique();
+
+                    b.ToTable("InventoryControlModels");
+                });
+
             modelBuilder.Entity("HeyCurator_MVC.Models.Item", b =>
                 {
                     b.Property<int>("ItemId")
@@ -365,6 +416,9 @@ namespace HeyCurator_MVC.Migrations
 
                     b.Property<int>("DaysBetweenUpdates")
                         .HasColumnType("int");
+
+                    b.Property<string>("ItemDescription")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MinCount")
                         .HasColumnType("int");
@@ -394,9 +448,6 @@ namespace HeyCurator_MVC.Migrations
                     b.Property<int?>("CuratorSpaceId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ExhibitId")
-                        .HasColumnType("int");
-
                     b.Property<string>("InstanceIdentifier")
                         .HasColumnType("nvarchar(max)");
 
@@ -413,13 +464,31 @@ namespace HeyCurator_MVC.Migrations
 
                     b.HasIndex("CuratorSpaceId");
 
-                    b.HasIndex("ExhibitId");
-
                     b.HasIndex("ItemId");
 
                     b.HasIndex("StorageId");
 
                     b.ToTable("ItemInStorages");
+                });
+
+            modelBuilder.Entity("HeyCurator_MVC.Models.ItemInstance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ItemInstanceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("ItemInstances");
                 });
 
             modelBuilder.Entity("HeyCurator_MVC.Models.LowCountItem", b =>
@@ -544,6 +613,9 @@ namespace HeyCurator_MVC.Migrations
                     b.Property<int?>("FirstVerifierId")
                         .HasColumnType("int");
 
+                    b.Property<int>("InventoryControlModelID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsChallenged")
                         .HasColumnType("bit");
 
@@ -574,6 +646,8 @@ namespace HeyCurator_MVC.Migrations
 
                     b.HasIndex("FirstVerifierId");
 
+                    b.HasIndex("InventoryControlModelID");
+
                     b.HasIndex("ItemId");
 
                     b.HasIndex("ItemInStorageId");
@@ -593,18 +667,22 @@ namespace HeyCurator_MVC.Migrations
                     b.Property<int>("AccessLevel")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CuratorSpaceId")
-                        .HasColumnType("int");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocationDescription")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RestrictedAccessRules")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StorageType")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StorageId");
-
-                    b.HasIndex("CuratorSpaceId");
 
                     b.ToTable("Storages");
 
@@ -618,26 +696,19 @@ namespace HeyCurator_MVC.Migrations
                         });
                 });
 
-            modelBuilder.Entity("HeyCurator_MVC.Models.StorageCuratorSpace", b =>
+            modelBuilder.Entity("HeyCurator_MVC.Models.StorageItemInstance", b =>
                 {
-                    b.Property<int>("StorageCuratorSpacesId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CuratorSpaceId")
-                        .HasColumnType("int");
-
                     b.Property<int>("StorageId")
                         .HasColumnType("int");
 
-                    b.HasKey("StorageCuratorSpacesId");
+                    b.Property<int>("ItemInstanceId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CuratorSpaceId");
+                    b.HasKey("StorageId", "ItemInstanceId");
 
-                    b.HasIndex("StorageId");
+                    b.HasIndex("ItemInstanceId");
 
-                    b.ToTable("StorageCuratorSpaces");
+                    b.ToTable("StorageItemInstances");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -669,22 +740,22 @@ namespace HeyCurator_MVC.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f2e1c51c-792e-4be1-bfbd-08386213b536",
-                            ConcurrencyStamp = "64939bb1-9214-4d4e-82d2-812029633543",
+                            Id = "7d15f7ab-daa3-4be9-8d2a-cdd9bc7aca20",
+                            ConcurrencyStamp = "6c6299de-b83f-4069-87ab-5dea24c6f5cb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "c85b0ade-4546-4513-9eda-12fed7995fb5",
-                            ConcurrencyStamp = "16cc2d10-9924-4854-bac1-46d6fe831ae2",
+                            Id = "c3a2cee3-62cb-4adb-8962-5ce39bf54162",
+                            ConcurrencyStamp = "7e39deae-2cd7-470c-91e4-9a2bf53aedb8",
                             Name = "Curator",
                             NormalizedName = "CURATOR"
                         },
                         new
                         {
-                            Id = "4fe69a3f-395a-4301-bef2-1dc32688cde9",
-                            ConcurrencyStamp = "5ace7884-0336-4856-8127-29fd65f3be34",
+                            Id = "d5877253-8af7-41b5-9912-ed515d44cfaf",
+                            ConcurrencyStamp = "2258cafe-a4ea-493e-b292-372395a59ef2",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -910,7 +981,7 @@ namespace HeyCurator_MVC.Migrations
             modelBuilder.Entity("HeyCurator_MVC.Models.EmployeeRoles", b =>
                 {
                     b.HasOne("HeyCurator_MVC.Models.CuratorRole", "CuratorRole")
-                        .WithMany()
+                        .WithMany("EmployeeRoles")
                         .HasForeignKey("CuratorRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -920,20 +991,10 @@ namespace HeyCurator_MVC.Migrations
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("HeyCurator_MVC.Models.CuratorRole", "StaffRole")
-                        .WithMany()
-                        .HasForeignKey("StaffRoleCuratorRoleId");
                 });
 
             modelBuilder.Entity("HeyCurator_MVC.Models.Exhibit", b =>
                 {
-                    b.HasOne("HeyCurator_MVC.Models.CuratorSpace", "CuratorSpace")
-                        .WithMany("Exhibits")
-                        .HasForeignKey("CuratorSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HeyCurator_MVC.Models.ExhibitSpace", "ExhibitSpace")
                         .WithMany("Exhibits")
                         .HasForeignKey("ExhibitSpaceId")
@@ -960,6 +1021,21 @@ namespace HeyCurator_MVC.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HeyCurator_MVC.Models.ExhibitItemInstance", b =>
+                {
+                    b.HasOne("HeyCurator_MVC.Models.Exhibit", "Exhibit")
+                        .WithMany("ExhibitItemInstances")
+                        .HasForeignKey("ExhibitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HeyCurator_MVC.Models.ItemInstance", "ItemInstance")
+                        .WithMany("ExhibitItemInstances")
+                        .HasForeignKey("ItemInstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("HeyCurator_MVC.Models.ExhibitSpace", b =>
                 {
                     b.HasOne("HeyCurator_MVC.Models.CuratorSpace", "CuratorSpace")
@@ -980,15 +1056,20 @@ namespace HeyCurator_MVC.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HeyCurator_MVC.Models.InventoryControlModel", b =>
+                {
+                    b.HasOne("HeyCurator_MVC.Models.ItemInstance", "ItemInstance")
+                        .WithOne("InventoryControlModel")
+                        .HasForeignKey("HeyCurator_MVC.Models.InventoryControlModel", "ItemInstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("HeyCurator_MVC.Models.ItemInStorage", b =>
                 {
                     b.HasOne("HeyCurator_MVC.Models.CuratorSpace", "CuratorSpace")
-                        .WithMany("ItemsInStorage")
+                        .WithMany()
                         .HasForeignKey("CuratorSpaceId");
-
-                    b.HasOne("HeyCurator_MVC.Models.Exhibit", null)
-                        .WithMany("ItemInStorages")
-                        .HasForeignKey("ExhibitId");
 
                     b.HasOne("HeyCurator_MVC.Models.Item", "Item")
                         .WithMany("ItemInStorages")
@@ -999,6 +1080,15 @@ namespace HeyCurator_MVC.Migrations
                     b.HasOne("HeyCurator_MVC.Models.Storage", "Storage")
                         .WithMany()
                         .HasForeignKey("StorageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("HeyCurator_MVC.Models.ItemInstance", b =>
+                {
+                    b.HasOne("HeyCurator_MVC.Models.Item", "Item")
+                        .WithMany("ItemInstances")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1052,6 +1142,12 @@ namespace HeyCurator_MVC.Migrations
                         .WithMany()
                         .HasForeignKey("FirstVerifierId");
 
+                    b.HasOne("HeyCurator_MVC.Models.InventoryControlModel", "InventoryControlModel")
+                        .WithMany("Records")
+                        .HasForeignKey("InventoryControlModelID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("HeyCurator_MVC.Models.Item", null)
                         .WithMany("Records")
                         .HasForeignKey("ItemId");
@@ -1067,23 +1163,16 @@ namespace HeyCurator_MVC.Migrations
                         .HasForeignKey("SecondVefifierId");
                 });
 
-            modelBuilder.Entity("HeyCurator_MVC.Models.Storage", b =>
+            modelBuilder.Entity("HeyCurator_MVC.Models.StorageItemInstance", b =>
                 {
-                    b.HasOne("HeyCurator_MVC.Models.CuratorSpace", null)
-                        .WithMany("Storages")
-                        .HasForeignKey("CuratorSpaceId");
-                });
-
-            modelBuilder.Entity("HeyCurator_MVC.Models.StorageCuratorSpace", b =>
-                {
-                    b.HasOne("HeyCurator_MVC.Models.CuratorSpace", "CuratorSpace")
-                        .WithMany()
-                        .HasForeignKey("CuratorSpaceId")
+                    b.HasOne("HeyCurator_MVC.Models.ItemInstance", "ItemInstance")
+                        .WithMany("StorageItemInstances")
+                        .HasForeignKey("ItemInstanceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("HeyCurator_MVC.Models.Storage", "Storage")
-                        .WithMany()
+                        .WithMany("StorageItemInstances")
                         .HasForeignKey("StorageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

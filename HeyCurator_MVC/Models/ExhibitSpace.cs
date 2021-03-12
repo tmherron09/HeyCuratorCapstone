@@ -12,7 +12,17 @@ namespace HeyCurator_MVC.Models
         [Key]
         public int ExhibitSpaceId { get; set; }
 
+        [Display(Name = "Exhibit Space Name")]
+        [Required]
         public string ExhibitSpaceName { get; set; }
+
+        [Display(Name = "Exhibit Space Decription")]
+        public string Description { get; set; }
+
+        [Display(Name = "Description of the Location of the Exhibit Space")]
+        public string LocationDescription { get; set; }
+
+        // Add General Info Model. can be used for Exhibit, Exhibit Space
 
         [ForeignKey("CuratorSpace")]
         public int? CuratorSpaceId { get; set; }
@@ -21,12 +31,7 @@ namespace HeyCurator_MVC.Models
 
         // All Exhibits in this Exhibit space
         public ICollection<Exhibit> Exhibits { get; set; }
-        // All Storages that contains items for this
-        [NotMapped]
-        public ICollection<Storage> ExhibitStorages { get; set; }
-        // All the items used in this exhibit space.
-        [NotMapped]
-        public ICollection<Item> ExhibitSpaceItems { get; set; }
+
 
     }
 }

@@ -14,12 +14,10 @@
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
             <div class="mb-4 md:flex md:justify-between">
                 <div class="mb-4 md:mr-2 md:mb-0">
-
                     <label asp-for="Input.FirstName" class="block mb-2 text-sm font-bold text-gray-700">Employee's First Name</label>
                     <input asp-for="Input.FirstName" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
                 </div>
                 <div class="md:ml-2">
-
                     <label asp-for="Input.LastName" class="block mb-2 text-sm font-bold text-gray-700">Employee's Last Name</label>
                     <input asp-for="Input.LastName" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
                 </div>
@@ -38,9 +36,19 @@
                     <input asp-for="Input.ConfirmPassword" class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
                 </div>
             </div>
-            <div class="mb-4">
-                <label asp-for="Input.CuratorRoleId" class="block mb-2 text-sm font-bold text-gray-700">Select Initial Employee Role</label>
-                <select asp-for="Input.CuratorRoleId" class="form-control" asp-items="@Model.CuratorRoles"></select>
+            <div class="mb-4 md:flex md:justify-between">
+                <div class="mb-4">
+                    <label asp-for="Input.CuratorRoleId" class="block mb-2 text-sm font-bold text-gray-700">Select Initial Employee Role</label>
+                    <select asp-for="Input.CuratorRoleId" class="form-control" asp-items="@Model.CuratorRoles"></select>
+                </div>
+                <div class="md:ml-2">
+                    <label asp-for="Input.Title" class="block mb-2 text-sm font-bold text-gray-700">Employee's Title</label>
+                    <input asp-for="Input.Title" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                </div>
+            </div>
+            <div class="md:ml-2">
+                <label asp-for="Input.AdminSecretsPasscode" class="block mb-2 text-sm font-bold text-gray-700">Admin Secrets Passcode </label>
+                <input asp-for="Input.AdminSecretsPasscode" class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
             </div>
             <div class="mb-6 text-center">
                 <button type="submit" class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Register Employee</button>

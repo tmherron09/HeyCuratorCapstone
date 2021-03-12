@@ -20,12 +20,13 @@ namespace HeyCurator_MVC.Models
         public int ItemId { get; set; }
         public Item Item { get; set; }
 
-        [ForeignKey("InventoryControlModel")]
-        public int InventoryControlModelId { get; set; }
+        //[ForeignKey("InventoryControlModel")]
+        //public int InventoryControlModelId { get; set; }
         public InventoryControlModel InventoryControlModel { get; set; }
 
 
         public ICollection<StorageItemInstance> StorageItemInstances { get; set; }
+        public ICollection<ExhibitItemInstance> ExhibitItemInstances { get; set; }
 
 
     }

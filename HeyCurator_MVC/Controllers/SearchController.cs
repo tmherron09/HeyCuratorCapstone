@@ -13,7 +13,7 @@ namespace HeyCurator_MVC.Controllers
     
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class SearchController : ControllerBase
     {
         private ApplicationDbContext _context;
@@ -96,7 +96,7 @@ namespace HeyCurator_MVC.Controllers
             List<SearchResult> unorderedResult = new List<SearchResult>();
             var iisIds = item.ItemInStorages.Select(i => i.ItemInStorageId);
             var exhibitIIS = _context.ExhibitItemInStorages.Where(e => iisIds.Contains(e.ItemInStorageId)).Select(e=> e.ExhibitId);
-            var exhibits = _context.Exhibits.Where(e => exhibitIIS.Contains(e.ExhibitId)).Include(e=> e.ExhibitSpace).Include(e=>e.CuratorSpace);
+            var exhibits = _context.Exhibits.Where(e => exhibitIIS.Contains(e.ExhibitId)).Include(e=> e.ExhibitSpace);
             foreach (var exhibit in exhibits)
             {
                 var result = CreateSearchResult(exhibit);

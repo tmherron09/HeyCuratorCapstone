@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -9,31 +10,35 @@ namespace HeyCurator_MVC.Models
 {
     public class Exhibit
     {
+        [Key]
         public int ExhibitId { get; set; }
 
+        [Display(Name = "Exhibit Space Name")]
+        [Required]
         public string Name { get; set; }
 
-        [ForeignKey("CuratorSpace")]
-        public int CuratorSpaceId { get; set; }
-        public CuratorSpace CuratorSpace { get; set; }
+        [Display(Name = "Exhibit  Decription")]
+        public string Description { get; set; }
 
-        // Example a room or section of an open area.
-        // TMH example- Market is an exhibit space, in the curator space Village.
-        // Market has exhibits CheckoutOne, CheckoutSelf, HealthyShoppingList, etc.
-        // Then through ref, I know if I need an item for Market, then these storage areas all have an item used in one of those exhibits.
+        [Display(Name = "Description of the Location of the Exhibit")]
+        public string LocationDescription { get; set; }
+
+
+        // Add General Info Model. can be used for Exhibit, Exhibit Space
+        // Educational Model
+
+
         [ForeignKey("ExhibitSpace")]
-        [AllowNull]
         public int ExhibitSpaceId { get; set; }
         public ExhibitSpace ExhibitSpace { get; set; }
 
 
-        public ICollection<ItemInStorage> ItemInStorages { get; set; }
+        public ICollection<ExhibitItemInstance> ExhibitItemInstances  { get; set; }
 
 
-        // Long Term Support specific to museum use.
-        [NotMapped]
-        public ICollection<string> OtherNames { get; set; }
-        //public ICollection<Storage> ExhibitStorages { get; set; }
+        //  Depreciate In-Progress
+
+        //public ICollection<ItemInStorage> ItemInStorages { get; set; }
 
     }
 }

@@ -158,7 +158,7 @@ namespace HeyCurator_MVC.Controllers
             }
             exhibit.ExhibitSpace = _context.ExhibitSpaces.Where(e => e.ExhibitSpaceId == exhibit.ExhibitSpaceId).Include(es => es.CuratorSpace).FirstOrDefault();
 
-            exhibit.CuratorSpaceId = (int)exhibit.ExhibitSpace.CuratorSpaceId;
+            //exhibit.CuratorSpaceId = (int)exhibit.ExhibitSpace.CuratorSpaceId;
 
             _context.Exhibits.Add(exhibit);
 
@@ -221,14 +221,14 @@ namespace HeyCurator_MVC.Controllers
 
             iis.CuratorSpaceId = es.CuratorSpaceId;
 
-            StorageCuratorSpace scs = new StorageCuratorSpace
-            {
-                StorageId = iis.StorageId,
-                CuratorSpaceId = (int)es.CuratorSpaceId
-            };
+            //StorageCuratorSpace scs = new StorageCuratorSpace
+            //{
+            //    StorageId = iis.StorageId,
+            //    CuratorSpaceId = (int)es.CuratorSpaceId
+            //};
 
             _context.ItemInStorages.Add(iis);
-            _context.StorageCuratorSpaces.Add(scs);
+            //_context.StorageCuratorSpaces.Add(scs);
 
             try
             {
