@@ -22,7 +22,7 @@
             </div>
 
             <div class="my-4 box border rounded flex flex-col shadow bg-white">
-                <div class="bg-viking-200 px-3 py-2 border-b"><h3 class="text-grey-darker font-medium">Storage Location of Count</h3></div>
+                <div class="bg-viking-200 px-3 py-2 border-b"><h3 class="text-grey-darker font-medium">Initial Employee Assigned to this Curator Role</h3></div>
                 <select asp-for="@Model.InitialEmployeeId" class="border-0 bg-purpleGrey-50 rounded-lg text-lg font-bold text-gray-700 flex-1 px-2 mx-2 my-4 outline-none focus:ring-0" asp-items="@employees" size="3">
                     <option value="-1">*Optional: Select Initial Employees</option>
                 </select>

@@ -1,0 +1,44 @@
+﻿@model CreateExhibitViewModel
+@inject SelectListService selectService
+@{
+    SelectList exhibitSpaces = selectService.GetAllExhibitSpacesSelectList();
+}
+
+
+<div class="max-w-full h-screen flex bg-totem-pole-100 mx-auto">
+    <div class="mx-auto w-3/4 max-w-6xl self-center bg-white p-5 rounded-lg">
+        <form asp-action="CreateExhibit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="my-4 box border rounded flex flex-col shadow bg-white">
+                <div class="box__title bg-viking-200 px-3 py-2 border-b">
+                    <h3 class="py-2 text-lg text-gray-800 font-bold">Create Exhibit</h3>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Enter Name of Exhibit</label>
+                    <input asp-for="@Model.Exhibit.Name" type="text" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.Exhibit.Name" class="text-danger"></span>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Enter Description of Exhibit</label>
+                    <textarea asp-for="@Model.Exhibit.Description" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" rows="3"></textarea>
+                    <span asp-validation-for="@Model.Exhibit.Description" class="text-danger"></span>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Enter Description of the location of the Exhibit</label>
+                    <textarea asp-for="@Model.Exhibit.LocationDescription" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" rows="3"></textarea>
+                    <span asp-validation-for="@Model.Exhibit.LocationDescription" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="my-4 box border rounded flex flex-col shadow bg-white">
+                <div class="bg-viking-200 px-3 py-2 border-b"><h3 class="text-grey-darker font-medium">Assigned to Exhibit Space</h3></div>
+                <select asp-for="@Model.AssignedExhibitSpaceId" class="border-0 bg-purpleGrey-50 rounded-lg text-lg font-bold text-gray-700 flex-1 px-2 mx-2 my-4 outline-none focus:ring-0" asp-items="@exhibitSpaces" size="3">
+                    <option value="-1">*Optional: Assign to Exhibit Space</option>
+                </select>
+            </div>
+            <div class="container flex flex-col">
+                <input type="submit" value="Create Exhibit" class="hc-btn btn-mm-outline" />
+            </div>
+        </form>
+    </div>
+</div>

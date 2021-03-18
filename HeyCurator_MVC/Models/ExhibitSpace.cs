@@ -24,14 +24,13 @@ namespace HeyCurator_MVC.Models
 
         // Add General Info Model. can be used for Exhibit, Exhibit Space
 
-        //[ForeignKey("CuratorSpace")]
-        //public int? CuratorSpaceId { get; set; }
-        //public CuratorSpace CuratorSpace { get; set; }
 
 
         // All Exhibits in this Exhibit space
+        // ExhibitSpace to Exhibits is One to Many.
         public ICollection<Exhibit> Exhibits { get; set; }
 
+        // Exhibit Space to Curator Role is Many to Many
         public ICollection<CuratorSpace> CuratorSpaces { get; set; }
 
     }

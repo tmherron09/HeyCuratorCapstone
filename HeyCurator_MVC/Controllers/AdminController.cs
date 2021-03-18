@@ -66,10 +66,9 @@ namespace HeyCurator_MVC.Controllers
         {
             if(!ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                
                 return View();
             }
-
             _context.CuratorRoles.Add(viewModel.Curator);
             try
             {
@@ -82,16 +81,11 @@ namespace HeyCurator_MVC.Controllers
             {
                 throw new Exception("Unable to create role.");
             }
-
-
             EmployeeRoles empRole = new EmployeeRoles()
             {
                 EmployeeId = viewModel.InitialEmployeeId,
                 CuratorRoleId = viewModel.Curator.CuratorRoleId
             };
-
-
-
             _context.EmployeeRoles.Add(empRole);
             try
             {
@@ -104,11 +98,19 @@ namespace HeyCurator_MVC.Controllers
             {
                 throw new Exception("Unable to Employee/Curator Role Join.");
             }
-
-
             _hub.Clients.All.SendAsync("PopCustomToast", $"Curator Role Update", $"{viewModel.Curator.NameOfRole} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
 
             return View("Index");
+        }
+
+
+        [HttpGet]
+        public IActionResult CreateExhibitSpace()
+        {
+
+            CreateExhibitSpaceViewModel exhibitSpaceViewModel = new CreateExhibitSpaceViewModel();
+
+            return View(exhibitSpaceViewModel);
         }
 
         [HttpPost]
@@ -116,7 +118,7 @@ namespace HeyCurator_MVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                
                 return View();
             }
             _context.ExhibitSpaces.Add(viewModel.ExhibitSpace);
@@ -133,8 +135,8 @@ namespace HeyCurator_MVC.Controllers
             }
             CuratorSpace curSpace = new CuratorSpace()
             {
-                ExhibitSpaceId = viewModel.InitialCuratorRoleId,
-                CuratorRoleId = viewModel.ExhibitSpace.ExhibitSpaceId
+                CuratorRoleId = viewModel.InitialCuratorRoleId,
+                ExhibitSpaceId = viewModel.ExhibitSpace.ExhibitSpaceId
             };
             _context.CuratorSpaces.Add(curSpace);
             try
@@ -154,13 +156,50 @@ namespace HeyCurator_MVC.Controllers
             return View("Index");
         }
 
+        [HttpGet]
+        public IActionResult CreateExhibit()
+        {
+
+            CreateExhibitViewModel exhibitViewModel = new CreateExhibitViewModel();
+
+            return View(exhibitViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult CreateExhibit(CreateExhibitViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            viewModel.Exhibit.ExhibitSpaceId = viewModel.AssignedExhibitSpaceId;
+            
+
+            _context.Exhibits.Add(viewModel.Exhibit);
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to Exhibit Space.");
+            }
+
+
+            _hub.Clients.All.SendAsync("PopCustomToast", $"Exhibit Update ", $"{viewModel.Exhibit.Name} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+
+            return View("Index");
+        }
 
 
 
-        
 
 
-       
+
 
 
 

@@ -32,7 +32,7 @@ namespace HeyCurator_MVC.Models
         [Display(Name = "Record Note")]
         public string RecordNote { get; set; }
 
-        //[ForeignKey("InventoryControlModel")]
+        [ForeignKey("InventoryControlModel")]
         public int InventoryControlModelID { get; set; }
         public InventoryControlModel InventoryControlModel { get; }
 
