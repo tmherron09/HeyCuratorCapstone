@@ -11,7 +11,7 @@ namespace HeyCurator_MVC.ViewModels
 
         public AddItemInStorageViewModel()
         {
-            ItemInStorage item = new ItemInStorage();
+            //ItemInStorage item = new ItemInStorage();
             Storage storage = new Storage();
         }
 

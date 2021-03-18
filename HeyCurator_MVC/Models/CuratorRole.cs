@@ -20,6 +20,7 @@ namespace HeyCurator_MVC.Models
         public ICollection<EmployeeRoles> EmployeeRoles { get; set; }
 
         // TODO: Add descriptor propety.
-
+        [DisplayName("Exhibit Spaces")]
+        public ICollection<CuratorSpace> CuratorSpaces { get; set; }
     }
 }

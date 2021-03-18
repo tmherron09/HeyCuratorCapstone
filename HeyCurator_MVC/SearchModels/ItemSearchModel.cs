@@ -10,7 +10,7 @@ namespace HeyCurator_MVC.SearchModels
     {
         public Item Item { get; set; }
 
-        public List<ItemInStorage> StorageReferences { get; set; }
+        //public List<ItemInStorage> StorageReferences { get; set; }
         public List<Storage> Storages { get; set; }
         public List<Exhibit> Exhibits { get; set; }
         public List<ExhibitSpace> ExhibitSpaces { get; set; }

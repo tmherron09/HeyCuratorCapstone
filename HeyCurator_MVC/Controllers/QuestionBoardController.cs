@@ -62,7 +62,7 @@ namespace HeyCurator_MVC.Controllers
             if (userdId == null || userdId.Length == 0)
             {
                 throw new Exception("Unable to process Authentification.");
-                return RedirectToAction("Index", "Home");
+                //return RedirectToAction("Index", "Home");
             }
             askedQuestion.UserId = userdId;
             askedQuestion.TimePosted = DateTime.Now;

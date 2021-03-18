@@ -82,75 +82,74 @@ namespace HeyCurator_MVC.Controllers
             };
 
             return partial;
-
         }
 
-        public PartialViewResult DisplayRecordsTable(int id)
-        {
+        //public PartialViewResult DisplayRecordsTable(int id)
+        //{
 
-            List<Record> records = _recordAccess.GetLast10RecordsOfItem(id);
+        //    List<Record> records = _recordAccess.GetLast10RecordsOfItem(id);
 
             
-            var partial = new PartialViewResult
-            {
-                ViewName = "_RecordListPartial",
-                ViewData = new ViewDataDictionary<List<Record>>(ViewData, records)
-            };
-            return partial;
-        }
+        //    var partial = new PartialViewResult
+        //    {
+        //        ViewName = "_RecordListPartial",
+        //        ViewData = new ViewDataDictionary<List<Record>>(ViewData, records)
+        //    };
+        //    return partial;
+        //}
 
 
-        public IActionResult CreateNewRecord(RecordFull fullRecord)
-        {
+        //public IActionResult CreateNewRecord(RecordFull fullRecord)
+        //{
             
 
-            Record record = new Record();
-            record.RecordedCount = fullRecord.NewRecordedAmount;
-            ItemInStorage iis = _context.ItemInStorages.Where(x => x.ItemId == fullRecord.ItemId && x.StorageId == fullRecord.ChoosenStorageId).SingleOrDefault();
-            record.ItemInStorageId = iis.ItemInStorageId;
-            record.TimeStamp = DateTime.Now;
-            record.RecordNote = fullRecord.RecordedNotesOnUpdate;
-            record.Employee = _employeeService.GetCurrentlyLoggedInEmployee();
-            record.CuratorVerified = _employeeService.IsEmployeeCuratorOfItem(fullRecord.ItemId);
-            _context.Records.Add(record);
-            try
-            {
-                lock (dbLock)
-                {
-                    _context.SaveChanges();
-                }
-            }
-            catch
-            {
-                throw new Exception("Unable to Update Record.");
-            }
+        //    Record record = new Record();
+        //    record.RecordedCount = fullRecord.NewRecordedAmount;
+        //    ItemInStorage iis = _context.ItemInStorages.Where(x => x.ItemId == fullRecord.ItemId && x.StorageId == fullRecord.ChoosenStorageId).SingleOrDefault();
+        //    record.ItemInStorageId = iis.ItemInStorageId;
+        //    record.TimeStamp = DateTime.Now;
+        //    record.RecordNote = fullRecord.RecordedNotesOnUpdate;
+        //    record.Employee = _employeeService.GetCurrentlyLoggedInEmployee();
+        //    record.CuratorVerified = _employeeService.IsEmployeeCuratorOfItem(fullRecord.ItemId);
+        //    _context.Records.Add(record);
+        //    try
+        //    {
+        //        lock (dbLock)
+        //        {
+        //            _context.SaveChanges();
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        throw new Exception("Unable to Update Record.");
+        //    }
 
-            // Update Item.
-            iis.StorageCount = fullRecord.NewRecordedAmount;
-            _context.ItemInStorages.Update(iis);
-            try
-            {
-                lock (dbLock)
-                {
-                    _context.SaveChanges();
-                }
-            }
-            catch
-            {
-                throw new Exception("Unable to Create Record.");
+        //    // Update Item.
+        //    iis.StorageCount = fullRecord.NewRecordedAmount;
+        //    _context.ItemInStorages.Update(iis);
+        //    try
+        //    {
+        //        lock (dbLock)
+        //        {
+        //            _context.SaveChanges();
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        throw new Exception("Unable to Create Record.");
                 
-            }
-            _itemCountService.UpdateItemReserveAmount(fullRecord.ItemId);
+        //    }
+        //    _itemCountService.UpdateItemReserveAmount(fullRecord.ItemId);
 
-            var viewItem = _context.Items.Where(i => i.ItemId == fullRecord.ItemId).SingleOrDefault();
+        //    var viewItem = _context.Items.Where(i => i.ItemId == fullRecord.ItemId).SingleOrDefault();
 
-            _itemDateService.UpdateItemDates(viewItem, record.TimeStamp);
+        //    _itemDateService.UpdateItemDates(viewItem, record.TimeStamp);
 
-            return RedirectToAction("Details", "Item", new { id = viewItem.ItemId });
+        //    return RedirectToAction("Details", "Item", new { id = viewItem.ItemId });
 
-            //return View("Details", viewItem);
+        //    //return View("Details", viewItem);
             
-        }
+        //}
 
 
         private Item GetItem(int id) =>
@@ -193,55 +192,55 @@ namespace HeyCurator_MVC.Controllers
             return partial;
         }
 
-        [HttpPost]
-        public IActionResult ModifyRecord(Record record)
-        {
-            if(!ModelState.IsValid)
-            {
-                return RedirectToAction("Home", "Home");
-            }
+        //[HttpPost]
+        //public IActionResult ModifyRecord(Record record)
+        //{
+        //    if(!ModelState.IsValid)
+        //    {
+        //        return RedirectToAction("Home", "Home");
+        //    }
 
-            record.TimeStamp = _context.Records.Where(r => r.RecordId == record.RecordId).Select(r => r.TimeStamp).SingleOrDefault();
+        //    record.TimeStamp = _context.Records.Where(r => r.RecordId == record.RecordId).Select(r => r.TimeStamp).SingleOrDefault();
 
-            var viewItem = _context.ItemInStorages.Where(i => record.ItemInStorageId == i.ItemInStorageId).Include(i=> i.Item).SingleOrDefault();
-            record.CuratorVerified = _employeeService.IsEmployeeCuratorOfItem(viewItem.ItemId);
-            _context.Records.Update(record);
-            try
-            {
-                lock (dbLock)
-                {
-                    _context.SaveChanges();
-                }
-            }
-            catch
-            {
-                throw new Exception("Unable to Update Record.");
+        //    var viewItem = _context.ItemInStorages.Where(i => record.ItemInStorageId == i.ItemInStorageId).Include(i=> i.Item).SingleOrDefault();
+        //    record.CuratorVerified = _employeeService.IsEmployeeCuratorOfItem(viewItem.ItemId);
+        //    _context.Records.Update(record);
+        //    try
+        //    {
+        //        lock (dbLock)
+        //        {
+        //            _context.SaveChanges();
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        throw new Exception("Unable to Update Record.");
                 
-            }
-            var lastRecord = _context.Records.Where(r=> r.ItemInStorageId == viewItem.ItemInStorageId).OrderBy(r => r.TimeStamp).Last();
-            if(record.RecordId == lastRecord.RecordId)
-            {
-                viewItem.StorageCount = record.RecordedCount;
-                _context.ItemInStorages.Update(viewItem);
-                try
-                {
-                    lock (dbLock)
-                    {
-                        _context.SaveChanges();
-                    }
-                }
-                catch
-                {
-                    throw new Exception("Unable to Update Record.");
+        //    }
+        //    var lastRecord = _context.Records.Where(r=> r.ItemInStorageId == viewItem.ItemInStorageId).OrderBy(r => r.TimeStamp).Last();
+        //    if(record.RecordId == lastRecord.RecordId)
+        //    {
+        //        viewItem.StorageCount = record.RecordedCount;
+        //        _context.ItemInStorages.Update(viewItem);
+        //        try
+        //        {
+        //            lock (dbLock)
+        //            {
+        //                _context.SaveChanges();
+        //            }
+        //        }
+        //        catch
+        //        {
+        //            throw new Exception("Unable to Update Record.");
 
-                }
-                _itemDateService.UpdateItemDates(viewItem.Item, record.TimeStamp);
+        //        }
+        //        _itemDateService.UpdateItemDates(viewItem.Item, record.TimeStamp);
 
-            }
+        //    }
 
-            _itemCountService.UpdateItemReserveAmount(viewItem.ItemId);
+        //    _itemCountService.UpdateItemReserveAmount(viewItem.ItemId);
 
-            return View("Details", viewItem.Item);
-        }
+        //    return View("Details", viewItem.Item);
+        //}
     }
 }

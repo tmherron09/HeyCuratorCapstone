@@ -56,7 +56,6 @@ namespace HeyCurator_MVC.Models
         [DisplayName("Amount recorded in storage")]
         public int RecordedStorageAmount { get; set; }
 
-        public ICollection<ItemInStorage> ItemInStorages { get; set; }
         public ICollection<Record> Records { get; set; }
         public ICollection<Exhibit> Exhibits { get; set; }
         public ICollection<ExhibitSpace> ExhibitSpaces { get; set; }

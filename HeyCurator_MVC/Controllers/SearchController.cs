@@ -80,51 +80,51 @@ namespace HeyCurator_MVC.Controllers
             return results;
         }
 
-        [HttpGet("itemConnect/{id}")]
-        public ActionResult<List<SearchResult>> FindItemConnection(int id)
-        {
-            var item = _context.Items.Where(i => i.ItemId == id)
-                .Include(i => i.ItemInStorages)
-                .ThenInclude(s=> s.Storage)
-                .SingleOrDefault();
-            if (item == null)
-            {
+        //[HttpGet("itemConnect/{id}")]
+        //public ActionResult<List<SearchResult>> FindItemConnection(int id)
+        //{
+        //    var item = _context.Items.Where(i => i.ItemId == id)
+        //        .Include(i => i.ItemInStorages)
+        //        .ThenInclude(s=> s.Storage)
+        //        .SingleOrDefault();
+        //    if (item == null)
+        //    {
 
-                var result = new SearchResult();
-                return new List<SearchResult> { result };
-            }
-            List<SearchResult> unorderedResult = new List<SearchResult>();
-            var iisIds = item.ItemInStorages.Select(i => i.ItemInStorageId);
-            var exhibitIIS = _context.ExhibitItemInStorages.Where(e => iisIds.Contains(e.ItemInStorageId)).Select(e=> e.ExhibitId);
-            var exhibits = _context.Exhibits.Where(e => exhibitIIS.Contains(e.ExhibitId)).Include(e=> e.ExhibitSpace);
-            foreach (var exhibit in exhibits)
-            {
-                var result = CreateSearchResult(exhibit);
-                unorderedResult.Add(result);
-            }
-            var es = exhibits.Select(e => e.ExhibitSpace);
-            foreach (var exhibitSpace in es)
-            {
-                var result = CreateSearchResult(exhibitSpace);
-                unorderedResult.Add(result);
-            }
-            var esIds = es.Select(e => e.ExhibitSpaceId);
-            var cs = _context.ExhibitSpaces.Where(e => esIds.Contains(e.ExhibitSpaceId)).Include(e => e.CuratorSpace).Select(e => e.CuratorSpace);
-            foreach (var curatorSpace in cs)
-            {
-                var result = CreateSearchResult(curatorSpace);
-                unorderedResult.Add(result);
-            }
-            foreach(var iis in item.ItemInStorages)
-            {
-                var result = CreateSearchResult(iis.Storage);
-                unorderedResult.Add(result);
-            }
+        //        var result = new SearchResult();
+        //        return new List<SearchResult> { result };
+        //    }
+        //    List<SearchResult> unorderedResult = new List<SearchResult>();
+        //    var iisIds = item.ItemInStorages.Select(i => i.ItemInStorageId);
+        //    var exhibitIIS = _context.ExhibitItemInStorages.Where(e => iisIds.Contains(e.ItemInStorageId)).Select(e=> e.ExhibitId);
+        //    var exhibits = _context.Exhibits.Where(e => exhibitIIS.Contains(e.ExhibitId)).Include(e=> e.ExhibitSpace);
+        //    foreach (var exhibit in exhibits)
+        //    {
+        //        var result = CreateSearchResult(exhibit);
+        //        unorderedResult.Add(result);
+        //    }
+        //    var es = exhibits.Select(e => e.ExhibitSpace);
+        //    foreach (var exhibitSpace in es)
+        //    {
+        //        var result = CreateSearchResult(exhibitSpace);
+        //        unorderedResult.Add(result);
+        //    }
+        //    var esIds = es.Select(e => e.ExhibitSpaceId);
+        //    //var cs = _context.ExhibitSpaces.Where(e => esIds.Contains(e.ExhibitSpaceId)).Include(e => e.CuratorSpace).Select(e => e.CuratorSpace);
+        //    //foreach (var curatorSpace in cs)
+        //    //{
+        //    //    var result = CreateSearchResult(curatorSpace);
+        //    //    unorderedResult.Add(result);
+        //    //}
+        //    foreach(var iis in item.ItemInStorages)
+        //    {
+        //        var result = CreateSearchResult(iis.Storage);
+        //        unorderedResult.Add(result);
+        //    }
 
 
-            List<SearchResult> results = unorderedResult.OrderBy(r => r.Name).ToList();
-            return results;
-        }
+        //    List<SearchResult> results = unorderedResult.OrderBy(r => r.Name).ToList();
+        //    return results;
+        //}
 
 
 
@@ -192,24 +192,24 @@ namespace HeyCurator_MVC.Controllers
 
         #region Curator Space Search
 
-        [HttpGet("curatorSpaceResults/{input}")]
-        public async Task<ActionResult<List<SearchResult>>> FindResultCuratorSpaces(string input = "")
-        {
-            var curatorSpaces = await _context.CuratorSpaces.Where(i => i.Name.Contains(input)).ToListAsync();
-            if (curatorSpaces == null)
-            {
-                var list = new List<SearchResult>();
-                list.Add(new SearchResult());
-                return list;
-            }
-            List<SearchResult> results = new List<SearchResult>();
-            foreach (var curatorSpace in curatorSpaces)
-            {
-                var result = CreateSearchResult(curatorSpace);
-                results.Add(result);
-            }
-            return results;
-        }
+        //[HttpGet("curatorSpaceResults/{input}")]
+        //public async Task<ActionResult<List<SearchResult>>> FindResultCuratorSpaces(string input = "")
+        //{
+        //    var curatorSpaces = await _context.CuratorSpaces.Where(i => i.Name.Contains(input)).ToListAsync();
+        //    if (curatorSpaces == null)
+        //    {
+        //        var list = new List<SearchResult>();
+        //        list.Add(new SearchResult());
+        //        return list;
+        //    }
+        //    List<SearchResult> results = new List<SearchResult>();
+        //    foreach (var curatorSpace in curatorSpaces)
+        //    {
+        //        var result = CreateSearchResult(curatorSpace);
+        //        results.Add(result);
+        //    }
+        //    return results;
+        //}
 
 
 
@@ -314,7 +314,7 @@ namespace HeyCurator_MVC.Controllers
             var items = _context.Items.Where(i => i.Name.Contains(input)).AsEnumerable();
             var exhibits = _context.Exhibits.Where(i => i.Name.Contains(input)).AsEnumerable();
             var exhibitSpaces = _context.ExhibitSpaces.Where(i => i.ExhibitSpaceName.Contains(input)).AsEnumerable();
-            var curatorSpaces = _context.CuratorSpaces.Where(i => i.Name.Contains(input)).AsEnumerable();
+            //var curatorSpaces = _context.CuratorSpaces.Where(i => i.Name.Contains(input)).AsEnumerable();
             var employees = _context.Employees.Where(i => i.FirstName.Contains(input) || i.LastName.Contains(input)).AsEnumerable();
             var storages = _context.Storages.Where(i => i.Name.Contains(input)).AsEnumerable();
             var curatorRoles = _context.CuratorRoles.Where(i => i.NameOfRole.Contains(input)).AsEnumerable();
@@ -344,14 +344,14 @@ namespace HeyCurator_MVC.Controllers
                     unorderedResult.Add(result);
                 }
             }
-            if (curatorSpaces != null || curatorSpaces.Count() != 0)
-            {
-                foreach (var curatorSpace in curatorSpaces)
-                {
-                    var result = CreateSearchResult(curatorSpace);
-                    unorderedResult.Add(result);
-                }
-            }
+            //if (curatorSpaces != null || curatorSpaces.Count() != 0)
+            //{
+            //    foreach (var curatorSpace in curatorSpaces)
+            //    {
+            //        var result = CreateSearchResult(curatorSpace);
+            //        unorderedResult.Add(result);
+            //    }
+            //}
             if (employees != null || employees.Count() != 0)
             {
                 foreach (var employee in employees)
@@ -424,18 +424,18 @@ namespace HeyCurator_MVC.Controllers
             };
             return result;
         }
-        private SearchResult CreateSearchResult(CuratorSpace curatorSpace)
-        {
-            var result = new SearchResult
-            {
-                Name = curatorSpace.Name,
-                Type = "Curator Space",
-                Color = "teal",
-                Icon = "<i class=\"fas fa-house-user\"></i>",
-                Id = curatorSpace.CuratorSpaceId
-            };
-            return result;
-        }
+        //private SearchResult CreateSearchResult(CuratorSpace curatorSpace)
+        //{
+        //    var result = new SearchResult
+        //    {
+        //        Name = curatorSpace.Name,
+        //        Type = "Curator Space",
+        //        Color = "teal",
+        //        Icon = "<i class=\"fas fa-house-user\"></i>",
+        //        Id = curatorSpace.CuratorSpaceId
+        //    };
+        //    return result;
+        //}
         private SearchResult CreateSearchResult(Employee employee)
         {
             var result = new SearchResult

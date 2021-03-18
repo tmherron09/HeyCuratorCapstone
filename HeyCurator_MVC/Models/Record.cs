@@ -46,10 +46,6 @@ namespace HeyCurator_MVC.Models
          * 
          */
 
-        [ForeignKey("ItemInStorage")]
-        public int ItemInStorageId { get; set; }
-        public ItemInStorage ItemInStorage { get; }
-
 
         [AllowNull]
         public int? FirstVerifierId { get; set; }

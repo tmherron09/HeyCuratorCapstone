@@ -252,10 +252,6 @@ namespace HeyCurator_MVC.Services
         {
             return _context.CuratorRoles.Any(e => e.CuratorRoleId == id);
         }
-        private bool CuratorSpaceExists(int id)
-        {
-            return _context.CuratorSpaces.Any(e => e.CuratorSpaceId == id);
-        }
         private bool EmployeeExists(int id)
         {
             return _context.Employees.Any(e => e.EmployeeId == id);
@@ -264,10 +260,7 @@ namespace HeyCurator_MVC.Services
         {
             return _context.ExhibitSpaces.Any(e => e.ExhibitSpaceId == id);
         }
-        private bool ExhibitItemInStorageExists(int id)
-        {
-            return _context.ExhibitItemInStorages.Any(e => e.ExhibitItemInStorageId == id);
-        }
+        
         private bool ExhibitExists(int id)
         {
             return _context.Exhibits.Any(e => e.ExhibitId == id);

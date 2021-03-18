@@ -10,17 +10,30 @@ namespace HeyCurator_MVC.Models
 {
     public class CuratorSpace
     {
-        [Key]
-        public int CuratorSpaceId { get; set; }
-
-        [DisplayName("Curator Space")]
-        public string Name { get; set; }
 
         [ForeignKey("CuratorRole")]
         public int CuratorRoleId { get; set; }
-        public CuratorRole CuratorRole { get; set; }
+        public CuratorRole CuratorRole{ get; set; }
 
-        public ICollection<ExhibitSpace> ExhibitSpaces { get; set; }
+        [ForeignKey("ExhibitSpace")]
+        public int ExhibitSpaceId{ get; set; }
+        public ExhibitSpace ExhibitSpace { get; set; }
+
+
+
+
+        // In process Model Conversion
+        //[Key]
+        //public int CuratorSpaceId { get; set; }
+
+        //[DisplayName("Curator Space")]
+        //public string Name { get; set; }
+
+        //[ForeignKey("CuratorRole")]
+        //public int CuratorRoleId { get; set; }
+        //public CuratorRole CuratorRole { get; set; }
+
+        //public ICollection<ExhibitSpace> ExhibitSpaces { get; set; }
 
 
 

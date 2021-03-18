@@ -1,0 +1,9 @@
+﻿@model CreateExhibitSpaceViewModel
+@inject SelectListService selectService
+@{
+
+    SelectList employees = selectService.GetAllCuratorSpaceSelectList();
+
+}
+
+

@@ -3,16 +3,16 @@
 
 
 @{
-    List<ItemInStorage> iis = new List<ItemInStorage>();
-    foreach (var record in Model)
-    {
-        iis.Add(_context.ItemInStorages.Where(s => s.ItemInStorageId == record.ItemInStorageId).Include(inst => inst.Item).FirstOrDefault());
-    }
+    //List<ItemInStorage> iis = new List<ItemInStorage>();
+    //foreach (var record in Model)
+    //{
+    //    iis.Add(_context.ItemInStorages.Where(s => s.ItemInStorageId == record.ItemInStorageId).Include(inst => inst.Item).FirstOrDefault());
+    //}
     List<Storage> storages = new List<Storage>();
-    foreach (var item in iis)
-    {
-        storages.Add(_context.Storages.Where(s => s.StorageId == item.StorageId).FirstOrDefault());
-    }
+    //foreach (var item in iis)
+    //{
+    //    storages.Add(_context.Storages.Where(s => s.StorageId == item.StorageId).FirstOrDefault());
+    //}
 }
 
 
@@ -30,7 +30,7 @@
                     <th class="w-1/12 py-2">Curator Reported</th>
                 </tr>
             </thead>
-            <tbody class="">
+            @*<tbody class="">
                 @for (int i = 0; i < Model.Count(); i++)
                 {
                     var bgColor = "";
@@ -58,7 +58,7 @@
                         </td>
                     </tr>
                 }
-            </tbody>
+            </tbody>*@
         </table>
     </div>
 </div>

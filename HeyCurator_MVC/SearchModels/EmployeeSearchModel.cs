@@ -16,7 +16,6 @@ namespace HeyCurator_MVC.SearchModels
         public List<ExhibitSpace> EmployeeExhibitSpaces { get; set; }
         public List<Exhibit> EmployeeExhibits { get; set; }
         public List<Item> EmployeeItems { get; set; }
-        public List<ItemInStorage> EmployeeItemLocations { get; set; }
         public List<Storage> EmployeeStorages { get; set; }
         // Nullable
         public List<ExpiredUpdateItem> EmployeeAllExpiredItems { get; set; }

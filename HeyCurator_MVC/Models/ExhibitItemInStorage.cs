@@ -21,9 +21,9 @@ namespace HeyCurator_MVC.Models
         public int ExhibitId { get; set; }
         public Exhibit Exhibit { get; set; }
 
-        [ForeignKey("ItemInStorage")]
-        public int ItemInStorageId { get; set; }
-        public ItemInStorage ItemInStorage { get; set; }
+        //[ForeignKey("ItemInStorage")]
+        //public int ItemInStorageId { get; set; }
+        //public ItemInStorage ItemInStorage { get; set; }
 
 
 

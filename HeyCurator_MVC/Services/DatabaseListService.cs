@@ -26,8 +26,8 @@ namespace HeyCurator_MVC.Services
             DbContainer.CuratorSpaces =  _context.CuratorSpaces.ToList();
             DbContainer.Exhibits =  _context.Exhibits.ToList();
             DbContainer.ExhibitSpaces =  _context.ExhibitSpaces.ToList();
-            DbContainer.ExhibitItemInStorages =  _context.ExhibitItemInStorages.ToList();
-            DbContainer.ItemInStorages =  _context.ItemInStorages.ToList();
+            //DbContainer.ExhibitItemInStorages =  _context.ExhibitItemInStorages.ToList();
+            //DbContainer.ItemInStorages =  _context.ItemInStorages.ToList();
             DbContainer.Storages =  _context.Storages.ToList();
             DbContainer.Employees =  _context.Employees.ToList();
 
@@ -41,7 +41,7 @@ namespace HeyCurator_MVC.Services
         }
         public async Task<List<Item>> GetAllItemsAsync()
         {
-            return await _context.Items.Include(i=> i.CuratorSpaces).Include(i=> i.Exhibits).Include(i=> i.ExhibitSpaces).Include(i=> i.ItemInStorages).ThenInclude(s=> s.Storage).ToListAsync();
+            return await _context.Items.ToListAsync();
         }
 
 

@@ -16,7 +16,7 @@ namespace HeyCurator_MVC.Models
         public ICollection<Exhibit> Exhibits { get; set; }
         public ICollection<Storage> Storages { get; set; }
         public ICollection<Item> Items { get; set; }
-        public ICollection<ItemInStorage> ItemInStorages { get; set; }
+        //public ICollection<ItemInStorage> ItemInStorages { get; set; }
         public ICollection<ExhibitItemInStorage> ExhibitItemInStorages { get; set; }
 
         public DatabaseCollectionContainer()
@@ -29,7 +29,7 @@ namespace HeyCurator_MVC.Models
             ExhibitItemInStorages = new List<ExhibitItemInStorage>();
             Storages = new List<Storage>();
             Items = new List<Item>();
-            ItemInStorages = new List<ItemInStorage>();
+            //ItemInStorages = new List<ItemInStorage>();
 
         }
     }

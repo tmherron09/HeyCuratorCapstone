@@ -82,6 +82,18 @@ namespace HeyCurator_MVC.Data
                 .WithMany(cr => cr.EmployeeRoles)
                 .HasForeignKey(er => er.CuratorRoleId);
 
+            builder.Entity<CuratorSpace>()
+                .HasKey(cs => new { cs.CuratorRoleId, cs.ExhibitSpaceId });
+            builder.Entity<CuratorSpace>()
+                .HasOne(cs => cs.CuratorRole)
+                .WithMany(cr => cr.CuratorSpaces)
+                .HasForeignKey(cs => cs.CuratorRoleId);
+            builder.Entity<CuratorSpace>()
+                .HasOne(cs => cs.ExhibitSpace)
+                .WithMany(es => es.CuratorSpaces)
+                .HasForeignKey(cs => cs.ExhibitSpaceId);
+
+
             builder.Entity<StorageItemInstance>()
                 .HasKey(sii => new { sii.StorageId, sii.ItemInstanceId });
             builder.Entity<StorageItemInstance>()
@@ -149,8 +161,8 @@ namespace HeyCurator_MVC.Data
 
 
         // TODO: Depereciate the following.
-        public DbSet<ItemInStorage> ItemInStorages { get; set; }
-        public DbSet<ExhibitItemInStorage> ExhibitItemInStorages { get; set; }
+        //public DbSet<ItemInStorage> ItemInStorages { get; set; }
+        //public DbSet<ExhibitItemInStorage> ExhibitItemInStorages { get; set; }
 
     }
 }

@@ -30,7 +30,7 @@ namespace HeyCurator_MVC.Models
 
     }
 
-
+    // Access Level auth Checks moved to Future Updates
     public enum AccessLevel
     {
         Volunteer,

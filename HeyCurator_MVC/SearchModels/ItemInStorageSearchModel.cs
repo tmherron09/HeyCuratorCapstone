@@ -9,7 +9,7 @@ namespace HeyCurator_MVC.SearchModels
     public class ItemInStorageSearchModel
     {
 
-        public ItemInStorage ItemInStorage { get; set; }
+        //public ItemInStorage ItemInStorage { get; set; }
 
         public Item Item { get; set; }
         public Storage ItemStorage { get; set; }

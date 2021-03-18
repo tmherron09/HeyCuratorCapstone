@@ -25,7 +25,7 @@ namespace HeyCurator_MVC.SearchModels
         CuratorRoleSearchModel PopulateCuratorRoleFullRef(CuratorRole curatorRole);
 
         ItemInStorageSearchModel PopulateItemInStorageFullRef(int id);
-        ItemInStorageSearchModel PopulateItemInStorageFullRef(ItemInStorage itemInStorage);
+        //ItemInStorageSearchModel PopulateItemInStorageFullRef(ItemInStorage itemInStorage);
 
         EmployeeSearchModel PopulateEmployeeFullRef(int id);
         EmployeeSearchModel PopulateEmployeeFullRef(Employee employee);

@@ -3,7 +3,7 @@
 @{
     var username = _httpContext.HttpContext.Session.GetString("username");
     List<LowCountItem> LowCountItems = _lowCountService.GetLowCountItemsOfEmployee(username);
-    List<Item> itemMeetsRequiement = _itemCount.EmployeeItemsThatMeetRestockRequirements();
+    //List<Item> itemMeetsRequiement = _itemCount.EmployeeItemsThatMeetRestockRequirements();
 
 
 }

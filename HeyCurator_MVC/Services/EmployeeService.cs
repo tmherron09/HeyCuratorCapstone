@@ -40,16 +40,12 @@ namespace HeyCurator_MVC.Services
             return GetEmployeesItems(GetCurrentlyLoggedInEmployee());
         }
 
-        public List<Item> GetEmployeesItems(Employee employee)
-        {
-            var roleIds = _context.EmployeeRoles.Where(e => e.EmployeeId == employee.EmployeeId).Select(e => e.CuratorRoleId).ToList();
-            var curatorSpaceIds = _context.CuratorSpaces.Where(c => roleIds.Contains(c.CuratorRoleId)).Select(c=> c.CuratorSpaceId).ToList();
-            return _context.ItemInStorages.Where(i => curatorSpaceIds.Contains((int)i.CuratorSpaceId)).Include(i => i.Item).Select(i => i.Item).ToList();
-        }
+        
 
         public List<Employee> GetEmployeesOfItem(int itemId)
         {
-            var spaces = _context.ItemInStorages.Where(i => i.ItemId == itemId).Select(i => i.CuratorSpace).ToList();
+            var spaces = new List<CuratorSpace>();
+            //var spaces = _context.ItemInStorages.Where(i => i.ItemId == itemId).Select(i => i.CuratorSpace).ToList();
             //var spaces = _context.ItemInStorages.Where(i => i.ItemId == itemId).Include(i=> i.CuratorSpace).Select(i => i.CuratorSpace).ToList();
             var curatorRoleIds = _context.CuratorSpaces.Where(c => spaces.Contains(c)).Select(c => c.CuratorRoleId).ToList();
             return _context.EmployeeRoles.Where(r => curatorRoleIds.Contains(r.CuratorRoleId)).Include(r => r.Employee).Select(r=> r.Employee).ToList();
@@ -63,6 +59,15 @@ namespace HeyCurator_MVC.Services
             return curators.Contains(employee);
         }
 
+        // TODO: Depreciate For New Model
 
+        public List<Item> GetEmployeesItems(Employee employee)
+        {
+            var curatorRoleIds = _context.EmployeeRoles.Where(e => e.EmployeeId == employee.EmployeeId).Select(e => e.CuratorRoleId).ToList();
+            var exhibitSpaceIds = _context.CuratorSpaces.Where(cs => curatorRoleIds.Contains(cs.CuratorRoleId)).Select(cs => cs.ExhibitSpaceId).ToList();
+            var exhibitIds = _context.Exhibits.Where(ex => exhibitSpaceIds.Contains(ex.ExhibitSpaceId)).Select(ex=> ex.ExhibitId).ToList();
+            var itemInstanceIds = _context.ExhibitItemInstances.Where(eii => exhibitIds.Contains(eii.ExhibitId)).Select(eii=> eii.ItemInstanceId).ToList();
+            return _context.ItemInstances.Where(ii => itemInstanceIds.Contains(ii.Id)).Include(ii=> ii.Item).Select(ii => ii.Item).ToList();
+        }
     }
 }
