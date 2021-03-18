@@ -98,7 +98,7 @@ namespace HeyCurator_MVC.Controllers
             {
                 throw new Exception("Unable to Employee/Curator Role Join.");
             }
-            _hub.Clients.All.SendAsync("PopCustomToast", $"Curator Role Update", $"{viewModel.Curator.NameOfRole} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+            DelayedClientAnnounce("PopCustomToast", $"Curator Role Update", $"{viewModel.Curator.NameOfRole} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
 
             return View("Index");
         }
@@ -151,7 +151,7 @@ namespace HeyCurator_MVC.Controllers
                 throw new Exception("Unable to Exhibit Space/Curator Role Join.");
             }
 
-            _hub.Clients.All.SendAsync("PopCustomToast", $"Exhibit Space Update", $"{viewModel.ExhibitSpace.ExhibitSpaceName} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+            DelayedClientAnnounce("PopCustomToast", $"Exhibit Space Update", $"{viewModel.ExhibitSpace.ExhibitSpaceName} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
 
             return View("Index");
         }
@@ -190,7 +190,40 @@ namespace HeyCurator_MVC.Controllers
             }
 
 
-            _hub.Clients.All.SendAsync("PopCustomToast", $"Exhibit Update ", $"{viewModel.Exhibit.Name} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+            DelayedClientAnnounce("PopCustomToast", $"Exhibit Update ", $"{viewModel.Exhibit.Name} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+
+            return View("Index");
+        }
+
+
+        [HttpGet]
+        public IActionResult CreateItem()
+        {
+            Item item = new Item();
+            return View(item);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateItem(Item item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            _context.Items.Add(item);
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to Create Item Type.");
+            }
+            //_hub.Clients.All.SendAsync("PopCustomToast", $"Item Type Update ", $"{item.Name} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+            DelayedClientAnnounce("PopCustomToast", $"Item Type Update ", $"{item.Name} has been created by {User.Identity.Name}.", "yellow", "fa-bell");
 
             return View("Index");
         }
@@ -198,9 +231,12 @@ namespace HeyCurator_MVC.Controllers
 
 
 
+        public async Task DelayedClientAnnounce(string type, string label, string message, string color, string icon)
+        {
+            await Task.Delay(5000);
+            await _hub.Clients.All.SendAsync(type, label, message, color, icon);
 
-
-
+        }
 
 
 

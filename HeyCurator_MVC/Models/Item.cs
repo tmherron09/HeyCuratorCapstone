@@ -27,21 +27,19 @@ namespace HeyCurator_MVC.Models
         /*
          * 
          *   TODO: Depreciate Items Below
-         * 
+         *      To Be Repalced by Inventory Control Models
          * 
          */
 
 
 
-        [Required]
+
         [DisplayName("Minimum Reserve Count")]
         public int MinCount { get; set; }
         // Store as days to use the DateTime.AddDays(), TimeSpan is not important as
         // We are doing counts as Day specific not Time of Day/Hour Specific.
-        [Required]
         [DisplayName("Days Between Updates")]
         public int DaysBetweenUpdates { get; set; }
-        [Required]
         [DisplayName("Days before notify curators")]
         public int DaysBeforeNotifyAllCurators { get; set; }
         [DisplayName("Last Updated")]
@@ -56,10 +54,6 @@ namespace HeyCurator_MVC.Models
         [DisplayName("Amount recorded in storage")]
         public int RecordedStorageAmount { get; set; }
 
-        public ICollection<Record> Records { get; set; }
-        public ICollection<Exhibit> Exhibits { get; set; }
-        public ICollection<ExhibitSpace> ExhibitSpaces { get; set; }
-        public ICollection<CuratorSpace> CuratorSpaces { get; set; }
 
     }
 
