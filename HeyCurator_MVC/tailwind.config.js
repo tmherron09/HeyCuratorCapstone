@@ -1,12 +1,12 @@
 ﻿const colors = require('tailwindcss/colors')
 
 module.exports = {
-    //purge: [
-    //    './**/*.cshtml',
-    //    './**/*.html',
-    //    './**/*.razor',
-    //    './**/**/*.cshtml'
-    //],
+    purge: [
+        './**/*.cshtml',
+        './**/*.html',
+        './**/*.razor',
+        './**/**/*.cshtml'
+    ],
     variants: {
         extend: {
             borderRadius: ['hover'],

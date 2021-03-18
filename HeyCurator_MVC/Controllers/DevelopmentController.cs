@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace HeyCurator_MVC.Controllers
 {
     
-    public class DevelopementController : Controller
+    public class DevelopmentController : Controller
     {
         private ApplicationDbContext _context;
-        public DevelopementController(ApplicationDbContext context)
+        public DevelopmentController(ApplicationDbContext context)
         {
             _context = context;
         }
