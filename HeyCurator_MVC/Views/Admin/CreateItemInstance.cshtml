@@ -1,0 +1,75 @@
+﻿@model CreateIteminstanceViewModel
+@inject SelectListService selectService
+@{
+
+    SelectList items = selectService.GetAllItemSelectList();
+
+}
+
+
+<div class="max-w-full min-h-screen flex bg-totem-pole-100 mx-auto">
+    <div class="mx-auto w-3/4 max-w-6xl self-center bg-white p-5 rounded-lg my-12">
+        <form asp-action="CreateItemInstance" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="my-4 box border rounded flex flex-col shadow bg-white">
+                <div class="box__title bg-viking-200 px-3 py-2 border-b">
+                    <h3 class="py-2 text-lg text-gray-800 font-bold">Create Item Instance</h3>
+                    <h3 class="py-2 text-base text-gray-800 font-normal">*Item Instance Must identify an Item Type. An Item Instance is declared by it's Inventory Control Model. Because some items may have different Inventory Control Model's, more than one instance of an Item Type may exist.</h3>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Enter Item Instance Identifier/Name</label>
+                    <input asp-for="@Model.ItemInstance.ItemInstanceName" type="text" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.ItemInstance.ItemInstanceName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="my-4 box border rounded flex flex-col shadow bg-white">
+                <div class="bg-viking-200 px-3 py-2 border-b"><h3 class="text-grey-darker font-medium">Item Type of this Instance</h3></div>
+                <select asp-for="@Model.ItemInstance.ItemId" class="border-0 bg-purpleGrey-50 rounded-lg text-lg font-bold text-gray-700 flex-1 px-2 mx-2 my-4 outline-none focus:ring-0" asp-items="@items" size="3"></select>
+            </div>
+            <div class="my-4 box border rounded flex flex-col shadow bg-white">
+                <div class="box__title bg-viking-200 px-3 py-2 border-b">
+                    <h3 class="py-2 text-lg text-gray-800 font-bold">Inventory Control Model</h3>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Item Instance Unit Measuremean (i.e. "Bottle," "Container," " one 'item name'")</label>
+                    <input asp-for="@Model.InventoryControlModel.UnitMeasurement" type="text" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.InventoryControlModel.UnitMeasurement" class="text-danger"></span>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Minimum Unit Count (Any counts below this will trigger a low inventory count warning)</label>
+                    <input asp-for="@Model.InventoryControlModel.MinimumUnitCount" type="number" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.InventoryControlModel.MinimumUnitCount" class="text-danger"></span>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Recommended Inventory Count in Units (recommendation when reordering)</label>
+                    <input asp-for="@Model.InventoryControlModel.RecommendedUnitCount" type="number" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.InventoryControlModel.RecommendedUnitCount" class="text-danger"></span>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Most Recent Inventory Count (leave 0 if unsure)</label>
+                    <input asp-for="@Model.InventoryControlModel.MostRecentInventoryCount" type="number" value="0" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.InventoryControlModel.MostRecentInventoryCount" class="text-danger"></span>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Date and Time of Most Recent Inventory Count (Mark Today's Date if Unsure.)</label>
+                    <input asp-for="@Model.InventoryControlModel.DateOfMostRecentInventoryCount" type="datetime-local" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.InventoryControlModel.DateOfMostRecentInventoryCount" class="text-danger"></span>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Schedule Update Period (Minimum period of days between require recorded counts.)</label>
+                    <input asp-for="@Model.InventoryControlModel.ScheduledUpdatePeriodInDays" type="number" value="0" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.InventoryControlModel.ScheduledUpdatePeriodInDays" class="text-danger"></span>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Allowed Update Lapse Period (Days allowed to lapse after a scheduled update before team wide message sent out asking for recorded count update.)</label>
+                    <input asp-for="@Model.InventoryControlModel.ScheduledUpdatePeriodInDays" type="number" value="0" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.InventoryControlModel.ScheduledUpdatePeriodInDays" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="container flex flex-col">
+                <input type="submit" value="Create Item Instance and Inventory Control Model" class="hc-btn btn-mm-outline" />
+            </div>
+        </form>
+    </div>
+</div>

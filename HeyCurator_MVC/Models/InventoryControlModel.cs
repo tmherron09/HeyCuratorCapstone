@@ -29,6 +29,7 @@ namespace HeyCurator_MVC.Models
         public int MostRecentInventoryCount { get; set; }
 
         [Display(Name = "Date of Most Recent Inventory Count")]
+        [DataType(DataType.Date)]
         public DateTime DateOfMostRecentInventoryCount { get; set; }
 
         [Display(Name = "Scheduled Update Period in Days")]

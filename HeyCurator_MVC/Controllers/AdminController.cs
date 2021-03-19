@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using HeyCurator_MVC.Data;
 using HeyCurator_MVC.Hubs;
@@ -223,7 +224,58 @@ namespace HeyCurator_MVC.Controllers
                 throw new Exception("Unable to Create Item Type.");
             }
             //_hub.Clients.All.SendAsync("PopCustomToast", $"Item Type Update ", $"{item.Name} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+            
             DelayedClientAnnounce("PopCustomToast", $"Item Type Update ", $"{item.Name} has been created by {User.Identity.Name}.", "yellow", "fa-bell");
+
+            return View("Index");
+        }
+
+        [HttpGet]
+        public IActionResult CreateItemInstance()
+        {
+            CreateIteminstanceViewModel itemInstance = new CreateIteminstanceViewModel();
+            return View(itemInstance);
+        }
+
+        [HttpPost]
+        public IActionResult CreateItemInstance(CreateIteminstanceViewModel itemInstanceViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+
+
+            _context.ItemInstances.Add(itemInstanceViewModel.ItemInstance);
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to Create Item Instance.");
+            }
+            itemInstanceViewModel.InventoryControlModel.ItemInstanceId = itemInstanceViewModel.ItemInstance.Id;
+            _context.InventoryControlModels.Add(itemInstanceViewModel.InventoryControlModel);
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to Create Inventory Control Model.");
+            }
+
+
+
+            DelayedClientAnnounce("PopCustomToast", $"Item Instance Update ", $"{itemInstanceViewModel.ItemInstance.ItemInstanceName} has been created by {User.Identity.Name}.", "yellow", "fa-bell");
 
             return View("Index");
         }
@@ -231,12 +283,15 @@ namespace HeyCurator_MVC.Controllers
 
 
 
+
+
         public async Task DelayedClientAnnounce(string type, string label, string message, string color, string icon)
         {
+
             await Task.Delay(5000);
             await _hub.Clients.All.SendAsync(type, label, message, color, icon);
-
         }
+        
 
 
 
