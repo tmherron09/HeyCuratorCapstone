@@ -8,7 +8,10 @@ namespace HeyCurator_MVC.Repository
 {
     public interface IEmployeeRepository : IRepositoryBase<Employee>
     {
+        string EmployeeNameById(int id);
 
+        List<int> GetCuratorRoleIds(int id);
+        IEnumerable<CuratorRole> GetCuratorRoles(int id);
 
     }
 }

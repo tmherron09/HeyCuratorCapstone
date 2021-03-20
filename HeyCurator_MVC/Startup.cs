@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Http;
 using HeyCurator_MVC.MessageService;
 using HeyCurator_MVC.ActionFilters;
 using HeyCurator_MVC.Hubs;
+using HeyCurator_MVC.Repository;
 
 namespace HeyCurator_MVC
 {
@@ -62,6 +63,8 @@ namespace HeyCurator_MVC
             services.AddSingleton<ICBEventTrigger>();
 
             /* Database Accessing Services */
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
             services.AddScoped<DataAccessService>();
             services.AddScoped<DatabaseListService>();
             services.AddScoped<CreateService>();

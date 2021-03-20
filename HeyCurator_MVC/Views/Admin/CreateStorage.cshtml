@@ -1,0 +1,46 @@
+﻿@model Storage
+
+
+
+
+<div class="max-w-full min-h-screen flex bg-totem-pole-100 mx-auto">
+    <div class="mx-auto w-3/4 max-w-6xl self-center bg-white p-5 rounded-lg my-12">
+        <form asp-action="CreateStorage" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="my-4 box border rounded flex flex-col shadow bg-white">
+                <div class="box__title bg-viking-200 px-3 py-2 border-b">
+                    <h3 class="py-2 text-lg text-gray-800 font-bold">Create Storage</h3>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Enter Storage Name or Identifier</label>
+                    <input asp-for="@Model.Name" type="text" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Enter Description of Storage</label>
+                    <textarea asp-for="@Model.Description" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" rows="3"></textarea>
+                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                </div>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Enter Description of the location of Storage</label>
+                    <textarea asp-for="@Model.LocationDescription" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" rows="3"></textarea>
+                    <span asp-validation-for="@Model.LocationDescription" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="my-4 box border rounded flex flex-col shadow bg-white">
+                <div class="bg-viking-200 px-3 py-2 border-b"><h3 class="text-grey-darker font-medium">Access Level for Storage</h3></div>
+                <select asp-for="@Model.AccessLevel" class="border-0 bg-purpleGrey-50 rounded-lg text-lg font-bold text-gray-700 flex-1 px-2 mx-2 my-4 outline-none focus:ring-0" asp-items="Html.GetEnumSelectList<AccessLevel>()" size="1"></select>
+                <div class="text-grey-darkest flex-1 p-2 m-1 text-lg">
+                    <label class="block mb-2 text-base font-bold text-gray-700">Rules for Accessing Storage (optional)</label>
+                    <input asp-for="@Model.RestrictedAccessRules" type="text" class="w-full px-3 py-2 text-md font-semibold leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
+                    <span asp-validation-for="@Model.RestrictedAccessRules" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="container flex flex-col">
+                <input type="submit" value="Create Storage" class="hc-btn btn-mm-outline" />
+            </div>
+        </form>
+    </div>
+</div>

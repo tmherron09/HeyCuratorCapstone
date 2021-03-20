@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using HeyCurator_MVC.Data;
 using HeyCurator_MVC.Hubs;
 using HeyCurator_MVC.Models;
+using HeyCurator_MVC.Repository;
 using HeyCurator_MVC.Services;
 using HeyCurator_MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,8 +24,9 @@ namespace HeyCurator_MVC.Controllers
         private ItemCountService _itemService;
         private object dbLock;
         private IHubContext<ChatHub> _hub;
+        private readonly IRepositoryWrapper _repo;
 
-        public AdminController(ApplicationDbContext context, ItemDateService dateService, DataAccessService data, ItemCountService itemService, IHubContext<ChatHub> hub)
+        public AdminController(ApplicationDbContext context, ItemDateService dateService, DataAccessService data, ItemCountService itemService, IHubContext<ChatHub> hub, IRepositoryWrapper repo)
         {
             _context = context;
             _dateService = dateService;
@@ -31,6 +34,7 @@ namespace HeyCurator_MVC.Controllers
             _itemService = itemService;
             dbLock = new object();
             _hub = hub;
+            _repo = repo;
         }
 
 
@@ -82,24 +86,28 @@ namespace HeyCurator_MVC.Controllers
             {
                 throw new Exception("Unable to create role.");
             }
-            EmployeeRoles empRole = new EmployeeRoles()
-            {
-                EmployeeId = viewModel.InitialEmployeeId,
-                CuratorRoleId = viewModel.Curator.CuratorRoleId
-            };
-            _context.EmployeeRoles.Add(empRole);
-            try
-            {
-                lock (dbLock)
+
+            if (viewModel.InitialEmployeeId != -1)
+            { 
+                EmployeeRoles empRole = new EmployeeRoles()
                 {
-                    _context.SaveChanges();
+                    EmployeeId = viewModel.InitialEmployeeId,
+                    CuratorRoleId = viewModel.Curator.CuratorRoleId
+                };
+                _context.EmployeeRoles.Add(empRole);
+                try
+                {
+                    lock (dbLock)
+                    {
+                        _context.SaveChanges();
+                    }
+                }
+                catch
+                {
+                    throw new Exception("Unable to Employee/Curator Role Join.");
                 }
             }
-            catch
-            {
-                throw new Exception("Unable to Employee/Curator Role Join.");
-            }
-            DelayedClientAnnounce("PopCustomToast", $"Curator Role Update", $"{viewModel.Curator.NameOfRole} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+            DelayedClientAnnounce("PopCustomToast", $"Curator Role Update", $"{viewModel.Curator.NameOfRole} has been created by {User.Identity.Name}.", "yellow", "fa-bell");
 
             return View("Index");
         }
@@ -152,7 +160,7 @@ namespace HeyCurator_MVC.Controllers
                 throw new Exception("Unable to Exhibit Space/Curator Role Join.");
             }
 
-            DelayedClientAnnounce("PopCustomToast", $"Exhibit Space Update", $"{viewModel.ExhibitSpace.ExhibitSpaceName} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+            DelayedClientAnnounce("PopCustomToast", $"Exhibit Space Update", $"{viewModel.ExhibitSpace.ExhibitSpaceName} has been created by {User.Identity.Name}.", "yellow", "fa-bell");
 
             return View("Index");
         }
@@ -191,7 +199,7 @@ namespace HeyCurator_MVC.Controllers
             }
 
 
-            DelayedClientAnnounce("PopCustomToast", $"Exhibit Update ", $"{viewModel.Exhibit.Name} has been created by ${User.Identity.Name}.", "yellow", "fa-bell");
+            DelayedClientAnnounce("PopCustomToast", $"Exhibit Update ", $"{viewModel.Exhibit.Name} has been created by {User.Identity.Name}.", "yellow", "fa-bell");
 
             return View("Index");
         }
@@ -244,9 +252,6 @@ namespace HeyCurator_MVC.Controllers
             {
                 return View();
             }
-
-
-
             _context.ItemInstances.Add(itemInstanceViewModel.ItemInstance);
             try
             {
@@ -272,39 +277,25 @@ namespace HeyCurator_MVC.Controllers
             {
                 throw new Exception("Unable to Create Inventory Control Model.");
             }
-
-
-
             DelayedClientAnnounce("PopCustomToast", $"Item Instance Update ", $"{itemInstanceViewModel.ItemInstance.ItemInstanceName} has been created by {User.Identity.Name}.", "yellow", "fa-bell");
 
             return View("Index");
         }
 
-
-
-
-
-
-        public async Task DelayedClientAnnounce(string type, string label, string message, string color, string icon)
+        [HttpGet]
+        public IActionResult CreateStorage()
         {
-
-            await Task.Delay(5000);
-            await _hub.Clients.All.SendAsync(type, label, message, color, icon);
+            Storage storage = new Storage();
+            return View(storage);
         }
-        
-
-
-
-
 
         [HttpPost]
-        public IActionResult AddStorage(Storage storage)
+        public IActionResult CreateStorage(Storage storage)
         {
             if (!ModelState.IsValid)
             {
-                return View("Index");
+                return View();
             }
-
             _context.Storages.Add(storage);
             try
             {
@@ -315,24 +306,62 @@ namespace HeyCurator_MVC.Controllers
             }
             catch
             {
-                throw new Exception("Unable to add exhibit.");
+                throw new Exception("Unable to Create Storage.");
             }
-            return RedirectToAction("Index");
+            DelayedClientAnnounce("PopCustomToast", $"Storage  Update ", $"{storage.Name} has been created by {User.Identity.Name}.", "yellow", "fa-bell");
+
+            return View("Index");
         }
 
-
-
-
-
-        public IActionResult AssignedEmployeeRole(EmployeeRoleViewModel model)
+        [HttpGet]
+        public IActionResult EmpAssignCurRol()
         {
-            EmployeeRoles role = new EmployeeRoles
-            {
-                EmployeeId = model.EmployeeId,
-                CuratorRoleId = model.CuratorRoleId
-            };
 
-            _context.EmployeeRoles.Add(role);
+            List<Employee> employees = _repo.Employee.FindAll().ToList();
+
+            return View(employees);
+        }
+
+        [HttpPost]
+        public IActionResult EmpAssignCurRol(EmpAssignCurRolViewModel viewModel)
+        {
+            //Check if valid, ModelState will false negative
+            if( viewModel.EmployeeId <= 0)
+            {
+                // pass error
+                return View();
+            }
+
+            // Null would Presumably represent all Curator Roles being removed from an employee.
+            if(viewModel.ChoosenCuratorRoles == null)
+            {
+                viewModel.ChoosenCuratorRoles = new List<int>();
+            }
+
+
+            List<int> alreadyAssigned = _repo.Employee.GetCuratorRoleIds(viewModel.EmployeeId);
+            
+            foreach(var curRole in alreadyAssigned)
+            {
+                if(!viewModel.ChoosenCuratorRoles.Contains(curRole))
+                {
+                    EmployeeRoles empRol = _context.EmployeeRoles.Where(er => er.CuratorRoleId == curRole && er.EmployeeId == viewModel.EmployeeId).FirstOrDefault();
+                    _context.EmployeeRoles.Remove(empRol);
+                }
+                else
+                {
+                    viewModel.ChoosenCuratorRoles.Remove(curRole);
+                }
+            }
+            foreach(int id in viewModel.ChoosenCuratorRoles)
+            {
+                EmployeeRoles addEmpRol = new EmployeeRoles
+                {
+                    EmployeeId = viewModel.EmployeeId,
+                    CuratorRoleId = id
+                };
+                _context.EmployeeRoles.Add(addEmpRol);
+            }
             try
             {
                 lock (dbLock)
@@ -342,210 +371,47 @@ namespace HeyCurator_MVC.Controllers
             }
             catch
             {
-                throw new Exception("Unable to assign role to employee.");
+                throw new Exception("Unable to Process Assignments.");
             }
 
+
+            Console.WriteLine("Pause me here");
+
+
+
+            DelayedClientAnnounce("PopCustomToast", $"Employee  Update ", $"{viewModel.EmployeeName} has had its Curator Roles updated.", "yellow", "fa-bell");
 
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public PartialViewResult EmpAssignCurRolPartial(int id)
+        {
+            EmpAssignCurRolViewModel model = new EmpAssignCurRolViewModel();
+            model.EmployeeId = id;
+            model.EmployeeName = _repo.Employee.EmployeeNameById(id);
+            model.CuratorRoles = _repo.CuratorRole.FindAll().ToList();
+
+            model.AlreadyAssigned = _repo.Employee.GetCuratorRoleIds(id);
+
+            var partial = new PartialViewResult
+            {
+                ViewName = "_EmpAssignCurRolPartial",
+                ViewData = new ViewDataDictionary<EmpAssignCurRolViewModel>(ViewData, model)
+            };
+
+            return partial;
+        }
+
+        
+
+        public async Task DelayedClientAnnounce(string type, string label, string message, string color, string icon)
+        {
+            await Task.Delay(5000);
+            await _hub.Clients.All.SendAsync(type, label, message, color, icon);
+        }
+        
 
 
-        // In Process Depreciation
-        //[HttpPost]
-        //public IActionResult AddCuratorSpace(CuratorSpace curatorSpace)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //    if (_context.CuratorSpaces.Any(cs => cs.Name == curatorSpace.Name))
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //    _context.CuratorSpaces.Add(curatorSpace);
-        //    try
-        //    {
-        //        lock (dbLock)
-        //        {
-        //            _context.SaveChanges();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw new Exception("Unable to create role.");
-        //    }
-
-
-        //    return RedirectToAction("Index");
-        //}
-        //[HttpPost]
-        //public IActionResult AddItem(Item item)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View("Index");
-        //    }
-
-
-        //    _dateService.UpdateItemDates(item);
-        //    item.RecordedStorageAmount = 0;
-
-        //    _context.Items.Add(item);
-
-        //    lock (dbLock)
-        //    {
-        //        _context.SaveChanges();
-        //    }
-
-
-        //    _hub.Clients.All.SendAsync("PopCustomToast", $"Item Update", $"{item.Name} has been updated by ${User.Identity.Name}.", "yellow", "fa-bell");
-
-        //    return RedirectToAction("Index");
-        //}
-
-        //[HttpPost]
-        //public IActionResult AddCuratorRole(CuratorRole role)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //    if (_context.CuratorRoles.Any(cr => cr.NameOfRole == role.NameOfRole))
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    _context.CuratorRoles.Add(role);
-        //    try
-        //    {
-        //        lock (dbLock)
-        //        {
-        //            _context.SaveChanges();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw new Exception("Unable to create role.");
-        //    }
-
-        //    return RedirectToAction("Index");
-        //}
-        //[HttpPost]
-        //public IActionResult AddExhibit(Exhibit exhibit)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View("Index");
-        //    }
-        //    exhibit.ExhibitSpace = _context.ExhibitSpaces.Where(e => e.ExhibitSpaceId == exhibit.ExhibitSpaceId).Include(es => es.CuratorSpace).FirstOrDefault();
-
-        //    //exhibit.CuratorSpaceId = (int)exhibit.ExhibitSpace.CuratorSpaceId;
-
-        //    _context.Exhibits.Add(exhibit);
-
-        //    try
-        //    {
-        //        lock (dbLock)
-        //        {
-        //            _context.SaveChanges();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw new Exception("Unable to add exhibit.");
-        //    }
-
-        //    return RedirectToAction("Index");
-        //}
-        //[HttpPost]
-        //public IActionResult AddItemInStorageViewModel(AddItemInStorageViewModel itemInStorageViewModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View("Index");
-        //    }
-        //    ItemInStorage iis = new ItemInStorage
-        //    {
-        //        ItemId = itemInStorageViewModel.ItemId,
-        //        StorageCount = itemInStorageViewModel.StorageCount,
-        //        StorageId = itemInStorageViewModel.StorageId
-        //    };
-
-
-
-        //    ExhibitSpace es = _context.Exhibits.Where(e => e.ExhibitId == itemInStorageViewModel.ExhibitId).Select(e => e.ExhibitSpace).SingleOrDefault();
-
-        //    iis.CuratorSpaceId = es.CuratorSpaceId;
-
-        //    //StorageCuratorSpace scs = new StorageCuratorSpace
-        //    //{
-        //    //    StorageId = iis.StorageId,
-        //    //    CuratorSpaceId = (int)es.CuratorSpaceId
-        //    //};
-
-        //    _context.ItemInStorages.Add(iis);
-        //    //_context.StorageCuratorSpaces.Add(scs);
-
-        //    try
-        //    {
-        //        lock (dbLock)
-        //        {
-        //            _context.SaveChanges();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw new Exception("Unable to add Item in storage or Storage relation to curator space.");
-        //    }
-
-        //    _context.Entry(iis).GetDatabaseValues();
-
-        //    ExhibitItemInStorage eiis = new ExhibitItemInStorage
-        //    {
-        //        ExhibitId = itemInStorageViewModel.ExhibitId,
-        //        ItemInStorageId = iis.ItemInStorageId
-        //    };
-
-        //    _context.ExhibitItemInStorages.Add(eiis);
-        //    try
-        //    {
-        //        lock (dbLock)
-        //        {
-        //            _context.SaveChanges();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw new Exception("Unable to connect exhibit to item in storage.");
-        //    }
-
-        //    _itemService.UpdateItemReserveAmount(iis.ItemId);
-
-        //    return RedirectToAction("Index");
-        //}
-        //[HttpPost]
-        //public IActionResult AddExhibitSpace(ExhibitSpace exhibitSpace)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View("Index");
-        //    }
-        //    _context.ExhibitSpaces.Add(exhibitSpace);
-        //    try
-        //    {
-        //        lock (dbLock)
-        //        {
-        //            _context.SaveChanges();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw new Exception("Unable to create exhibit space.");
-        //    }
-
-
-        //    return RedirectToAction("Index");
-        //}
     }
 }

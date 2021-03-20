@@ -10,7 +10,7 @@ namespace HeyCurator_MVC.Repository
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        private ApplicationDbContext _context;
+        protected ApplicationDbContext _context;
 
         public RepositoryBase(ApplicationDbContext context)
         {
