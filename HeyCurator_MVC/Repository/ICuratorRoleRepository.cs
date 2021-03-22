@@ -9,7 +9,9 @@ namespace HeyCurator_MVC.Repository
     public interface ICuratorRoleRepository : IRepositoryBase<CuratorRole>
     {
 
-
+        IEnumerable<ExhibitSpace> GetExhibitSpaces(int id);
+        List<int> GetExhibitSpaceIds(int curatorRoleId);
+        string CuratorRoleNameById(int curatorRoleId);
 
     }
 }

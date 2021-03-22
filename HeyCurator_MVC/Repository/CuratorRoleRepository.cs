@@ -13,6 +13,13 @@ namespace HeyCurator_MVC.Repository
         public CuratorRoleRepository(ApplicationDbContext context) : base(context)
         {
         }
+        public string CuratorRoleNameById(int curatorRoleId) =>
+            _context.CuratorRoles.Where(cr => cr.CuratorRoleId == curatorRoleId).Select(cr => cr.NameOfRole).FirstOrDefault();
+
+        public IEnumerable<ExhibitSpace> GetExhibitSpaces(int id) =>
+            GetExhibitSpacesByCuratorRole(id);
+        public List<int> GetExhibitSpaceIds(int curatorRoleId) =>
+            GetExhibitSpaceIdsByCuratorRole(curatorRoleId).ToList();
 
     }
 }

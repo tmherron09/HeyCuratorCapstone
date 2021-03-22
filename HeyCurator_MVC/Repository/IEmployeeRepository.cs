@@ -10,8 +10,11 @@ namespace HeyCurator_MVC.Repository
     {
         string EmployeeNameById(int id);
 
-        List<int> GetCuratorRoleIds(int id);
+        List<int> GetCuratorRoleIds(int employeeId);
         IEnumerable<CuratorRole> GetCuratorRoles(int id);
+        IEnumerable<ExhibitSpace> GetExhibitSpaces(int id);
+        
+        
 
     }
 }
