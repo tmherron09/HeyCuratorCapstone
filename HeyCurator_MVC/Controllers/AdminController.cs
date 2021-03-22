@@ -484,11 +484,61 @@ namespace HeyCurator_MVC.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult ExhibitAssignExhibitSpace()
+        {
+            List<Exhibit> exhibits = _repo.Exhibit.FindAll().ToList();
+            return View(exhibits);
+        }
 
+        [HttpGet]
+        public PartialViewResult ExhibitAssignExhibitSpacePartial(int id)
+        {
+            ExhibitAssignExhibitSpaceViewModel viewModel = new ExhibitAssignExhibitSpaceViewModel();
+            viewModel.ExhibitId = id;
+            viewModel.ExhibitName = _repo.Exhibit.ExhibitNameById(id);
+            viewModel.ExhibitSpaces = _repo.ExhibitSpace.FindAll().ToList();
+            viewModel.AlreadyAssigned = _repo.Exhibit.GetExhibitSpaceIdByExhibit(id);
 
+            var partial = new PartialViewResult
+            {
+                ViewName = "_ExhibitAssignExhibitSpacePartial",
+                ViewData = new ViewDataDictionary<ExhibitAssignExhibitSpaceViewModel>(ViewData, viewModel)
+            };
 
+            return partial;
 
+        }
 
+        [HttpPost]
+        public IActionResult ExhibitAssignExhibitSpace(ExhibitAssignExhibitSpaceViewModel viewModel)
+        {
+            //Check if valid, ModelState will false negative
+            if (viewModel.ExhibitId <= 0)
+            {
+                // pass error
+                return View();
+            }
+
+            Exhibit exhibitToUpdate = _repo.Exhibit.FindAllBy(ex => ex.ExhibitId == viewModel.ExhibitId).FirstOrDefault();
+            exhibitToUpdate.ExhibitSpaceId = viewModel.ChoosenExhibitSpace;
+            _context.Exhibits.Update(exhibitToUpdate);
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to Process Assignment.");
+            }
+            DelayedClientAnnounce("PopCustomToast", $"Exhibit  Update ", $"{viewModel.ExhibitName} has had its Exhibit Space updated.", "yellow", "fa-bell");
+
+            return RedirectToAction("Index");
+
+        }
 
 
 

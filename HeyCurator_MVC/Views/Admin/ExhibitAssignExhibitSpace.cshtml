@@ -32,14 +32,14 @@
 
         $(document).ready(function () {
 
-            $('#chooseExhibitSpace').load('/Admin/CurRolAssignExhibitSpacePartial/' + $("#exhibitSelect").val());
+            $('#chooseExhibitSpace').load('/Admin/ExhibitAssignExhibitSpacePartial/' + $("#exhibitSelect").val());
         });
 
 
         $(function () {
-            $('#curatorRoleSelect').change(function () {
+            $('#exhibitSelect').change(function () {
                 $('#chooseExhibitSpace').empty();
-                $('#chooseExhibitSpace').load('/Admin/CurRolAssignExhibitSpacePartial/' + $("#exhibitSelect").val() );
+                $('#chooseExhibitSpace').load('/Admin/ExhibitAssignExhibitSpacePartial/' + $("#exhibitSelect").val() );
             })
         });
 

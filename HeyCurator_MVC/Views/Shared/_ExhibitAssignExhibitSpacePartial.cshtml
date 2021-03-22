@@ -1,0 +1,27 @@
+﻿@model ExhibitAssignExhibitSpaceViewModel
+
+<form asp-controller="Admin" asp-action="ExhibitAssignExhibitSpace" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <fieldset>
+        <legend class="text-base font-medium text-gray-900">Select Exhibit Space:</legend>
+        <div class="my-8 space-y-4">
+            <div class="flex flex-wrap justify-start">
+                <input type="hidden" asp-for="ExhibitId" />
+                <input type="hidden" asp-for="ExhibitName" />
+                <input type="hidden" asp-for="AlreadyAssigned" />
+
+                @foreach (var exhibitSpace in Model.ExhibitSpaces)
+                {
+                    <div class="flex items-center my-4 h-6 w-1/3 md:w-1/5">
+                        <input @(Model.AlreadyAssigned == exhibitSpace.ExhibitSpaceId ? "checked" : "") name="ChoosenExhibitSpace" type="radio" value="@exhibitSpace.ExhibitSpaceId" class="focus:ring-indigo-500 h-6 w-6 text-indigo-600 border-gray-300 rounded">
+                        <label class="font-medium text-gray-700 ml-3">@exhibitSpace.ExhibitSpaceName</label>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="container flex flex-col">
+            <input type="submit" value="Assign Curator Roles to @Model.ExhibitName" class="hc-btn btn-mm-outline" />
+        </div>
+    </fieldset>
+</form>

@@ -8,7 +8,7 @@ namespace HeyCurator_MVC.Repository
 {
     public interface IExhibitRepository : IRepositoryBase<Exhibit>
     {
-
+        string ExhibitNameById(int id);
 
 
     }

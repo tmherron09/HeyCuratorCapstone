@@ -34,7 +34,7 @@
             <div class="my-4 box border rounded flex flex-col shadow bg-white">
                 <div class="bg-viking-200 px-3 py-2 border-b"><h3 class="text-grey-darker font-medium">Assigned to Exhibit Space</h3></div>
                 <select asp-for="@Model.AssignedExhibitSpaceId" class="border-0 bg-purpleGrey-50 rounded-lg text-lg font-bold text-gray-700 flex-1 px-2 mx-2 my-4 outline-none focus:ring-0" asp-items="@exhibitSpaces" size="3">
-                    <option value="-1">*Optional: Assign to Exhibit Space</option>
+                    @*<option value="-1">*Optional: Assign to Exhibit Space</option>*@
                 </select>
             </div>
             <div class="container flex flex-col">
