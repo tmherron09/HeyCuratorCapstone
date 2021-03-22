@@ -322,6 +322,25 @@ namespace HeyCurator_MVC.Controllers
             return View(employees);
         }
 
+        [HttpGet]
+        public PartialViewResult EmpAssignCurRolPartial(int id)
+        {
+            EmpAssignCurRolViewModel model = new EmpAssignCurRolViewModel();
+            model.EmployeeId = id;
+            model.EmployeeName = _repo.Employee.EmployeeNameById(id);
+            model.CuratorRoles = _repo.CuratorRole.FindAll().ToList();
+
+            model.AlreadyAssigned = _repo.Employee.GetCuratorRoleIds(id);
+
+            var partial = new PartialViewResult
+            {
+                ViewName = "_EmpAssignCurRolPartial",
+                ViewData = new ViewDataDictionary<EmpAssignCurRolViewModel>(ViewData, model)
+            };
+
+            return partial;
+        }
+
         [HttpPost]
         public IActionResult EmpAssignCurRol(EmpAssignCurRolViewModel viewModel)
         {
@@ -338,7 +357,7 @@ namespace HeyCurator_MVC.Controllers
                 viewModel.ChoosenCuratorRoles = new List<int>();
             }
 
-
+            // TODO: ViewModel not catching list on post
             List<int> alreadyAssigned = _repo.Employee.GetCuratorRoleIds(viewModel.EmployeeId);
             
             foreach(var curRole in alreadyAssigned)
@@ -374,36 +393,104 @@ namespace HeyCurator_MVC.Controllers
                 throw new Exception("Unable to Process Assignments.");
             }
 
-
-            Console.WriteLine("Pause me here");
-
-
-
             DelayedClientAnnounce("PopCustomToast", $"Employee  Update ", $"{viewModel.EmployeeName} has had its Curator Roles updated.", "yellow", "fa-bell");
 
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public PartialViewResult EmpAssignCurRolPartial(int id)
-        {
-            EmpAssignCurRolViewModel model = new EmpAssignCurRolViewModel();
-            model.EmployeeId = id;
-            model.EmployeeName = _repo.Employee.EmployeeNameById(id);
-            model.CuratorRoles = _repo.CuratorRole.FindAll().ToList();
 
-            model.AlreadyAssigned = _repo.Employee.GetCuratorRoleIds(id);
+
+        [HttpGet]
+        public IActionResult CurRolAssignExhibitSpace()
+        {
+            List<CuratorRole> curatorRoles = _repo.CuratorRole.FindAll().ToList();
+            return View(curatorRoles);
+        }
+
+        [HttpGet]
+        public PartialViewResult CurRolAssignExhibitSpacePartial(int id)
+        {
+            CurRolAssignExhibitSpaceViewModel model = new CurRolAssignExhibitSpaceViewModel();
+            model.CuratorRoleId = id;
+            model.CuratorRoleName = _repo.CuratorRole.CuratorRoleNameById(id);
+            model.ExhibitSpaces = _repo.ExhibitSpace.FindAll().ToList();
+
+            model.AlreadyAssigned = _repo.CuratorRole.GetExhibitSpaceIds(id);
 
             var partial = new PartialViewResult
             {
-                ViewName = "_EmpAssignCurRolPartial",
-                ViewData = new ViewDataDictionary<EmpAssignCurRolViewModel>(ViewData, model)
+                ViewName = "_CurRolAssignExhibitSpacePartial",
+                ViewData = new ViewDataDictionary<CurRolAssignExhibitSpaceViewModel>(ViewData, model)
             };
 
             return partial;
         }
 
-        
+        [HttpPost]
+        public IActionResult CurRolAssignExhibitSpace(CurRolAssignExhibitSpaceViewModel viewModel)
+        {
+            //Check if valid, ModelState will false negative
+            if (viewModel.CuratorRoleId <= 0)
+            {
+                // pass error
+                return View();
+            }
+
+            // Null would Presumably represent all Curator Roles being removed from an employee.
+            if (viewModel.ChoosenExhibitSpaces == null)
+            {
+                viewModel.ChoosenExhibitSpaces = new List<int>();
+            }
+
+            // TODO: ViewModel not catching list on post
+            List<int> alreadyAssigned = _repo.CuratorRole.GetExhibitSpaceIds(viewModel.CuratorRoleId);
+
+            foreach (var exhibitSpaceId in alreadyAssigned)
+            {
+                if (!viewModel.ChoosenExhibitSpaces.Contains(exhibitSpaceId))
+                {
+                    CuratorSpace curatorSpace = _context.CuratorSpaces.Where(cs => cs.ExhibitSpaceId == exhibitSpaceId && cs.CuratorRoleId == viewModel.CuratorRoleId).FirstOrDefault();
+                    _context.CuratorSpaces.Remove(curatorSpace);
+                }
+                else
+                {
+                    viewModel.ChoosenExhibitSpaces.Remove(exhibitSpaceId);
+                }
+            }
+            foreach (int id in viewModel.ChoosenExhibitSpaces)
+            {
+
+                CuratorSpace addCuratorSpace = new CuratorSpace
+                {
+                    CuratorRoleId = viewModel.CuratorRoleId,
+                    ExhibitSpaceId = id
+                };
+                _context.CuratorSpaces.Add(addCuratorSpace);
+            }
+            try
+            {
+                lock (dbLock)
+                {
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to Process Assignments.");
+            }
+            DelayedClientAnnounce("PopCustomToast", $"Curator Role  Update ", $"{viewModel.CuratorRoleName} has had its Exhibit Spaces updated.", "yellow", "fa-bell");
+
+            return RedirectToAction("Index");
+        }
+
+
+
+
+
+
+
+
+
 
         public async Task DelayedClientAnnounce(string type, string label, string message, string color, string icon)
         {
