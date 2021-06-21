@@ -27,8 +27,8 @@ These include assigning "Models" to their related Association.
 Example: Assign an Employee to a Curator Role, Add Exhibits to an Exhibit Space  
 (Complete, Includes both Add/Remove, perferable one checklist view)
 - [x] Assign Employee to Curator Role 
-- [ ] Assign Exhibit Space to Curator Role
-- [ ] Assign / Add Exhibits to Exhibit Space
+- [x] Assign Exhibit Space to Curator Role
+- [x] Assign / Add Exhibits to Exhibit Space
 - [ ] Assign Item Instances to Exhibits
 - [ ] Assign Item Instances to Storages
 ## Informational
