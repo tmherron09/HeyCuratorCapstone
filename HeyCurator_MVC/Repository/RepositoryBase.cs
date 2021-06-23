@@ -69,6 +69,9 @@ namespace HeyCurator_MVC.Repository
 
         public IEnumerable<ItemInstance> GetItemInstanceByExhibit(int exhibitId) =>
             _context.ExhibitItemInstances.Where(eii => eii.ExhibitId == exhibitId).Include(eii => eii.ItemInstance).Select(eii => eii.ItemInstance).AsEnumerable();
+        public IEnumerable<int> GetItemInstanceIdsByExhibit(int exhibitId) =>
+            _context.ExhibitItemInstances.Where(eii => eii.ExhibitId == exhibitId).Select(eii => eii.ItemInstanceId).AsEnumerable();
+
         public IEnumerable<Exhibit> GetExhibitsByItemInstance(int itemInstanceId) =>
             _context.ExhibitItemInstances.Where(eii => eii.ItemInstanceId == itemInstanceId).Include(eii => eii.Exhibit).Select(eii => eii.Exhibit).AsEnumerable();
 

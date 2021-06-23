@@ -1,5 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<Exhibit>
+@inject SelectListService selectService
 @{
+    SelectList itemInstances = selectService.GetAllItemInstanceSelectList();
 }
+
+
+<div class="max-w-full min-h-screen flex bg-totem-pole-100 mx-auto">
+    <div class="mx-auto w-3/4 max-w-6xl self-center bg-white p-5 rounded-lg my-12">
+        <div class="my-2 box border rounded flex flex-col shadow bg-white">
+            <div class="box__title bg-viking-200 px-3 py-2 border-b">
+                <h3 class="py-2 text-lg text-gray-800 font-bold">Assign Exhibit to Item Instances</h3>
+            </div>
+
+            <select id="exhibitSelect" name="exhibitId" class="border-0 bg-purpleGrey-50 rounded-lg text-2xl font-bold text-gray-700 flex-1 px-2 py-1 mx-2 my-6 outline-none focus:ring-0" asp-items="@itemInstances" size="1">
+            </select>
+        </div>
+
+        <div id="chooseItemInstances">
+
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#chooseItemInstances').load('/Admin/ExhibitAssignItemInstancePartial/' + $("#exhibitSelect").val());
+        });
+
+
+        $(function () {
+            $('#exhibitSelect').change(function () {
+                $('#chooseItemInstances').empty();
+                $('#chooseItemInstances').load('/Admin/ExhibitAssignItemInstancePartial/' + $("#exhibitSelect").val());
+            })
+        });
+
+
+    </script>
+
+
+}
+

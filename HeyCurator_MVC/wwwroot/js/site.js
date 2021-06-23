@@ -38,8 +38,8 @@ function viewLowCount(button) {
 
 // Add Comment partial.
 $(function () {
-    $('#addCommentButton').on('click', function () {
-        $('#addComment').load('/QuestionBoard/AddComment/' + this.getAttribute('data-id'));
+    $('.addCommentButton').on('click', function () {
+        $(this).parent().load('/QuestionBoard/AddComment/' + this.getAttribute('data-id'));
     })
 });
 
@@ -58,6 +58,8 @@ for (x = 0; x < myRadios.length; x++) {
         }
     };
 }
+
+
 
 
 $('[data-toggle="collapse"]').on('click', function (e) {

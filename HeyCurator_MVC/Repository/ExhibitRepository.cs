@@ -16,6 +16,7 @@ namespace HeyCurator_MVC.Repository
 
         public string ExhibitNameById(int exhibitId) =>
             FindAllBy(ex => ex.ExhibitId == exhibitId).Select(ex => ex.Name).FirstOrDefault();
-
+        public List<int> ItemInstanceIds(int exhibitId) =>
+            GetItemInstanceIdsByExhibit(exhibitId).ToList();
     }
 }

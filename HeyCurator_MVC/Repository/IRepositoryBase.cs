@@ -29,6 +29,7 @@ namespace HeyCurator_MVC.Repository
         ExhibitSpace GetExhibitSpaceByExhibit(int exhibitId);
         int GetExhibitSpaceIdByExhibit(int exhibitId);
         IEnumerable<ItemInstance> GetItemInstanceByExhibit(int exhibitId);
+        IEnumerable<int> GetItemInstanceIdsByExhibit(int exhibitId);
         IEnumerable<Exhibit> GetExhibitsByItemInstance(int itemInstanceId);
         IEnumerable<ItemInstance> GetItemInstanceByStorage(int storageId);
         IEnumerable<Storage> GetStoragesByItemInstance(int itemInstanceId);

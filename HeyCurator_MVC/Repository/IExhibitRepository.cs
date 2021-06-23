@@ -10,6 +10,6 @@ namespace HeyCurator_MVC.Repository
     {
         string ExhibitNameById(int id);
 
-
+        List<int> ItemInstanceIds(int exhibitId);
     }
 }

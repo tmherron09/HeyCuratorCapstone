@@ -64,6 +64,11 @@ namespace HeyCurator_MVC.Controllers
             return View(item);
         }
 
+        public IActionResult DetailsNew()
+        {
+            return View();
+        }
+
         public PartialViewResult CreateRecordPartial(int id)
         {
             Item item = GetItem(id);

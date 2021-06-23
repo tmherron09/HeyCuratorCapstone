@@ -536,8 +536,58 @@ namespace HeyCurator_MVC.Controllers
             }
             DelayedClientAnnounce("PopCustomToast", $"Exhibit  Update ", $"{viewModel.ExhibitName} has had its Exhibit Space updated.", "yellow", "fa-bell");
 
+            
+
             return RedirectToAction("Index");
 
+        }
+
+
+
+        [HttpGet]
+        public IActionResult ExhibitAssignItemInstance()
+        {
+            List<Exhibit> exhibits = _repo.Exhibit.FindAll().ToList();
+            return View(exhibits);
+        }
+
+        [HttpGet]
+        public PartialViewResult ExhibitAssignItemInstancePartial(int id)
+        {
+            ExhibitAssignItemInstanceViewModel viewModel = new ExhibitAssignItemInstanceViewModel();
+            viewModel.ExhibitId = id;
+            viewModel.ExhibitName = _repo.Exhibit.ExhibitNameById(id);
+            viewModel.ItemInstances = _repo.ItemInstance.FindAll().ToList();
+            viewModel.AlreadyAssigned = _repo.Exhibit.ItemInstanceIds(id);
+
+            var partial = new PartialViewResult
+            {
+                ViewName = "_ExhibitAssignItemInstancePartial",
+                ViewData = new ViewDataDictionary<ExhibitAssignItemInstanceViewModel>(ViewData, viewModel)
+            };
+
+            return partial;
+
+        }
+
+        [HttpPost]
+        public IActionResult ExhibitAssignItemInstance(ExhibitAssignItemInstanceViewModel viewModel)
+        {
+            if (viewModel.ExhibitId <= 0)
+            {
+                // pass error
+                return View();
+            }
+
+            // Null would Presumably represent all Curator Roles being removed from an employee.
+            if (viewModel.ChoosenItems == null)
+            {
+                viewModel.ChoosenItems = new List<int>();
+            }
+
+            
+
+            return RedirectToAction("Index");
         }
 
 
