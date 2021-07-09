@@ -34,5 +34,12 @@ namespace HeyCurator_MVC.Repository
         IEnumerable<ItemInstance> GetItemInstanceByStorage(int storageId);
         IEnumerable<Storage> GetStoragesByItemInstance(int itemInstanceId);
 
+        // Populate Methods
+        Task PopulateItemBaseWithInstances(Item item);
+        Task PopulateInstancesWithStorages(ItemInstance itemInstance);
+        Task PopulateInstancesWithExhibits(ItemInstance itemInstance);
+        Task PopulateAllItemInstancesWithStorages(Item item);
+        Task PopulateAllItemInstancesWithExhibits(Item item);
+        Task PopulateAllItemInstancesWithStoragesAndExhibits(Item item);
     }
 }

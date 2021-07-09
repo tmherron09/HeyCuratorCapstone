@@ -80,7 +80,56 @@ namespace HeyCurator_MVC.Repository
         public IEnumerable<Storage> GetStoragesByItemInstance(int itemInstanceId) =>
             _context.StorageItemInstances.Where(sii => sii.ItemInstanceId == itemInstanceId).Include(sii => sii.Storage).Select(sii => sii.Storage).AsEnumerable();
 
-
+        // Populate Methods
+        public async Task PopulateItemBaseWithInstances(Item item)
+        {
+            item.ItemInstances = await _context.ItemInstances
+                .Where(ii => ii.ItemId == item.ItemId)
+                .Select(ii => new ItemInstance
+                {
+                    Id = ii.Id,
+                    ItemInstanceName = ii.ItemInstanceName,
+                    ItemId = ii.ItemId,
+                    InventoryControlModel = ii.InventoryControlModel
+                })
+                .ToListAsync();
+        }
+        public async Task PopulateInstancesWithStorages(ItemInstance itemInstance)
+        {
+            itemInstance.Storages = await _context.StorageItemInstances
+                .Where(sii => sii.ItemInstanceId == itemInstance.Id)
+                .Select(sii => sii.Storage)
+                .ToListAsync();
+        }
+        public async Task PopulateInstancesWithExhibits(ItemInstance itemInstance)
+        {
+            itemInstance.Exhibits = await _context.ExhibitItemInstances
+                .Where(eii => eii.ItemInstanceId == itemInstance.Id)
+                .Select(eii => eii.Exhibit)
+                .ToListAsync();
+        }
+        public async Task PopulateAllItemInstancesWithStorages(Item item)
+        {
+            foreach (var itemInstance in item.ItemInstances)
+            {
+                await PopulateInstancesWithStorages(itemInstance);
+            }
+        }
+        public async Task PopulateAllItemInstancesWithExhibits(Item item)
+        {
+            foreach (var itemInstance in item.ItemInstances)
+            {
+                await PopulateInstancesWithExhibits(itemInstance);
+            }
+        }
+        public async Task PopulateAllItemInstancesWithStoragesAndExhibits(Item item)
+        {
+            foreach (var itemInstance in item.ItemInstances)
+            {
+                await PopulateInstancesWithExhibits(itemInstance);
+                await PopulateInstancesWithStorages(itemInstance);
+            }
+        }
 
 
 
