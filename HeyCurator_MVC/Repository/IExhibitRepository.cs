@@ -9,7 +9,11 @@ namespace HeyCurator_MVC.Repository
     public interface IExhibitRepository : IRepositoryBase<Exhibit>
     {
         string ExhibitNameById(int id);
-
         List<int> ItemInstanceIds(int exhibitId);
+
+        Task<Exhibit> ExhibitBaseModel(int exhibitId);
+        Task<IEnumerable<Exhibit>> AllExhibitBaseModels();
+
+
     }
 }
